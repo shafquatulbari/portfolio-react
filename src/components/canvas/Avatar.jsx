@@ -7,7 +7,7 @@ import CanvasLoader from "../Loader";
 
 const Avatar = ({ isMobile }) => {
   const avatar = useGLTF("./avatar/avatar.glb");
-  const fbx = useFBX("public/animations/Burpee.fbx");
+  const fbx = useFBX("/animations/Burpee.fbx");
   const [mixer] = useState(() => new AnimationMixer());
 
   useEffect(() => {

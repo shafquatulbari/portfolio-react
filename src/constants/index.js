@@ -4,11 +4,9 @@ import {
   html,
   css,
   reactjs,
-  tailwind,
   nodejs,
   mongodb,
   git,
-  figma,
   mundoai,
   searching,
   chess,
@@ -16,7 +14,11 @@ import {
   proquest,
   focus,
   doomsday,
-  threejs,
+  python,
+  cplusplus,
+  csharp,
+  sqlicon,
+  unityicon,
 } from "../assets";
 
 export const navLinks = [
@@ -35,6 +37,26 @@ export const navLinks = [
 ];
 
 const technologies = [
+  {
+    name: "C++",
+    icon: cplusplus,
+  },
+  {
+    name: "C#",
+    icon: csharp,
+  },
+  {
+    name: "Python",
+    icon: python,
+  },
+  {
+    name: "Sql",
+    icon: sqlicon,
+  },
+  {
+    name: "Unity",
+    icon: unityicon,
+  },
   {
     name: "HTML 5",
     icon: html,
@@ -56,10 +78,6 @@ const technologies = [
     icon: reactjs,
   },
   {
-    name: "Tailwind CSS",
-    icon: tailwind,
-  },
-  {
     name: "Node JS",
     icon: nodejs,
   },
@@ -68,16 +86,8 @@ const technologies = [
     icon: mongodb,
   },
   {
-    name: "Three JS",
-    icon: threejs,
-  },
-  {
     name: "git",
     icon: git,
-  },
-  {
-    name: "figma",
-    icon: figma,
   },
 ];
 
