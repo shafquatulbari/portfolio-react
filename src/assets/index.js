@@ -20,9 +20,11 @@ import threejs from "./tech/threejs.svg";
 import mundoai from "./company/mundoai.png";
 import searching from "./company/searching.png";
 
-import carrent from "./carrent.png";
-import jobit from "./jobit.png";
-import tripguide from "./tripguide.png";
+import chess from "./works/chess.png";
+import touchvoid from "./works/touchvoid.png";
+import proquest from "./works/proquest.png";
+import focus from "./works/focus.png";
+import doomsday from "./works/doomsday.png";
 
 export {
   logo,
@@ -44,7 +46,9 @@ export {
   threejs,
   mundoai,
   searching,
-  carrent,
-  jobit,
-  tripguide,
+  chess,
+  touchvoid,
+  proquest,
+  focus,
+  doomsday,
 };

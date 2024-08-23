@@ -13,9 +13,11 @@ import {
   docker,
   mundoai,
   searching,
-  carrent,
-  jobit,
-  tripguide,
+  chess,
+  touchvoid,
+  proquest,
+  focus,
+  doomsday,
   threejs,
 } from "../assets";
 
@@ -147,67 +149,109 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Car Rent",
+    name: "Chess Game",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "A Python chess game with built-in AI that makes smart moves using advanced algorithms. The game offers a challenging experience with smooth gameplay and strict rule enforcement.",
     tags: [
       {
-        name: "react",
+        name: "python",
         color: "blue-text-gradient",
+      },
+      {
+        name: "pygame",
+        color: "green-text-gradient",
+      },
+      {
+        name: "algorithms",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: chess,
+    source_code_link: "https://github.com/shafquatulbari/chess-game-python",
+  },
+  {
+    name: "Touch of the Void",
+    description:
+      "A procedurally generated dungeon crawler game developed in C++ with OpenGL, featuring advanced enemy AI and engaging top-down shooter mechanics for an immersive gaming experience.",
+    tags: [
+      {
+        name: "c++",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "opengl",
+        color: "green-text-gradient",
+      },
+      {
+        name: "artificial-intelligence",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: touchvoid,
+    source_code_link: "https://github.com/shafquatulbari/touch-of-the-void",
+  },
+  {
+    name: "ProQuest",
+    description:
+      "An online service booking platform built with the MERN stack, featuring real-time chat, geolocation, and secure payments, designed for seamless user experience and efficient service management.",
+    tags: [
+      {
+        name: "reactjs",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "node & expressjs",
+        color: "green-text-gradient",
       },
       {
         name: "mongodb",
-        color: "green-text-gradient",
-      },
-      {
-        name: "tailwind",
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
-    source_code_link: "https://github.com/",
+    image: proquest,
+    source_code_link: "https://github.com/sajeedazam/ProQuest",
   },
   {
-    name: "Job IT",
+    name: "FocusFHIR",
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      "A healthcare platform built using React and SQL, designed for doctors to efficiently access and manage patient data with customizable displays, streamlining workflows and enhancing patient care quality.",
     tags: [
       {
-        name: "react",
+        name: "reactjs",
         color: "blue-text-gradient",
       },
       {
-        name: "restapi",
+        name: "aws",
         color: "green-text-gradient",
       },
       {
-        name: "scss",
+        name: "tailwindcss",
         color: "pink-text-gradient",
       },
     ],
-    image: jobit,
-    source_code_link: "https://github.com/",
+    image: focus,
+    source_code_link: "https://github.com/sajeedazam/MedicalDashboard",
   },
   {
-    name: "Trip Guide",
+    name: "Surviving Doomsday",
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+      "A 3D first-person shooter game set in a post-apocalyptic world, developed in Unity. It features complex game mechanics, engaging enemy AI, and immersive gameplay, earning Editor's Choice on SIMMER.io.",
     tags: [
       {
-        name: "nextjs",
+        name: "c#",
         color: "blue-text-gradient",
       },
       {
-        name: "supabase",
+        name: "unity",
         color: "green-text-gradient",
       },
       {
-        name: "css",
+        name: "3d fps",
         color: "pink-text-gradient",
       },
     ],
-    image: tripguide,
-    source_code_link: "https://github.com/",
+    image: doomsday,
+    source_code_link: "https://github.com/shafquatulbari/SurvivingDoomsday",
   },
 ];
 
