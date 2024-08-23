@@ -3,3 +3,4 @@
 -sketchfab.com for more 3D models
 
 icons from iconscout.com and flaticon.com
+animations from mixamo.com

@@ -10,7 +10,7 @@ const Footer = () => {
         <h2 className="text-xl mb-4">Connect with Me</h2>
         <div className="flex justify-center space-x-6">
           <a
-            href="https://github.com/your-username"
+            href="https://github.com/shafquatulbari"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-400"
@@ -18,7 +18,7 @@ const Footer = () => {
             <FontAwesomeIcon icon={faGithub} size="2x" />
           </a>
           <a
-            href="https://www.linkedin.com/in/your-linkedin-id/"
+            href="https://www.linkedin.com/in/shafquatulbari/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-400"
@@ -26,13 +26,13 @@ const Footer = () => {
             <FontAwesomeIcon icon={faLinkedin} size="2x" />
           </a>
           <a
-            href="mailto:your-email@example.com"
+            href="mailto:shafquat.bari11@gmail.com"
             className="hover:text-blue-400"
           >
             <FontAwesomeIcon icon={faEnvelope} size="2x" />
           </a>
           <a
-            href="/path-to-your-resume.pdf"
+            href="src/assets/shafquat.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-blue-400"
@@ -41,7 +41,7 @@ const Footer = () => {
           </a>
         </div>
         <p className="mt-6 text-sm">
-          &copy; 2024 Your Name. All rights reserved.
+          &copy; 2024 Shafquat Ul Bari. All rights reserved.
         </p>
       </div>
     </div>
