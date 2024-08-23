@@ -1,12 +1,25 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Preload, useFBX, useGLTF } from "@react-three/drei";
+import { AnimationMixer } from "three";
 
 import CanvasLoader from "../Loader";
 
 const Avatar = ({ isMobile }) => {
-  // Update the path to your GLB file here
   const avatar = useGLTF("./avatar/avatar.glb");
+  const fbx = useFBX("public/animations/Burpee.fbx");
+  const [mixer] = useState(() => new AnimationMixer());
+
+  useEffect(() => {
+    if (fbx && avatar) {
+      const action = mixer.clipAction(fbx.animations[0], avatar.scene);
+      action.play();
+    }
+  }, [mixer, fbx, avatar]);
+
+  useFrame((state, delta) => {
+    mixer.update(delta);
+  });
 
   return (
     <mesh>
@@ -22,9 +35,9 @@ const Avatar = ({ isMobile }) => {
       <pointLight intensity={1} />
       <primitive
         object={avatar.scene}
-        scale={isMobile ? 1.5 : 2.5} // Adjust scale if needed
-        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]} // Adjust position if needed
-        rotation={[-0.01, -0.2, -0.1]} // Adjust rotation if needed
+        scale={isMobile ? 1.5 : 3}
+        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
+        rotation={[0, 1, 0]}
       />
     </mesh>
   );
@@ -35,7 +48,6 @@ const AvatarCanvas = () => {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 500px)");
-
     setIsMobile(mediaQuery.matches);
 
     const handleMediaQueryChange = (event) => {
@@ -51,7 +63,7 @@ const AvatarCanvas = () => {
 
   return (
     <Canvas
-      frameloop="demand"
+      frameloop="always" // Changed to "always" to ensure continuous rendering
       shadows
       dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
