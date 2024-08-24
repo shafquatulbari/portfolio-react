@@ -8,9 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "clean": "rm -rf node_modules dist build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "clean": "rm -rf node_modules dist build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
