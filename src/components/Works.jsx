@@ -31,6 +31,7 @@ const ProjectCard = ({
             src={image}
             alt="project_image"
             className="w-full h-full object-cover rounded-2xl"
+            loading="lazy" // Add this attribute to defer loading until necessary
           />
 
           <div className="absolute inset-0 flex justify-end m-3 card-img_hover">
