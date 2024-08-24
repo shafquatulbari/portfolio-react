@@ -63,7 +63,7 @@ const AvatarCanvas = () => {
 
   return (
     <Canvas
-      frameloop={isMobile ? "demand" : "always"}
+      frameloop="always" // Changed to "always" to ensure continuous rendering
       shadows
       dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
