@@ -32,12 +32,13 @@ const Footer = () => {
             <FontAwesomeIcon icon={faEnvelope} size="2x" />
           </a>
           <a
-            href="src/assets/shafquat.pdf"
+            href="/shafquat.pdf" // Corrected path to the PDF
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-blue-400"
+            className="hover:text-blue-400 flex items-center"
           >
             <FontAwesomeIcon icon={faFileDownload} size="2x" />
+            <span className="ml-2 text-lg">My Resume</span> {/* Added text */}
           </a>
         </div>
         <p className="mt-6 text-sm">
