@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
-import web from "../assets/services/web.png";
-import backend from "../assets/services/backend.png";
-import game from "../assets/services/game.png";
-import ml from "../assets/services/ml.png";
+import web from "../../public/assets/services/web.png";
+import backend from "../../public/assets/services/backend.png";
+import game from "../../public/assets/services/game.png";
+import ml from "../../public/assets/services/ml.png";
 
 // Define styles (You can move these to a CSS or Tailwind file if needed)
 const styles = {

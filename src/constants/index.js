@@ -19,7 +19,7 @@ import {
   csharp,
   sqlicon,
   unityicon,
-} from "../assets";
+} from "../../public/assets";
 
 export const navLinks = [
   {
