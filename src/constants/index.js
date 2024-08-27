@@ -93,7 +93,7 @@ const technologies = [
 
 const experiences = [
   {
-    title: "Co-Founder & CTO",
+    title: "Co-Founder & Engineer",
     company_name: "MundoAI",
     icon: mundoai,
     iconBg: "#383E56",
