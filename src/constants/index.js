@@ -19,6 +19,8 @@ import {
   csharp,
   sqlicon,
   unityicon,
+  pharmasphere,
+  brainstation,
 } from "../../public/assets";
 
 export const navLinks = [
@@ -93,6 +95,18 @@ const technologies = [
 
 const experiences = [
   {
+    title: "Software Developer Trainee",
+    company_name: "Brain Station 23",
+    icon: brainstation,
+    iconBg: "#233E56",
+    date: "October 2024 - Present",
+    points: [
+      "Collaborated with a colleague to develop 'PharmaSphere,' a pharmacy-based e-commerce site built using the MERN stack. Focused on implementing secure payment integrations, efficient database structures, and a user-friendly interface.",
+      "Adapted quickly to new technology requirements by working on a Django project to address a company-specific need. Implemented core features and ensured seamless backend functionality.",
+      "Prepared and executed SQA testing tasks using WebDriverIO and Appium to meet the testing requirements of our partner, Grameenphone. Developed automated scripts to ensure mobile app quality and functionality.",
+    ],
+  },
+  {
     title: "Co-Founder & Engineer",
     company_name: "MundoAI",
     icon: mundoai,
@@ -148,6 +162,27 @@ const testimonials = [
 ];
 
 const projects = [
+  {
+    name: "PharmaSphere",
+    description:
+      "A pharmacy-based e-commerce platform offering a seamless shopping experience for medicines and healthcare products. Built using the MERN stack, PharmaSphere features a secure payment system with Stripe, a dynamic admin panel for inventory management, and a user-friendly interface with advanced search and sorting capabilities.",
+    tags: [
+      {
+        name: "node-express-js",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "react.js",
+        color: "green-text-gradient",
+      },
+      {
+        name: "e-commerce",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: pharmasphere,
+    source_code_link: "https://github.com/shafquatulbari/mern-e-commerce",
+  },
   {
     name: "Chess Game",
     description:

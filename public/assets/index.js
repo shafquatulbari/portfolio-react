@@ -19,12 +19,14 @@ import unityicon from "./tech/unity.png";
 
 import mundoai from "./company/mundoai.png";
 import searching from "./company/searching.png";
+import brainstation from "./company/brainstation.png";
 
 import chess from "./works/chess.png";
 import touchvoid from "./works/touchvoid.png";
 import proquest from "./works/proquest.png";
 import focus from "./works/focus.png";
 import doomsday from "./works/doomsday.png";
+import pharmasphere from "./works/pharmasphere.png";
 
 export {
   logo,
@@ -51,4 +53,6 @@ export {
   csharp,
   sqlicon,
   unityicon,
+  pharmasphere,
+  brainstation,
 };

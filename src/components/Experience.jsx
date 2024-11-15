@@ -19,15 +19,22 @@ const ExperienceCard = ({ experience }) => {
         background: "#1b4d6a",
         color: "#fff",
       }}
-      contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+      contentArrowStyle={{ borderRight: "7px solid #232631" }}
       date={experience.date}
-      iconStyle={{ background: experience.iconBg }}
+      iconStyle={{
+        background: experience.iconBg,
+        borderRadius: "50%", // Ensure the icon is perfectly circular
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden", // Hide anything that overflows the circle
+      }}
       icon={
         <div className="flex justify-center items-center w-full h-full">
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className="w-[60%] h-[60%] object-contain"
+            className="h-full w-full object-cover rounded-full" // Use rounded-full for a circular image
           />
         </div>
       }
