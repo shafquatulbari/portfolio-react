@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
@@ -8,14 +8,10 @@ const TechCard = ({ index, name, icon }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.2, type: "spring", stiffness: 50 }}
-    className="w-[200px] h-[138px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] rounded-[15px] shadow-lg flex-shrink-0 transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl"
+    className="w-[200px] h-[138px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] rounded-[15px] flex-shrink-0 transform transition-transform duration-300 hover:shadow-[0_25px_0px_rgba(128,0,255,0.7)]"
   >
     <div className="bg-[#1a1a2e] rounded-[15px] py-4 px-6 flex flex-col justify-center items-center">
-      <img
-        src={icon}
-        alt={name}
-        className="w-16 h-16 object-contain filter drop-shadow-md"
-      />
+      <img src={icon} alt={name} className="w-16 h-16 object-contain" />
       <h3 className="text-[#e0e0e0] text-[16px] font-bold text-center mt-4">
         {name}
       </h3>
@@ -52,13 +48,13 @@ const Tech = () => {
       {/* Scroll Buttons */}
       <button
         onClick={() => handleScroll("left")}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg z-10 hover:bg-gray-600"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full z-10 hover:bg-gray-600"
       >
         &#8592;
       </button>
       <button
         onClick={() => handleScroll("right")}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full shadow-lg z-10 hover:bg-gray-600"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full z-10 hover:bg-gray-600"
       >
         &#8594;
       </button>

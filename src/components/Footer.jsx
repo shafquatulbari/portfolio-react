@@ -6,7 +6,7 @@ import { faEnvelope, faFileDownload } from "@fortawesome/free-solid-svg-icons";
 const Footer = () => {
   return (
     // dark purple background with white text with some blur effect
-    <div className="bg-purple-950 bg-opacity-50 text-white py-12">
+    <div className=" text-white py-12">
       <div className="container mx-auto text-center">
         <h2 className="text-xl mb-4">Connect with Me</h2>
         <div className="flex justify-center space-x-6">

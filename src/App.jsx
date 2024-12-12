@@ -34,8 +34,8 @@ const App = () => {
         </div>
         <div className="bg-universe-pattern bg-cover bg-no-repeat bg-center">
           <Contact />
+          <Footer />
         </div>
-        <Footer />
       </div>
     </BrowserRouter>
   );
