@@ -8,7 +8,7 @@ import {
   Navbar,
   Tech,
   Works,
-  StarsCanvas,
+  //StarsCanvas,
   Footer,
 } from "./components";
 
@@ -20,15 +20,22 @@ const App = () => {
           <Navbar />
           <Hero />
         </div>
-        <About />
-        <Experience />
-        <Tech />
-        <Works />
-        <div className="relative z-0">
-          <Contact />
-          <StarsCanvas />
+        <div className="bg-tech-pattern bg-cover bg-no-repeat bg-center">
+          <About />
         </div>
-        <Footer/>
+        <div className="bg-work-pattern bg-cover bg-no-repeat bg-center">
+          <Experience />
+        </div>
+        <div className="bg-road-pattern bg-cover bg-no-repeat bg-center">
+          <Tech />
+        </div>
+        <div className="bg-rain-pattern bg-cover bg-no-repeat bg-center">
+          <Works />
+        </div>
+        <div className="bg-universe-pattern bg-cover bg-no-repeat bg-center">
+          <Contact />
+          <Footer />
+        </div>
       </div>
     </BrowserRouter>
   );
