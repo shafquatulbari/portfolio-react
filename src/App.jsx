@@ -20,15 +20,25 @@ const App = () => {
           <Navbar />
           <Hero />
         </div>
-        <About />
-        <Experience />
-        <Tech />
-        <Works />
+        <div className="bg-tech-pattern bg-cover bg-no-repeat bg-center">
+          <About />
+        </div>
+        <div className="bg-work-pattern bg-cover bg-no-repeat bg-center">
+          <Experience />
+        </div>
+        <div className="bg-road-pattern bg-cover bg-no-repeat bg-center">
+          <Tech />
+        </div>
+        <div className="bg-rain-pattern bg-cover bg-no-repeat bg-center">
+          <Works />
+        </div>
         <div className="relative z-0">
-          <Contact />
+          <div className="relative z-0">
+            <Contact />
+          </div>
           <StarsCanvas />
         </div>
-        <Footer/>
+        <Footer />
       </div>
     </BrowserRouter>
   );
