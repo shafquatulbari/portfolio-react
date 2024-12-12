@@ -27,11 +27,11 @@ const styles = {
 // Services array
 const services = [
   {
-    title: "Web Developer",
+    title: "Full Stack Developer",
     icon: web,
   },
   {
-    title: "Backend Developer",
+    title: "SQA Engineer",
     icon: backend,
   },
   {
@@ -47,19 +47,33 @@ const services = [
 const ServiceCard = ({ index, title, icon }) => (
   <Tilt
     className="xs:w-[250px] w-full"
-    tiltMaxAngleX={45}
-    tiltMaxAngleY={45}
+    tiltMaxAngleX={35}
+    tiltMaxAngleY={35}
     perspective={1000}
-    transitionSpeed={450}
-    scale={1.1}
+    transitionSpeed={400}
+    scale={1.05} // Slight hover scaling for a polished effect
   >
     <motion.div
       variants={fadeIn("right", "spring", index * 0.5, 0.75)}
-      className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
+      className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] rounded-[20px] shadow-lg"
     >
-      <div className="bg-tertiary rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col">
-        <img src={icon} alt={title} className="w-16 h-16 object-contain" />
-        <h3 className="text-white text-[20px] font-bold text-center">
+      <div
+        className="bg-[#1a1a2e] rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
+        style={{
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)", // Subtle card shadow
+        }}
+      >
+        <img
+          src={icon}
+          alt={title}
+          className="w-16 h-16 object-contain filter drop-shadow-lg"
+        />
+        <h3
+          className="text-[#e0e0e0] text-[20px] font-bold text-center"
+          style={{
+            textShadow: "1px 1px 6px rgba(0, 0, 0, 0.8)", // Shadow for text
+          }}
+        >
           {title}
         </h3>
       </div>
@@ -70,13 +84,35 @@ const ServiceCard = ({ index, title, icon }) => (
 const About = () => (
   <>
     <motion.div variants={textVariant()}>
-      <p className={styles.sectionSubText}>Introduction</p>
-      <h2 className={styles.sectionHeadText}>Overview.</h2>
+      <p
+        className={`${styles.sectionSubText} text-[#b3b3ff]`}
+        style={{
+          textShadow: "1px 1px 5px rgba(0, 0, 0, 0.6)", // Blackish shadow for better readability
+        }}
+      >
+        Introduction
+      </p>
+      <h2
+        className={`${styles.sectionHeadText}`}
+        style={{
+          textShadow:
+            "2px 2px 10px rgba(0, 0, 0, 0.8), 0px 0px 10px rgba(179, 107, 255, 0.8)", // Blackish border + subtle glow
+          color: "#b36bff", // Purplish color for the heading
+        }}
+      >
+        Overview.
+      </h2>
     </motion.div>
 
     <motion.p
       variants={fadeIn("", "", 0.1, 1)}
-      className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
+      className="mt-4 text-[#e0e0e0] text-[17px] max-w-3xl leading-[30px]"
+      style={{
+        textShadow: "1px 1px 4px rgba(0, 0, 0, 0.7)", // Subtle shadow for text
+        backgroundColor: "rgba(0, 0, 0, 0.8)", // Blackish transparent background
+        padding: "15px",
+        borderRadius: "8px",
+      }}
     >
       I'm a dedicated and adaptable software engineer with a strong foundation
       in full-stack development, game design, and machine learning. I pride
