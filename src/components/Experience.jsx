@@ -18,18 +18,19 @@ const ExperienceCard = ({ experience }) => {
       contentStyle={{
         background: "rgba(75, 0, 130, 0.9)", // Purplish background
         color: "#fff",
-        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.7)", // Subtle shadow
+        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.9)", // Subtle shadow
         border: "1px solid rgba(255, 255, 255, 0.2)", // White border
         borderRadius: "20px",
       }}
       contentArrowStyle={{ borderRight: "7px solid rgba(35, 38, 49, 0.9)" }}
       date={
         <span
-          className="text-white bg-black bg-opacity-90 px-2 py-1 rounded-md"
+          // Purple background with rounded corners, non transparent
+          className="text-white bg-purple-950  px-5 py-2 rounded-full"
           style={{
-            fontSize: "16px",
+            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)", // Subtle shadow for text
             fontWeight: "bold",
-            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.8)", // Subtle shadow for clarity
+            fontSize: "16px",
           }}
         >
           {experience.date}
@@ -99,7 +100,7 @@ const Experience = () => {
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black background
             padding: "20px",
-            borderRadius: "20px", // Rounded corners for a modern look
+            borderRadius: "30px", // Rounded corners for a modern look
             textAlign: "center", // Centering the text
             margin: "0 auto", // Centers the card horizontally
             width: "fit-content", // Card takes up only as much space as needed
@@ -125,7 +126,7 @@ const Experience = () => {
               fontWeight: "bold",
             }}
           >
-            Work Experience.
+            Work Experience
           </h2>
         </div>
       </motion.div>

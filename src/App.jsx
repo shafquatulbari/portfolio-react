@@ -8,7 +8,7 @@ import {
   Navbar,
   Tech,
   Works,
-  StarsCanvas,
+  //StarsCanvas,
   Footer,
 } from "./components";
 
@@ -32,11 +32,8 @@ const App = () => {
         <div className="bg-rain-pattern bg-cover bg-no-repeat bg-center">
           <Works />
         </div>
-        <div className="relative z-0">
-          <div className="relative z-0">
-            <Contact />
-          </div>
-          <StarsCanvas />
+        <div className="bg-universe-pattern bg-cover bg-no-repeat bg-center">
+          <Contact />
         </div>
         <Footer />
       </div>
