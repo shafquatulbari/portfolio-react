@@ -16,34 +16,60 @@ const ExperienceCard = ({ experience }) => {
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: "#1b4d6a",
+        background: "rgba(75, 0, 130, 0.9)", // Purplish background
         color: "#fff",
+        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.9)", // Subtle shadow
+        border: "1px solid rgba(255, 255, 255, 0.2)", // White border
+        borderRadius: "20px",
       }}
-      contentArrowStyle={{ borderRight: "7px solid #232631" }}
-      date={experience.date}
+      contentArrowStyle={{ borderRight: "7px solid rgba(35, 38, 49, 0.9)" }}
+      date={
+        <span
+          // Purple background with rounded corners, non transparent
+          className="text-white bg-purple-950  px-5 py-2 rounded-full"
+          style={{
+            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)", // Subtle shadow for text
+            fontWeight: "bold",
+            fontSize: "16px",
+          }}
+        >
+          {experience.date}
+        </span>
+      }
       iconStyle={{
         background: experience.iconBg,
-        borderRadius: "50%", // Ensure the icon is perfectly circular
+        borderRadius: "50%",
+        //glow around icon with purple color
+        boxShadow: "0px 0px 15px 10px rgba(170, 0, 255, 0.7)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        overflow: "hidden", // Hide anything that overflows the circle
       }}
       icon={
         <div className="flex justify-center items-center w-full h-full">
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className="h-full w-full object-cover rounded-full" // Use rounded-full for a circular image
+            className="h-[90%] w-[90%] object-contain rounded-full drop-shadow-md"
           />
         </div>
       }
     >
       <div>
-        <h3 className="text-white text-[24px] font-bold">{experience.title}</h3>
+        <h3
+          className="text-white text-[24px] font-bold"
+          style={{
+            textShadow: "0px 0px 8px rgba(255, 255, 255, 0.7)", // Subtle glow effect for title
+          }}
+        >
+          {experience.title}
+        </h3>
         <p
-          className="text-secondary text-[16px] font-semibold"
-          style={{ margin: 0 }}
+          className="text-[#e6e6e6] text-[16px] font-semibold"
+          style={{
+            margin: 0,
+            textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)", // Subtle shadow for company name
+          }}
         >
           {experience.company_name}
         </p>
@@ -53,7 +79,10 @@ const ExperienceCard = ({ experience }) => {
         {experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
-            className="text-white-100 text-[14px] pl-1 tracking-wider"
+            className="text-[#e0e0e0] text-[14px] pl-1 tracking-wider leading-6"
+            style={{
+              textShadow: "0px 0px 5px rgba(0, 0, 0, 0.7)", // Slight shadow for readability
+            }}
           >
             {point}
           </li>
@@ -67,12 +96,39 @@ const Experience = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center`}>
-          What I have done so far
-        </p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>
-          Work Experience.
-        </h2>
+        <div
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black background
+            padding: "20px",
+            borderRadius: "30px", // Rounded corners for a modern look
+            textAlign: "center", // Centering the text
+            margin: "0 auto", // Centers the card horizontally
+            width: "fit-content", // Card takes up only as much space as needed
+          }}
+        >
+          <p
+            className={`${styles.sectionSubText} text-center`}
+            style={{
+              color: "#e0e0ff", // Light purple text
+              textShadow: "0 0 10px rgba(255, 255, 255, 0.8)", // Subtle glow effect
+              fontStyle: "italic", // Adding emphasis
+            }}
+          >
+            What I have done so far
+          </p>
+          <h2
+            className={`${styles.sectionHeadText} text-center`}
+            style={{
+              background: "linear-gradient(90deg, #aa00ff, #5e17eb)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "0 0 15px rgba(170, 0, 255, 0.9)", // Stronger glow for heading
+              fontWeight: "bold",
+            }}
+          >
+            Work Experience
+          </h2>
+        </div>
       </motion.div>
 
       <div className="mt-20 flex flex-col">

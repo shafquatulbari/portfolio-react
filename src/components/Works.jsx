@@ -26,7 +26,12 @@ const ProjectCard = ({
         tiltMaxAngleY={20}
         scale={1}
         transitionSpeed={450}
-        className="bg-tertiary p-5 rounded-2xl w-full max-w-[360px] min-w-[280px] flex flex-col"
+        className="bg-tertiary p-5 rounded-2xl w-full max-w-[360px] min-w-[280px] flex flex-col shadow-lg"
+        style={{
+          background: "rgba(75, 0, 130, 0.90)", // Purplish background
+          boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.7)", // Subtle shadow
+          border: "1px solid rgba(255, 255, 255, 0.2)", // White border
+        }}
       >
         <div className="relative w-full h-auto">
           <img
@@ -51,10 +56,20 @@ const ProjectCard = ({
         </div>
 
         <div className="mt-5 flex-grow">
-          <h3 className="text-white font-bold text-[20px] sm:text-[24px]">
+          <h3
+            className="text-white font-bold text-[20px] sm:text-[24px]"
+            style={{
+              textShadow: "0px 0px 8px rgba(255, 255, 255, 0.7)", // Subtle glow effect for title
+            }}
+          >
             {name}
           </h3>
-          <p className="mt-2 text-secondary text-[12px] sm:text-[14px]">
+          <p
+            className="mt-2 text-[#e6e6e6] text-[12px] sm:text-[14px]"
+            style={{
+              textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)", // Subtle shadow for readability
+            }}
+          >
             {description}
           </p>
         </div>
@@ -63,7 +78,10 @@ const ProjectCard = ({
           {tags.map((tag) => (
             <p
               key={`${name}-${tag.name}`}
-              className={`text-[12px] sm:text-[14px] ${tag.color}`}
+              className={`text-[16px] sm:text-[16px] ${tag.color}`}
+              style={{
+                textShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)", // Subtle shadow for tags
+              }}
             >
               #{tag.name}
             </p>
@@ -78,22 +96,30 @@ const Works = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center`}>My work</p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>Projects.</h2>
-      </motion.div>
-
-      <div className="w-full flex justify-center">
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className="mt-3 text-secondary text-[15px] sm:text-[17px] max-w-3xl leading-[25px] sm:leading-[30px] text-center"
+        <div
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black background
+            padding: "20px",
+            borderRadius: "20px", // Rounded corners for a modern look
+            textAlign: "center", // Centering the text
+            margin: "0 auto", // Centers the card horizontally
+            width: "fit-content", // Card takes up only as much space as needed
+          }}
         >
-          Following projects showcase my skills and experience through
-          real-world examples of my work. Each project is briefly described with
-          links to code repositories and live demos in it. It reflects my
-          ability to solve complex problems, work with different technologies,
-          and manage projects effectively.
-        </motion.p>
-      </div>
+          <h2
+            className={`${styles.sectionHeadText} text-center`}
+            style={{
+              background: "linear-gradient(90deg, #aa00ff, #5e17eb)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "0 0 15px rgba(170, 0, 255, 0.9)", // Stronger glow for heading
+              fontWeight: "bold",
+            }}
+          >
+            PROJECTS
+          </h2>
+        </div>
+      </motion.div>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
         {projects.map((project, index) => (
@@ -104,4 +130,4 @@ const Works = () => {
   );
 };
 
-export default SectionWrapper(Works, "");
+export default SectionWrapper(Works, "projects");
