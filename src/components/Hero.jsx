@@ -5,34 +5,34 @@ import { AvatarCanvas } from "./canvas";
 const Hero = () => {
   return (
     <section className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-center bg-no-repeat">
-      {/* Background Blur */}
-      <div className="absolute inset-0 bg-black bg-opacity-30 blur-sm"></div>
-
       <div
         className={`absolute inset-0 top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-row items-start gap-5`}
       >
         <div className="flex flex-col justify-center items-center mt-5">
-          <div className="w-5 h-5 rounded-full bg-[#41b5f7]" />
-          <div className="w-1 sm:h-80 h-40 bg-[#1b4d6a]" />
+          <div className="w-5 h-5 rounded-full bg-[#f926ee]" />
+          <div className="w-1 sm:h-80 h-40 bg-[#ff51df80]" />
         </div>
 
         <div>
           <h1
             className={`${styles.heroHeadText} text-white relative`}
             style={{
-              textShadow: "2px 2px 10px rgba(0, 0, 0, 0.7)",
+              textShadow: "2px 2px 10px rgba(0, 0, 0, 0.7)", // Subtle shadow for overall text
             }}
           >
             Hi, I'm{" "}
             <span
-              className="text-[#5096be] bg-gradient-to-r from-blue-500 via-teal-400 to-purple-500 bg-clip-text text-transparent"
+              className="text-[#b36bff] relative"
               style={{
-                textShadow: "2px 2px 10px rgba(0, 0, 0, 0.9)",
+                textShadow: `
+        5px 5px 1px rgba(0, 0, 0, 0.8) /* Blackish border */
+      `,
               }}
             >
               Shafquat Ul Bari
             </span>
           </h1>
+
           <p
             className={`${styles.heroSubText} mt-2 relative`}
             style={{
@@ -55,7 +55,7 @@ const Hero = () => {
 
       <div className="absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center">
         <a href="#about">
-          <div className="w-[35px] h-[64px] rounded-3xl border-4 border-[#41b5f7] bg-[#41b4f72c] flex justify-center items-start p-2 hover:shadow-lg hover:shadow-[#41b5f7] transition duration-300 ease-in-out">
+          <div className="w-[35px] h-[64px] rounded-3xl border-4 border-[#000000] bg-[#41b4f72c] flex justify-center items-start p-2 hover:shadow-lg hover:shadow-[#41b5f7] transition duration-300 ease-in-out">
             <motion.div
               animate={{
                 y: [0, 24, 0],
@@ -65,7 +65,7 @@ const Hero = () => {
                 repeat: Infinity,
                 repeatType: "loop",
               }}
-              className="w-3 h-3 rounded-full bg-[#41b5f7] mb-1"
+              className="w-3 h-3 rounded-full bg-[#000000] mb-1"
             />
           </div>
         </a>

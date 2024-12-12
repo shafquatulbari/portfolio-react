@@ -16,31 +16,35 @@ const ExperienceCard = ({ experience }) => {
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: "#1b4d6a",
+        background: "rgba(27, 77, 106, 0.85)", // Semi-transparent background
         color: "#fff",
+        boxShadow: "0px 0px 20px rgba(255, 255, 255, 0.3)", // Subtle glow
+        border: "1px solid rgba(255, 255, 255, 0.2)", // Add border
       }}
-      contentArrowStyle={{ borderRight: "7px solid #232631" }}
+      contentArrowStyle={{ borderRight: "7px solid rgba(35, 38, 49, 0.85)" }}
       date={experience.date}
       iconStyle={{
         background: experience.iconBg,
-        borderRadius: "50%", // Ensure the icon is perfectly circular
+        borderRadius: "50%",
+        boxShadow: "0px 0px 10px 2px rgba(0, 255, 255, 0.8)", // Glow effect
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        overflow: "hidden", // Hide anything that overflows the circle
       }}
       icon={
         <div className="flex justify-center items-center w-full h-full">
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className="h-full w-full object-cover rounded-full" // Use rounded-full for a circular image
+            className="h-full w-full object-cover rounded-full"
           />
         </div>
       }
     >
       <div>
-        <h3 className="text-white text-[24px] font-bold">{experience.title}</h3>
+        <h3 className="text-white text-[24px] font-bold drop-shadow-lg">
+          {experience.title}
+        </h3>
         <p
           className="text-secondary text-[16px] font-semibold"
           style={{ margin: 0 }}
@@ -67,10 +71,25 @@ const Experience = () => {
   return (
     <>
       <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText} text-center`}>
+        <p
+          className={`${styles.sectionSubText} text-center`}
+          style={{
+            color: "#e0e0ff", // Light purple text
+            textShadow: "0 0 10px rgba(255, 255, 255, 0.7)", // Subtle glow effect
+          }}
+        >
           What I have done so far
         </p>
-        <h2 className={`${styles.sectionHeadText} text-center`}>
+        <h2
+          className={`${styles.sectionHeadText} text-center`}
+          style={{
+            background: "linear-gradient(90deg, #aa00ff, #5e17eb)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textShadow: "0 0 15px rgba(170, 0, 255, 0.8)",
+            animation: "glow 2s infinite alternate",
+          }}
+        >
           Work Experience.
         </h2>
       </motion.div>
