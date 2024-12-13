@@ -95,43 +95,43 @@ const ExperienceCard = ({ experience }) => {
 const Experience = () => {
   return (
     <>
-      <motion.div variants={textVariant()}>
-        <div
+      <div
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black background
+          padding: "16px",
+          borderRadius: "20px", // Rounded corners for a modern look
+          textAlign: "center", // Centering the text
+          margin: "0 auto", // Centers the card horizontally
+          width: "fit-content", // Card takes up only as much space as needed
+        }}
+      >
+        <p
+          className={`${styles.sectionSubText} text-center`}
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black background
-            padding: "20px",
-            borderRadius: "30px", // Rounded corners for a modern look
-            textAlign: "center", // Centering the text
-            margin: "0 auto", // Centers the card horizontally
-            width: "fit-content", // Card takes up only as much space as needed
+            color: "#e0e0ff", // Light purple text
+            textShadow: "0 0 10px rgba(255, 255, 255, 0.8)", // Subtle glow effect
+            fontStyle: "italic", // Adding emphasis
           }}
         >
-          <p
-            className={`${styles.sectionSubText} text-center`}
-            style={{
-              color: "#e0e0ff", // Light purple text
-              textShadow: "0 0 10px rgba(255, 255, 255, 0.8)", // Subtle glow effect
-              fontStyle: "italic", // Adding emphasis
-            }}
-          >
-            What I have done so far
-          </p>
-          <h2
-            className={`${styles.sectionHeadText} text-center`}
-            style={{
-              background: "linear-gradient(90deg, #aa00ff, #5e17eb)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textShadow: "0 0 15px rgba(170, 0, 255, 0.9)", // Stronger glow for heading
-              fontWeight: "bold",
-            }}
-          >
-            Work Experience
-          </h2>
-        </div>
-      </motion.div>
+          What I have done so far
+        </p>
+        <h2
+          className="text-white font-black text-center"
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3rem)", // Larger font size with responsiveness
+            background: "linear-gradient(90deg, #aa00ff, #5e17eb)", // Gradient text
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textShadow: "0 0 15px rgba(170, 0, 255, 0.8)", // Glow effect
+            fontWeight: "bold",
+            lineHeight: "1.2", // Adjusted line height
+          }}
+        >
+          Work Experience
+        </h2>
+      </div>
 
-      <div className="mt-20 flex flex-col">
+      <div className="mt-10 mb-5 flex flex-col px-4 sm:px-6 lg:px-8">
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <ExperienceCard

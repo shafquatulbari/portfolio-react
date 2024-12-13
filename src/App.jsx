@@ -17,7 +17,9 @@ const App = () => {
     <BrowserRouter>
       <div className="relative z-0 bg-primary">
         <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
-          <Navbar />
+          <div className="fixed top-0 left-0 w-full z-50">
+            <Navbar />
+          </div>
           <Hero />
         </div>
         <div className="bg-tech-pattern bg-cover bg-no-repeat bg-center relative">
@@ -32,7 +34,6 @@ const App = () => {
             <Experience />
           </div>
         </div>
-
         <div className="bg-road-pattern bg-cover bg-no-repeat bg-center relative">
           <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
           <div className="relative z-20">
