@@ -122,7 +122,7 @@ const experiences = [
   {
     title: "Co-Founder & Engineer",
     company_name: "AI Data Labeling Startup",
-    icon: mundoai, // You may replace this with a neutral icon
+    icon: startup,
     iconBg: "#383E56",
     date: "July 2024 - October 2024",
     points: [
