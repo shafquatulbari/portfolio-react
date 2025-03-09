@@ -114,8 +114,8 @@ const About = () => (
         borderRadius: "8px",
       }}
     >
-      I'm a **Software Engineer** specializing in **Full Stack Development** and
-      **SQA/QA Automation**. Currently, I serve as an **SQA Engineer I** at
+      I'm a Software Engineer specializing in Full Stack Development and
+      SQA/QA Automation. Currently, I serve as an SQA Engineer I at
       Brain Station 23, where I contribute to the test automation for
       Grameenphone’s MyGP app, serving over 21 million monthly users. My
       expertise includes developing test scripts using WebdriverIO and Appium,

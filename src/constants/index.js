@@ -1,8 +1,5 @@
 import {
   javascript,
-  typescript,
-  html,
-  css,
   reactjs,
   nodejs,
   mongodb,
@@ -15,9 +12,7 @@ import {
   doomsday,
   python,
   cplusplus,
-  csharp,
   sqlicon,
-  unityicon,
   pharmasphere,
   brainstation,
 } from "../../public/assets";
@@ -39,40 +34,12 @@ export const navLinks = [
 
 const technologies = [
   {
-    name: "C++",
-    icon: cplusplus,
-  },
-  {
-    name: "C#",
-    icon: csharp,
-  },
-  {
-    name: "Python",
-    icon: python,
-  },
-  {
-    name: "Sql",
-    icon: sqlicon,
-  },
-  {
-    name: "Unity",
-    icon: unityicon,
-  },
-  {
-    name: "HTML 5",
-    icon: html,
-  },
-  {
-    name: "CSS 3",
-    icon: css,
-  },
-  {
     name: "JavaScript",
     icon: javascript,
   },
   {
-    name: "TypeScript",
-    icon: typescript,
+    name: "Python",
+    icon: python,
   },
   {
     name: "React JS",
@@ -85,6 +52,14 @@ const technologies = [
   {
     name: "MongoDB",
     icon: mongodb,
+  },
+  {
+    name: "C++",
+    icon: cplusplus,
+  },
+  {
+    name: "Sql",
+    icon: sqlicon,
   },
   {
     name: "git",
