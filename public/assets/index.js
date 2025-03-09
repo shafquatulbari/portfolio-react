@@ -17,8 +17,7 @@ import csharp from "./tech/csharp.png";
 import sqlicon from "./tech/sql.png";
 import unityicon from "./tech/unity.png";
 
-import mundoai from "./company/mundoai.png";
-import searching from "./company/searching.png";
+import startup from "./company/startup.png";
 import brainstation from "./company/brainstation.png";
 
 import chess from "./works/chess.png";
@@ -41,8 +40,7 @@ export {
   nodejs,
   reactjs,
   typescript,
-  mundoai,
-  searching,
+  startup,
   chess,
   touchvoid,
   proquest,

@@ -3,6 +3,7 @@
 Welcome to my portfolio! This project is a showcase of my skills and experiences as a Computer Science graduate with expertise in software engineering, machine learning, and game development. Below is a detailed breakdown of the technologies, features, and resources used in creating this portfolio.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
@@ -14,6 +15,7 @@ Welcome to my portfolio! This project is a showcase of my skills and experiences
 This portfolio is designed to provide a comprehensive view of my professional work and personal projects. It features a dynamic and interactive design, leveraging modern web technologies to create an engaging user experience.
 
 ### Link to Portfolio
+
 [Visit My Portfolio](https://shafquatulbari.netlify.app)
 
 ## Features
@@ -36,11 +38,9 @@ This portfolio is designed to provide a comprehensive view of my professional wo
 
 ## Resources
 
-- **Logos**: [Download logos from -logo.com](https://-logo.com)
+- **Logos**: [Download logos from logo.com](https://-logo.com)
 - **Background Images**: [Deep learning wallpapers from wallpaperbat.com](https://wallpaperbat.com/deep-learning-wallpapers)
 - **3D Avatars**: [Create 3D avatars on readyplayer.me](https://readyplayer.me)
 - **3D Models**: [Download more 3D models from sketchfab.com](https://sketchfab.com)
 - **Icons**: Icons from [Iconscout](https://iconscout.com) and [Flaticon](https://flaticon.com)
 - **Animations**: [Animations from Mixamo](https://mixamo.com)
-
-

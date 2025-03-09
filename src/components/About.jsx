@@ -6,8 +6,8 @@ import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
 import web from "../../public/assets/services/web.png";
 import backend from "../../public/assets/services/backend.png";
-import game from "../../public/assets/services/game.png";
-import ml from "../../public/assets/services/ml.png";
+import sqa from "../../public/assets/services/sqa.png";
+import automation from "../../public/assets/services/automation.png";
 
 // Define styles (You can move these to a CSS or Tailwind file if needed)
 const styles = {
@@ -27,20 +27,20 @@ const styles = {
 // Services array
 const services = [
   {
-    title: "Full Stack Developer",
-    icon: web,
-  },
-  {
-    title: "SQA Engineer",
+    title: "Back End Developer",
     icon: backend,
   },
   {
-    title: "Game Developer",
-    icon: game,
+    title: "Front End Developer",
+    icon: web,
   },
   {
-    title: "AI/ML Engineer",
-    icon: ml,
+    title: "SQA Engineer / SDET",
+    icon: sqa,
+  },
+  {
+    title: "Test Automation Engineer",
+    icon: automation,
   },
 ];
 
@@ -114,15 +114,18 @@ const About = () => (
         borderRadius: "8px",
       }}
     >
-      I'm a dedicated and adaptable software engineer with a strong foundation
-      in full-stack development, game design, and machine learning. I pride
-      myself on my leadership abilities, resilience, and a relentless pursuit of
-      excellence in every project I undertake. In my free time, I thrive on
-      outdoor adventures and believe in pushing my limits both mentally and
-      physically—fitness is a core part of my life, and I often share my passion
-      by training others. As the saying goes, "The man who moves a mountain
-      begins by carrying away small stones," and I live by this philosophy,
-      always striving to improve and grow.
+      I'm a **Software Engineer** specializing in **Full Stack Development** and
+      **SQA/QA Automation**. Currently, I serve as an **SQA Engineer I** at
+      Brain Station 23, where I contribute to the test automation for
+      Grameenphone’s MyGP app, serving over 21 million monthly users. My
+      expertise includes developing test scripts using WebdriverIO and Appium,
+      validating backend API responses, and optimizing CI/CD pipelines.
+      Previously, I've led and contributed to various full-stack projects,
+      focusing on creating scalable and efficient applications. I hold a
+      Computer Science degree from the University of British Columbia, where I
+      honed my skills in software engineering and web development. Outside of technology, I am a fitness
+      enthusiast who believes in discipline, continuous growth, and pushing
+      limits.
     </motion.p>
 
     <div className="mt-20 flex flex-wrap gap-10">
