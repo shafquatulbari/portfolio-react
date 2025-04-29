@@ -45,7 +45,7 @@ const Hero = () => {
           >
             A passionate Computer Science graduate from the University of
             British Columbia <br className="sm:block hidden" />
-            with expertise in Full Stack Development and SQA/QA Automation,
+            with expertise in Full Stack Development and SDET,
             specializing in building scalable applications and optimizing
             software testing processes.
           </p>

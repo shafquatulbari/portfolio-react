@@ -1,78 +1,108 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
 
-const TechCard = ({ index, name, icon }) => (
+const TechCard = ({ name, icon, style, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.2, type: "spring", stiffness: 50 }}
-    className="w-[200px] h-[138px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[1px] rounded-[15px] flex-shrink-0 transform transition-transform duration-300 hover:shadow-[0_25px_0px_rgba(128,0,255,0.7)]"
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ delay: index * 0.1, type: "spring", stiffness: 50 }}
+    className="absolute"
+    style={style}
   >
-    <div className="bg-[#1a1a2e] rounded-[15px] py-4 px-6 flex flex-col justify-center items-center">
-      <img src={icon} alt={name} className="w-16 h-16 object-contain" />
-      <h3 className="text-[#e0e0e0] text-[16px] font-bold text-center mt-4">
+    <div className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[120px] md:h-[120px] rounded-full bg-[#1a1a2e] flex flex-col items-center justify-center text-center border-2 border-transparent hover:border-pink-400 hover:scale-110 transition-all duration-300 shadow-lg cursor-pointer">
+      <img
+        src={icon}
+        alt={name}
+        className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
+      />
+      <p className="text-[10px] sm:text-[12px] text-white font-semibold mt-2">
         {name}
-      </h3>
+      </p>
     </div>
   </motion.div>
 );
 
 const Tech = () => {
-  const scrollContainerRef = useRef(null);
+  const containerRef = useRef(null);
+  const [positions, setPositions] = useState([]);
 
-  const handleScroll = (direction) => {
-    if (scrollContainerRef.current) {
-      const scrollWidth = scrollContainerRef.current.scrollWidth;
-      const clientWidth = scrollContainerRef.current.clientWidth;
-      const maxScrollLeft = scrollWidth - clientWidth;
+  useEffect(() => {
+    const updatePositions = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const containerHeight = containerRef.current.offsetHeight;
 
-      const currentScroll = scrollContainerRef.current.scrollLeft;
-      const scrollAmount = direction === "left" ? -300 : 300;
+        const radius = Math.min(containerWidth, containerHeight) / 3;
+        const centerX = containerWidth / 2;
+        const centerY = containerHeight / 2;
 
-      if (
-        (direction === "left" && currentScroll > 0) ||
-        (direction === "right" && currentScroll < maxScrollLeft)
-      ) {
-        scrollContainerRef.current.scrollBy({
-          left: scrollAmount,
-          behavior: "smooth",
+        const newPositions = technologies.map((_, i) => {
+          const angle = (i / technologies.length) * 2 * Math.PI;
+          return {
+            x: centerX + radius * Math.cos(angle) - 60,
+            y: centerY + radius * Math.sin(angle) - 60,
+          };
         });
+
+        setPositions(newPositions);
       }
-    }
-  };
+    };
+
+    updatePositions();
+    window.addEventListener("resize", updatePositions);
+    return () => window.removeEventListener("resize", updatePositions);
+  }, []);
 
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* Scroll Buttons */}
-      <button
-        onClick={() => handleScroll("left")}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full z-10 hover:bg-gray-600"
-      >
-        &#8592;
-      </button>
-      <button
-        onClick={() => handleScroll("right")}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-4 rounded-full z-10 hover:bg-gray-600"
-      >
-        &#8594;
-      </button>
+    <div
+      ref={containerRef}
+      className="relative mx-auto aspect-square max-w-[90vw] sm:max-w-[500px] md:max-w-[600px] rounded-full bg-gradient-to-b from-[#0f0f2e] to-[#1a1a2e] overflow-hidden border-2 border-purple-500 shadow-xl"
+    >
+      {/* Center Text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <h2 className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-wider">
+          SKILLS
+        </h2>
+      </div>
 
-      {/* Scrollable Container */}
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto scrollbar-hide space-x-6 px-4 py-6"
-      >
-        {technologies.map((technology, index) => (
+      {/* SVG Lines */}
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        {positions.map((from, i) =>
+          positions.map((to, j) => {
+            if (i !== j && Math.random() > 0.7) {
+              return (
+                <line
+                  key={`${i}-${j}`}
+                  x1={from.x + 60}
+                  y1={from.y + 60}
+                  x2={to.x + 60}
+                  y2={to.y + 60}
+                  stroke="rgba(255,255,255,0.2)"
+                  strokeWidth="1"
+                />
+              );
+            }
+            return null;
+          })
+        )}
+      </svg>
+
+      {/* Tech Cards */}
+      {positions.length > 0 &&
+        technologies.map((tech, index) => (
           <TechCard
-            key={technology.name}
+            key={tech.name}
+            name={tech.name}
+            icon={tech.icon}
             index={index}
-            name={technology.name}
-            icon={technology.icon}
+            style={{
+              left: positions[index].x,
+              top: positions[index].y,
+            }}
           />
         ))}
-      </div>
     </div>
   );
 };

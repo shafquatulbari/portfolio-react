@@ -53,8 +53,8 @@ const Navbar = () => {
           <p className="text-white text-[20px] font-extrabold cursor-pointer flex transition-all duration-300">
             <span className="text-cyan-300">Shafquat </span>
             <span className="hidden sm:inline-block text-purple-400">
-              {" "}
-              | Computer Science Graduate
+              {`<--->`}
+              SWE | SDET
             </span>
           </p>
         </Link>

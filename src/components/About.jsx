@@ -114,18 +114,17 @@ const About = () => (
         borderRadius: "8px",
       }}
     >
-      I'm a Software Engineer specializing in Full Stack Development and
-      SQA/QA Automation. Currently, I serve as an SQA Engineer I at
-      Brain Station 23, where I contribute to the test automation for
-      Grameenphone’s MyGP app, serving over 21 million monthly users. My
-      expertise includes developing test scripts using WebdriverIO and Appium,
-      validating backend API responses, and optimizing CI/CD pipelines.
-      Previously, I've led and contributed to various full-stack projects,
-      focusing on creating scalable and efficient applications. I hold a
-      Computer Science degree from the University of British Columbia, where I
-      honed my skills in software engineering and web development. Outside of technology, I am a fitness
-      enthusiast who believes in discipline, continuous growth, and pushing
-      limits.
+      I'm a Software Engineer specializing in Full Stack Development and SDET.
+      Currently, I serve as an SQA Engineer I at Brain Station 23, where I
+      contribute to the test automation for Grameenphone’s MyGP app, serving
+      over 21 million monthly users. My expertise includes developing test
+      scripts using WebdriverIO and Appium, validating backend API responses,
+      and optimizing CI/CD pipelines. Previously, I've led and contributed to
+      various full-stack projects, focusing on creating scalable and efficient
+      applications. I hold a Computer Science degree from the University of
+      British Columbia, where I honed my skills in software engineering and web
+      development. Outside of technology, I am a fitness enthusiast who believes
+      in discipline, continuous growth, and pushing limits.
     </motion.p>
 
     <div className="mt-20 flex flex-wrap gap-10">
