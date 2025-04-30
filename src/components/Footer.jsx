@@ -43,7 +43,7 @@ const Footer = () => {
           </a>
         </div>
         <p className="mt-6 text-sm">
-          &copy; 2024 Shafquat Ul Bari. All rights reserved.
+          &copy; 2025 Shafquat Ul Bari. All rights reserved.
         </p>
       </div>
     </div>

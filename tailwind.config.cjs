@@ -28,7 +28,7 @@ module.exports = {
         "work-pattern": "url('/src/assets/cyber-2.jpg')",
         "road-pattern": "url('/src/assets/neon-city.gif')",
         "rain-pattern": "url('/src/assets/rain-city.jpg')",
-        "universe-pattern": "url('/src/assets/purple-galaxy.jpg')",
+        "universe-pattern": "url('/src/assets/purple-nebulae.gif')",
       },
     },
   },
