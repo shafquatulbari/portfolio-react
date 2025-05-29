@@ -25,13 +25,14 @@ const FlappyTechGame = () => {
   });
 
   const GAME_CONFIG = {
-    gravity: 0.4,
-    jumpStrength: -8,
+    gravity: 0.2, // Reduced gravity for smoother flying
+    jumpStrength: -4, // Reduced jump strength for more controlled movement
     buildingWidth: 80,
-    buildingGap: 180, // Increased gap for easier gameplay
+    buildingGap: 220, // Increased vertical gap between buildings
     buildingSpeed: 2,
     vehicleSize: 35,
     techSize: 40,
+    horizontalSpacing: 300, // New property for horizontal spacing between buildings
   };
 
   const initializeGame = useCallback(() => {
@@ -245,29 +246,93 @@ const FlappyTechGame = () => {
       GAME_CONFIG.buildingGap / 2 -
       GAME_CONFIG.techSize / 2;
 
-    // Glow effect
+    // Create a circular ball background
     ctx.save();
-    ctx.shadowColor = "#ec4899";
-    ctx.shadowBlur = 20;
 
-    // Tech icon background
-    ctx.fillStyle = "rgba(236, 72, 153, 0.3)";
+    // Outer glow effect
+    ctx.shadowColor = "#ec4899";
+    ctx.shadowBlur = 25;
+
+    // Main ball with gradient
+    const gradient = ctx.createRadialGradient(
+      techX + GAME_CONFIG.techSize / 2,
+      techY + GAME_CONFIG.techSize / 2,
+      0,
+      techX + GAME_CONFIG.techSize / 2,
+      techY + GAME_CONFIG.techSize / 2,
+      GAME_CONFIG.techSize / 2
+    );
+    gradient.addColorStop(0, "rgba(168, 85, 247, 0.8)"); // Purple center
+    gradient.addColorStop(0.7, "rgba(236, 72, 153, 0.6)"); // Pink middle
+    gradient.addColorStop(1, "rgba(59, 130, 246, 0.4)"); // Blue edge
+
+    ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.arc(
       techX + GAME_CONFIG.techSize / 2,
       techY + GAME_CONFIG.techSize / 2,
-      GAME_CONFIG.techSize / 2 + 5,
+      GAME_CONFIG.techSize / 2,
       0,
       Math.PI * 2
     );
     ctx.fill();
 
-    // Tech name
-    ctx.shadowBlur = 5;
+    // Ball border
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Tech icon - use icon property for direct canvas loading
+    if (tech.icon) {
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // Handle CORS if needed
+      img.onload = () => {
+        // Draw the tech icon in the center of the ball
+        const iconSize = GAME_CONFIG.techSize * 0.6; // Icon is 60% of ball size
+        const iconX = techX + (GAME_CONFIG.techSize - iconSize) / 2;
+        const iconY = techY + (GAME_CONFIG.techSize - iconSize) / 2;
+
+        ctx.save();
+        ctx.globalCompositeOperation = "multiply";
+        ctx.drawImage(img, iconX, iconY, iconSize, iconSize);
+        ctx.restore();
+      };
+      img.onerror = () => {
+        // Fallback to tech name if image fails to load
+        ctx.shadowBlur = 5;
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "10px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(
+          tech.name,
+          techX + GAME_CONFIG.techSize / 2,
+          techY + GAME_CONFIG.techSize / 2 + 3
+        );
+      };
+      img.src = tech.icon;
+    } else {
+      // Fallback to tech name if no icon
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "10px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        tech.name,
+        techX + GAME_CONFIG.techSize / 2,
+        techY + GAME_CONFIG.techSize / 2 + 3
+      );
+    }
+
+    // Tech name below the ball
+    ctx.shadowBlur = 8;
     ctx.fillStyle = "#ffffff";
-    ctx.font = "12px monospace";
+    ctx.font = "10px monospace";
     ctx.textAlign = "center";
-    ctx.fillText(tech.name, techX + GAME_CONFIG.techSize / 2, techY - 10);
+    ctx.fillText(
+      tech.name,
+      techX + GAME_CONFIG.techSize / 2,
+      techY + GAME_CONFIG.techSize + 15
+    );
 
     ctx.restore();
   };
@@ -362,7 +427,12 @@ const FlappyTechGame = () => {
 
     // Update vehicle physics
     state.vehicle.velocity += GAME_CONFIG.gravity;
+    // Add velocity damping for smoother flight
+    state.vehicle.velocity *= 0.98;
     state.vehicle.y += state.vehicle.velocity;
+
+    // Clamp velocity to prevent excessive speed
+    state.vehicle.velocity = Math.max(-6, Math.min(6, state.vehicle.velocity));
 
     // Update buildings
     for (let i = state.buildings.length - 1; i >= 0; i--) {
@@ -377,7 +447,8 @@ const FlappyTechGame = () => {
     // Add new buildings
     if (
       state.buildings.length === 0 ||
-      state.buildings[state.buildings.length - 1].x < canvas.width - 200
+      state.buildings[state.buildings.length - 1].x <
+        canvas.width - GAME_CONFIG.horizontalSpacing
     ) {
       state.buildings.push(createBuilding(canvas));
     }
@@ -505,7 +576,8 @@ const FlappyTechGame = () => {
           Flappy Tech Skills
         </h2>
         <p className="text-gray-300 text-lg">
-          Navigate through the cyberpunk city and collect technology skills!
+          Pilot through the cyberpunk city with smooth flight controls and
+          collect technology skills!
         </p>
       </div>
 
@@ -525,8 +597,8 @@ const FlappyTechGame = () => {
                 Ready to Play?
               </h3>
               <p className="text-gray-300 mb-6">
-                Guide the flying vehicle through buildings and collect tech
-                skills!
+                Pilot the flying vehicle through the cyberpunk city and collect
+                tech skills! Use gentle taps for smooth flying.
               </p>
               <div className="space-y-2 mb-6">
                 <div className="flex items-center justify-center space-x-2">
@@ -538,7 +610,7 @@ const FlappyTechGame = () => {
                     TAP
                   </kbd>
                 </div>
-                <p className="text-sm text-gray-400">to jump</p>
+                <p className="text-sm text-gray-400">to fly smoothly</p>
               </div>
               <button
                 onClick={jump}
@@ -607,13 +679,15 @@ const FlappyTechGame = () => {
       <div className="mt-6 p-4 bg-gray-900/50 rounded-lg border border-gray-700">
         <div className="text-center text-gray-300 text-sm">
           <p className="mb-2">
-            💡 <strong>Pro Tip:</strong> Collect technology icons to showcase
-            your skills mastery!
+            💡 <strong>Pro Tip:</strong> Use gentle, rhythmic taps for smooth
+            flight control and collect technology icons to showcase your skills
+            mastery!
           </p>
           <p>
             Works on desktop with{" "}
             <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">SPACE</kbd>{" "}
-            or mobile with <strong>TAP</strong> controls
+            or mobile with <strong>TAP</strong> - smooth flying controls for
+            precise navigation
           </p>
         </div>
       </div>

@@ -4,7 +4,6 @@ import {
   nodejs,
   mongodb,
   git,
-  startup,
   chess,
   touchvoid,
   proquest,
@@ -14,7 +13,6 @@ import {
   cplusplus,
   sqlicon,
   pharmasphere,
-  brainstation,
 } from "../../public/assets";
 
 export const navLinks = [
@@ -58,11 +56,11 @@ const technologies = [
     icon: cplusplus,
   },
   {
-    name: "Sql",
+    name: "SQL",
     icon: sqlicon,
   },
   {
-    name: "git",
+    name: "Git",
     icon: git,
   },
 ];
@@ -71,7 +69,6 @@ const experiences = [
   {
     title: "SQA Engineer I",
     company_name: "Brain Station 23",
-    icon: brainstation,
     iconBg: "#233E56",
     date: "February 2025 - Present",
     points: [
@@ -84,7 +81,6 @@ const experiences = [
   {
     title: "Trainee, Software & QA Automation Engineer",
     company_name: "Brain Station 23",
-    icon: brainstation,
     iconBg: "#233E56",
     date: "October 2024 - January 2025",
     points: [
@@ -97,7 +93,6 @@ const experiences = [
   {
     title: "Co-Founder & Engineer",
     company_name: "AI Data Labeling Startup",
-    icon: startup,
     iconBg: "#383E56",
     date: "July 2024 - October 2024",
     points: [
