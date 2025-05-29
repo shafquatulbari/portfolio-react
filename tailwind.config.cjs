@@ -25,8 +25,8 @@ module.exports = {
       backgroundImage: {
         "hero-pattern": "url('/src/assets/wallpaper.jpg')",
         "tech-pattern": "url('/src/assets/keyboard.jpg')",
-        "work-pattern": "url('/src/assets/cyber-2.jpg')",
-        "road-pattern": "url('/src/assets/neon-city.gif')",
+        "work-pattern": "url('/src/assets/spaceship.gif')",
+        "road-pattern": "url('/src/assets/roads .jpg')",
         "rain-pattern": "url('/src/assets/rain-city.jpg')",
         "universe-pattern": "url('/src/assets/purple-nebulae.gif')",
       },

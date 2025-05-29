@@ -29,81 +29,137 @@ const Navbar = () => {
     <nav
       className={`${
         styles.paddingX
-      } w-full flex items-center py-5 fixed top-0 z-20 transition-all duration-300 ${
+      } w-full flex items-center py-4 fixed top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black bg-opacity-100 shadow-lg"
-          : "bg-black bg-opacity-100"
+          ? "bg-gray-900/95 backdrop-blur-md shadow-lg shadow-cyan-400/20 border-b border-cyan-400/20"
+          : "bg-gray-900/80 backdrop-blur-sm border-b border-cyan-400/10"
       }`}
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
-        {/* Logo and Title */}
+        {/* Logo and Title with Cyberpunk Effects */}
         <Link
           to="/"
-          className="flex items-center gap-2"
+          className="flex items-center gap-3 group"
           onClick={() => {
             setActive("");
             window.scrollTo(0, 0);
           }}
         >
-          <img
-            src={logo}
-            alt="logo"
-            className="w-10 h-10 object-contain filter drop-shadow-lg"
-          />
-          <p className="text-white text-[20px] font-extrabold cursor-pointer flex transition-all duration-300">
-            <span className="text-cyan-300">Shafquat </span>
-            <span className="hidden sm:inline-block text-purple-400">
-              {`<--->`}
-              SWE | SDET
-            </span>
-          </p>
+          {/* Logo with glow effect */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-cyan-400/30 rounded-full blur-md group-hover:bg-cyan-400/50 transition-all duration-300"></div>
+            <img
+              src={logo}
+              alt="logo"
+              className="w-10 h-10 object-contain relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+
+          {/* Terminal-style title */}
+          <div className="relative">
+            <p className="text-white text-[20px] font-extrabold cursor-pointer flex font-mono group-hover:text-cyan-300 transition-all duration-300">
+              <span className="text-cyan-400">&gt; </span>
+              <span className="text-white">Shafquat</span>
+              <span className="hidden sm:inline-block text-gray-400 ml-2">
+                <span className="text-purple-400">[</span>
+                <span className="text-cyan-400">SWE</span>
+                <span className="text-gray-400"> | </span>
+                <span className="text-pink-400">SDET</span>
+                <span className="text-purple-400">]</span>
+              </span>
+            </p>
+
+            {/* Typing cursor */}
+            <span className="inline-block w-2 h-5 bg-cyan-400 ml-1 animate-pulse"></span>
+          </div>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation with Cyberpunk Style */}
         <ul className="list-none hidden sm:flex flex-row gap-8">
-          {navLinks.map((nav) => (
+          {navLinks.map((nav, index) => (
             <li
               key={nav.id}
-              className={`${
-                active === nav.title
-                  ? "text-cyan-300 glow-text"
-                  : "text-gray-200"
-              } hover:text-cyan-300 hover:glow-text text-[18px] font-semibold cursor-pointer transition duration-300`}
+              className="relative group"
               onClick={() => setActive(nav.title)}
             >
-              <a href={`#${nav.id}`}>{nav.title}</a>
+              <a
+                href={`#${nav.id}`}
+                className={`${
+                  active === nav.title ? "text-cyan-400" : "text-gray-300"
+                } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
+              >
+                <span className="text-cyan-400">
+                  {String(index + 1).padStart(2, "0")}.
+                </span>{" "}
+                {nav.title}
+              </a>
+
+              {/* Hover effect */}
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300"></div>
+
+              {/* Active indicator */}
+              {active === nav.title && (
+                <div className="absolute -left-3 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-full"></div>
+              )}
             </li>
           ))}
         </ul>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation with Enhanced Design */}
         <div className="sm:hidden flex flex-1 justify-end items-center">
-          <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain filter drop-shadow-lg"
-            onClick={() => setToggle(!toggle)}
-          />
+          <div className="relative">
+            <div className="absolute inset-0 bg-cyan-400/20 rounded-lg blur-sm group-hover:bg-cyan-400/30 transition-all duration-300"></div>
+            <img
+              src={toggle ? close : menu}
+              alt="menu"
+              className="w-[28px] h-[28px] object-contain relative z-10 filter drop-shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300"
+              onClick={() => setToggle(!toggle)}
+            />
+          </div>
+
+          {/* Mobile Menu */}
           <div
             className={`${
               !toggle ? "hidden" : "flex"
-            } p-6 bg-black bg-opacity-90 absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-lg shadow-xl`}
+            } p-6 bg-gray-900/95 backdrop-blur-md absolute top-20 right-0 mx-4 my-2 min-w-[200px] rounded-xl shadow-2xl border border-cyan-400/20 transition-all duration-300`}
           >
-            <ul className="list-none flex flex-col gap-4">
-              {navLinks.map((nav) => (
+            {/* Terminal header */}
+            <div className="absolute top-0 left-0 right-0 bg-gray-800/80 px-4 py-2 rounded-t-xl border-b border-gray-700">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <span className="ml-2 text-cyan-400 text-xs font-mono">
+                  nav_menu.exe
+                </span>
+              </div>
+            </div>
+
+            <ul className="list-none flex flex-col gap-4 mt-8 w-full">
+              {navLinks.map((nav, index) => (
                 <li
                   key={nav.id}
-                  className={`${
-                    active === nav.title
-                      ? "text-cyan-300 glow-text"
-                      : "text-gray-200"
-                  } font-medium text-[16px] cursor-pointer hover:text-cyan-300 hover:glow-text transition duration-300`}
+                  className="relative group"
                   onClick={() => {
                     setToggle(!toggle);
                     setActive(nav.title);
                   }}
                 >
-                  <a href={`#${nav.id}`}>{nav.title}</a>
+                  <a
+                    href={`#${nav.id}`}
+                    className={`${
+                      active === nav.title ? "text-cyan-400" : "text-gray-300"
+                    } font-mono text-[14px] cursor-pointer hover:text-cyan-400 transition-all duration-300 flex items-center gap-2`}
+                  >
+                    <span className="text-cyan-400">
+                      {String(index + 1).padStart(2, "0")}.
+                    </span>
+                    <span className="text-green-400">&gt;</span>
+                    {nav.title}
+                  </a>
+
+                  {/* Mobile hover effect */}
+                  <div className="absolute left-0 top-0 w-1 h-full bg-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
                 </li>
               ))}
             </ul>
