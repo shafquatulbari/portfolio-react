@@ -5,155 +5,151 @@ import emailjs from "@emailjs/browser";
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
 import { slideIn, fadeIn, textVariant } from "../utils/motion";
+import { StarsCanvas } from "./canvas";
 
-// Enhanced Galaxy Background Component with Particle System
+// Galaxy Background Component with moving stars and nebula effects
 const GalaxyBackground = () => {
   const [stars, setStars] = useState([]);
-  const [particles, setParticles] = useState([]);
+  const [nebulaClouds, setNebulaClouds] = useState([]);
+  const [shootingStars, setShootingStars] = useState([]);
 
   useEffect(() => {
+    // Generate random stars
     const generateStars = () => {
       const newStars = [];
-      for (let i = 0; i < 150; i++) {
+      for (let i = 0; i < 200; i++) {
         newStars.push({
           id: i,
           x: Math.random() * 100,
           y: Math.random() * 100,
           size: Math.random() * 3 + 1,
           opacity: Math.random() * 0.8 + 0.2,
-          animationDelay: Math.random() * 3,
-          twinkleSpeed: Math.random() * 2 + 1,
+          animationDelay: Math.random() * 5,
+          duration: Math.random() * 4 + 2,
+          twinkleSpeed: Math.random() * 3 + 1,
         });
       }
       setStars(newStars);
     };
 
-    const generateParticles = () => {
-      const newParticles = [];
-      for (let i = 0; i < 50; i++) {
-        newParticles.push({
+    // Generate nebula clouds
+    const generateNebulaClouds = () => {
+      const newClouds = [];
+      for (let i = 0; i < 8; i++) {
+        newClouds.push({
           id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 2 + 1,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
-          color: ["#06b6d4", "#8b5cf6", "#ec4899"][
-            Math.floor(Math.random() * 3)
-          ],
+          x: Math.random() * 120 - 10,
+          y: Math.random() * 120 - 10,
+          size: Math.random() * 300 + 100,
+          color:
+            i % 2 === 0 ? "rgba(147, 51, 234, 0.1)" : "rgba(236, 72, 153, 0.1)",
+          animationDelay: Math.random() * 10,
+          duration: Math.random() * 20 + 10,
         });
       }
-      setParticles(newParticles);
+      setNebulaClouds(newClouds);
+    };
+
+    // Generate shooting stars
+    const generateShootingStars = () => {
+      const newShootingStars = [];
+      for (let i = 0; i < 3; i++) {
+        newShootingStars.push({
+          id: i,
+          delay: Math.random() * 10 + 5,
+        });
+      }
+      setShootingStars(newShootingStars);
     };
 
     generateStars();
-    generateParticles();
-
-    // Animate particles
-    const animateParticles = () => {
-      setParticles((prev) =>
-        prev.map((particle) => ({
-          ...particle,
-          x: (particle.x + particle.speedX + 100) % 100,
-          y: (particle.y + particle.speedY + 100) % 100,
-        }))
-      );
-    };
-
-    const interval = setInterval(animateParticles, 100);
-    return () => clearInterval(interval);
+    generateNebulaClouds();
+    generateShootingStars();
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Galaxy gradient background with animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-blue-900/30 to-pink-900/40 animate-pulse" />
+    <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900/40 to-pink-900/20">
+      {/* StarsCanvas for 3D moving stars */}
+      <StarsCanvas />
 
-      {/* Animated nebula clouds */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl nebula-cloud" />
-        <div
-          className="absolute bottom-1/3 right-1/4 w-48 h-48 bg-gradient-to-r from-cyan-500/15 to-blue-500/15 rounded-full blur-3xl nebula-cloud"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute top-1/2 right-1/3 w-32 h-32 bg-gradient-to-r from-green-500/15 to-teal-500/15 rounded-full blur-2xl nebula-cloud"
-          style={{ animationDelay: "2s" }}
-        />
-        <div
-          className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-full blur-3xl nebula-cloud"
-          style={{ animationDelay: "3s" }}
-        />
-      </div>
-
-      {/* Enhanced animated stars */}
+      {/* Additional 2D star field for density */}
       {stars.map((star) => (
         <div
           key={star.id}
-          className="absolute rounded-full galaxy-star"
+          className="absolute rounded-full"
           style={{
             left: `${star.x}%`,
             top: `${star.y}%`,
             width: `${star.size}px`,
             height: `${star.size}px`,
-            backgroundColor: "#ffffff",
+            backgroundColor: star.size > 2.5 ? "#f8fafc" : "#e2e8f0",
             opacity: star.opacity,
+            animation: `twinkle ${star.twinkleSpeed}s ease-in-out infinite alternate`,
             animationDelay: `${star.animationDelay}s`,
-            animationDuration: `${star.twinkleSpeed}s`,
-            boxShadow: `0 0 ${star.size * 2}px rgba(255, 255, 255, 0.5)`,
+            boxShadow:
+              star.size > 2 ? "0 0 6px rgba(248, 250, 252, 0.8)" : "none",
           }}
         />
       ))}
 
-      {/* Floating particles */}
-      {particles.map((particle) => (
+      {/* Nebula clouds */}
+      {nebulaClouds.map((cloud) => (
         <div
-          key={particle.id}
-          className="absolute rounded-full transition-all duration-100"
+          key={cloud.id}
+          className="absolute rounded-full blur-xl"
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            backgroundColor: particle.color,
-            opacity: 0.6,
-            boxShadow: `0 0 ${particle.size * 3}px ${particle.color}`,
+            left: `${cloud.x}%`,
+            top: `${cloud.y}%`,
+            width: `${cloud.size}px`,
+            height: `${cloud.size}px`,
+            background: `radial-gradient(circle, ${cloud.color} 0%, transparent 70%)`,
+            animation: `float ${cloud.duration}s ease-in-out infinite alternate`,
+            animationDelay: `${cloud.animationDelay}s`,
           }}
         />
       ))}
 
-      {/* Shooting stars with multiple directions */}
-      <div
-        className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-70 shooting-star"
-        style={{ animationDuration: "3s", animationDelay: "0s" }}
-      />
-      <div
-        className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-70 shooting-star"
-        style={{ animationDuration: "4s", animationDelay: "1.5s" }}
-      />
-      <div
-        className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent opacity-70 shooting-star"
-        style={{ animationDuration: "5s", animationDelay: "3s" }}
-      />
-
-      {/* Cosmic dust effect */}
-      <div className="absolute inset-0 opacity-30">
+      {/* Shooting stars */}
+      {shootingStars.map((shootingStar) => (
         <div
-          className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent animate-spin"
-          style={{ animationDuration: "20s" }}
+          key={shootingStar.id}
+          className="absolute w-1 h-1 bg-white rounded-full opacity-0"
+          style={{
+            top: "20%",
+            left: "-5%",
+            animation: `shootingStar 3s linear infinite`,
+            animationDelay: `${shootingStar.delay}s`,
+          }}
         />
+      ))}
+
+      {/* Cosmic dust particles */}
+      <div className="absolute inset-0">
+        {[...Array(50)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-px h-px bg-purple-300/30 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `drift ${Math.random() * 20 + 10}s linear infinite`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
       </div>
 
-      {/* Galaxy spiral arms */}
+      {/* Galaxy spiral arms effect */}
       <div className="absolute inset-0 opacity-20">
-        <div
-          className="absolute top-1/2 left-1/2 w-96 h-96 border border-cyan-400/20 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-spin"
-          style={{ animationDuration: "30s" }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-80 h-80 border border-purple-400/20 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-spin"
-          style={{ animationDuration: "25s", animationDirection: "reverse" }}
-        />
+        <div className="absolute top-1/2 left-1/2 w-full h-full transform -translate-x-1/2 -translate-y-1/2">
+          <div
+            className="w-full h-full rounded-full"
+            style={{
+              background: `conic-gradient(from 0deg, transparent 0deg, rgba(147, 51, 234, 0.1) 60deg, transparent 120deg, rgba(236, 72, 153, 0.1) 180deg, transparent 240deg, rgba(147, 51, 234, 0.1) 300deg, transparent 360deg)`,
+              animation: "rotate 60s linear infinite",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -308,23 +304,34 @@ const Contact = () => {
 
   return (
     <div className="relative min-h-screen py-16">
+      {/* Galaxy Background for entire Contact section */}
+      <GalaxyBackground />
+
       {/* Section Header */}
-      <motion.div variants={textVariant()} className="text-center mb-16">
-        <p className={`${styles.sectionSubText} text-center`}>
-          Ready to collaborate?
+      <motion.div
+        variants={textVariant()}
+        className="text-center mb-16 relative z-10"
+      >
+        <div className="flex justify-center items-center gap-3 mb-4">
+          <div className="w-8 h-8 border-2 border-cyan-400 rounded-full flex items-center justify-center">
+            <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
+          </div>
+          <h2
+            className={`${styles.sectionHeadText} text-center bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent`}
+          >
+            System Status: Online
+          </h2>
+        </div>
+        <p className={`${styles.sectionSubText} text-center font-mono`}>
+          Ready for new connections and collaborations
         </p>
-        <h2
-          className={`${styles.sectionHeadText} text-center bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent`}
-        >
-          Let's Connect
-        </h2>
       </motion.div>
 
-      <div className="xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden relative">
+      <div className="xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden relative z-10">
         {/* Contact Form */}
         <motion.div
           variants={slideIn("left", "tween", 0.2, 1)}
-          className="flex-[0.6] relative z-10"
+          className="flex-[0.6] relative z-20"
         >
           {/* Form Container with Cyberpunk Border */}
           <div className="relative">
@@ -520,10 +527,10 @@ const Contact = () => {
           </div>
         </motion.div>
 
-        {/* Galaxy Background Section */}
+        {/* Background Section */}
         <motion.div
           variants={slideIn("right", "tween", 0.2, 1)}
-          className="xl:flex-1 xl:h-auto md:h-[600px] h-[400px] relative"
+          className="xl:flex-1 xl:h-auto md:h-[600px] h-[400px] relative z-20"
         >
           <div className="relative w-full h-full rounded-2xl overflow-hidden border border-purple-400/20">
             <GalaxyBackground />

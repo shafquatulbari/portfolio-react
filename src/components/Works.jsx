@@ -35,12 +35,12 @@ const ProjectCard = ({
       >
         {/* Card Container with Cyberpunk Border */}
         <div className="relative">
-          {/* Animated glow border */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
-          <div className="absolute inset-[2px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl" />
+          {/* Animated glow border with purple theme */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-violet-500 to-fuchsia-500 rounded-2xl blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+          <div className="absolute inset-[2px] bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 rounded-2xl" />
 
           {/* Main Card Content */}
-          <div className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 overflow-hidden">
+          <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/30 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-purple-400/20 hover:border-purple-400/40 transition-all duration-300 overflow-hidden">
             {/* Circuit pattern background */}
             <div className="absolute inset-0 opacity-5">
               <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -54,11 +54,11 @@ const ProjectCard = ({
                 >
                   <path
                     d="M10,0 L10,10 L20,10"
-                    stroke="#38bdf8"
+                    stroke="#a855f7"
                     strokeWidth="0.5"
                     fill="none"
                   />
-                  <circle cx="10" cy="10" r="1" fill="#38bdf8" />
+                  <circle cx="10" cy="10" r="1" fill="#a855f7" />
                 </pattern>
                 <rect
                   width="100%"
@@ -80,7 +80,7 @@ const ProjectCard = ({
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
 
               {/* Holographic effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
 
               {/* GitHub link */}
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -88,7 +88,7 @@ const ProjectCard = ({
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => window.open(source_code_link, "_blank")}
-                  className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex justify-center items-center cursor-pointer border border-cyan-400/30 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/30 transition-all duration-300"
+                  className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex justify-center items-center cursor-pointer border border-purple-400/30 hover:border-purple-400 hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300"
                 >
                   <img
                     src={github}
@@ -112,8 +112,8 @@ const ProjectCard = ({
             {/* Project Content */}
             <div className="p-6 relative z-10">
               {/* Project Title */}
-              <h3 className="text-white text-xl font-bold mb-3 group-hover:text-cyan-300 transition-colors duration-300 font-mono">
-                <span className="text-cyan-400">&gt;</span> {name}
+              <h3 className="text-white text-xl font-bold mb-3 group-hover:text-purple-300 transition-colors duration-300 font-mono">
+                <span className="text-purple-400">&gt;</span> {name}
               </h3>
 
               {/* Project Description */}
@@ -132,22 +132,6 @@ const ProjectCard = ({
                   </span>
                 ))}
               </div>
-
-              {/* Performance Metrics */}
-              <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-700/50">
-                <div className="text-center">
-                  <div className="text-cyan-400 text-xs font-mono">PERF</div>
-                  <div className="text-white text-sm font-bold">95%</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-purple-400 text-xs font-mono">SEC</div>
-                  <div className="text-white text-sm font-bold">A+</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-pink-400 text-xs font-mono">UX</div>
-                  <div className="text-white text-sm font-bold">★★★★★</div>
-                </div>
-              </div>
             </div>
 
             {/* Hover particles */}
@@ -156,7 +140,7 @@ const ProjectCard = ({
                 {[...Array(6)].map((_, i) => (
                   <div
                     key={i}
-                    className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                    className="absolute w-1 h-1 bg-purple-400 rounded-full animate-pulse"
                     style={{
                       left: `${Math.random() * 100}%`,
                       top: `${Math.random() * 100}%`,
@@ -185,8 +169,8 @@ const Works = () => {
         {/* Enhanced title with terminal styling */}
         <div className="relative inline-block">
           {/* Glowing border effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-sm opacity-30 animate-pulse" />
-          <div className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20 px-8 py-6">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-violet-500 to-fuchsia-500 rounded-2xl blur-sm opacity-30 animate-pulse" />
+          <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/30 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-purple-400/20 px-8 py-6">
             {/* Terminal header */}
             <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-700/50">
               <div className="flex gap-2">
@@ -194,19 +178,19 @@ const Works = () => {
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
               </div>
-              <div className="ml-4 text-cyan-400 font-mono text-sm">
+              <div className="ml-4 text-purple-400 font-mono text-sm">
                 projects_portfolio.exe
               </div>
             </div>
 
             {/* Terminal command */}
             <div className="mb-4 font-mono text-sm">
-              <div className="text-cyan-400">
+              <div className="text-purple-400">
                 <span className="text-green-400">shafquat@portfolio</span>
                 <span className="text-white">:</span>
                 <span className="text-blue-400">~/projects</span>
                 <span className="text-white">$ </span>
-                <span className="text-purple-400">ls -la --showcase</span>
+                <span className="text-violet-400">ls -la --showcase</span>
               </div>
               <div className="text-gray-300 mt-1">
                 &gt; Loading project files...
@@ -215,7 +199,7 @@ const Works = () => {
             </div>
 
             <h2
-              className={`${styles.sectionHeadText} text-center bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent font-mono`}
+              className={`${styles.sectionHeadText} text-center bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent font-mono`}
             >
               &lt;PROJECTS /&gt;
             </h2>
@@ -234,10 +218,14 @@ const Works = () => {
             {
               label: "Total Projects",
               value: projects.length,
-              color: "text-cyan-400",
+              color: "text-purple-400",
             },
-            { label: "Technologies", value: "15+", color: "text-purple-400" },
-            { label: "Lines of Code", value: "50K+", color: "text-pink-400" },
+            { label: "Technologies", value: "15+", color: "text-violet-400" },
+            {
+              label: "Lines of Code",
+              value: "50K+",
+              color: "text-fuchsia-400",
+            },
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className={`text-2xl font-bold font-mono ${stat.color}`}>
@@ -249,11 +237,36 @@ const Works = () => {
         </motion.div>
       </motion.div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
-        ))}
+      {/* Projects Sliding Container */}
+      <div className="relative">
+        {/* Gradient overlays for visual effect */}
+        <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-gray-900 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-gray-900 to-transparent z-10 pointer-events-none"></div>
+
+        {/* Scrollable container */}
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
+          <div
+            className="flex gap-8 pb-4 px-8"
+            style={{ width: `${projects.length * 400}px` }}
+          >
+            {projects.map((project, index) => (
+              <div key={`project-${index}`} className="flex-shrink-0 w-80">
+                <ProjectCard index={index} {...project} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="flex justify-center mt-6">
+          <div className="flex items-center gap-2 bg-gray-900/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-400/20">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+            <span className="text-purple-400 text-xs font-mono">
+              SCROLL_HORIZONTAL
+            </span>
+            <div className="text-purple-400 text-xs">→</div>
+          </div>
+        </div>
       </div>
 
       {/* View More Section */}
@@ -264,24 +277,24 @@ const Works = () => {
         transition={{ delay: 0.5 }}
         className="text-center mt-16"
       >
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20 inline-block">
+        <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-400/20 inline-block">
           <p className="text-gray-300 mb-4 font-mono">
             &gt; More projects available on GitHub
           </p>
           <motion.button
             whileHover={{
               scale: 1.05,
-              boxShadow: "0 0 20px rgba(56, 189, 248, 0.3)",
+              boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
             }}
             whileTap={{ scale: 0.95 }}
             onClick={() =>
               window.open("https://github.com/shafquatulbari", "_blank")
             }
-            className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-6 py-3 rounded-lg font-mono hover:from-cyan-400 hover:to-purple-500 transition-all duration-300 border border-cyan-400/30"
+            className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-6 py-3 rounded-lg font-mono hover:from-purple-400 hover:to-violet-500 transition-all duration-300 border border-purple-400/30"
           >
             <span className="flex items-center gap-2">
               <span>VIEW_ALL_PROJECTS</span>
-              <span className="text-cyan-300">&gt;</span>
+              <span className="text-purple-300">&gt;</span>
             </span>
           </motion.button>
         </div>

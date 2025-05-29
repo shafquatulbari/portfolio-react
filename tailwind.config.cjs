@@ -26,11 +26,43 @@ module.exports = {
         "hero-pattern": "url('/src/assets/wallpaper.jpg')",
         "tech-pattern": "url('/src/assets/keyboard.jpg')",
         "work-pattern": "url('/src/assets/spaceship.gif')",
-        "road-pattern": "url('/src/assets/roads .jpg')",
-        "rain-pattern": "url('/src/assets/rain-city.jpg')",
-        "universe-pattern": "url('/src/assets/purple-nebulae.gif')",
+        "neon-pattern": "url('/src/assets/neon-city.png')",
+        "rain-pattern": "url('/src/assets/cyberpunk.gif')",
+      },
+      scrollSnapType: {
+        "y-mandatory": "y mandatory",
+        "x-mandatory": "x mandatory",
+      },
+      scrollSnapAlign: {
+        start: "start",
+        center: "center",
+        end: "end",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".scroll-snap-y-mandatory": {
+          "scroll-snap-type": "y mandatory",
+        },
+        ".scroll-snap-x-mandatory": {
+          "scroll-snap-type": "x mandatory",
+        },
+        ".scroll-snap-start": {
+          "scroll-snap-align": "start",
+        },
+        ".scroll-snap-center": {
+          "scroll-snap-align": "center",
+        },
+        ".scroll-snap-end": {
+          "scroll-snap-align": "end",
+        },
+        ".scroll-snap-stop-always": {
+          "scroll-snap-stop": "always",
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
