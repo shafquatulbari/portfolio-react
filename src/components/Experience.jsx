@@ -98,27 +98,27 @@ const TerminalExperience = ({ experience, index }) => {
         animationFillMode: "forwards",
       }}
     >
-      <div className="experience-terminal bg-gray-900 border-2 border-cyan-400 rounded-lg p-6 font-mono text-sm leading-relaxed shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-cyan-300 h-full">
+      <div className="experience-terminal bg-gray-900 border-2 border-cyan-400 rounded-lg p-3 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed shadow-xl hover:shadow-2xl transition-all duration-300 hover:border-cyan-300 h-full">
         {/* Terminal header */}
-        <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-700">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 pb-2 border-b border-gray-700 gap-2 sm:gap-0">
           <div className="flex items-center space-x-2">
             <div className="flex space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
             </div>
-            <div className="ml-4 text-gray-400 text-xs">
+            <div className="ml-2 sm:ml-4 text-gray-400 text-xs break-all">
               {experience.company_name.toLowerCase().replace(/\s+/g, "-")}
               -terminal
             </div>
           </div>
-          <div className="text-xs text-gray-500 font-mono">
+          <div className="text-xs text-gray-500 font-mono text-center sm:text-right">
             {experience.date}
           </div>
         </div>
 
         {/* Terminal content */}
-        <div className="min-h-[450px] max-h-[450px] overflow-y-auto">
+        <div className="min-h-[350px] sm:min-h-[450px] max-h-[350px] sm:max-h-[450px] overflow-y-auto">
           <pre className="whitespace-pre-wrap text-green-400">
             {displayedContent.split("\n").map((line, lineIndex) => (
               <div
@@ -152,6 +152,10 @@ const Experience = () => {
   const [bootSequence, setBootSequence] = useState([]);
   const [bootComplete, setBootComplete] = useState(false);
   const [currentExperienceIndex, setCurrentExperienceIndex] = useState(0);
+  
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
   const bootMessages = [
     "Initializing career database...",
@@ -168,6 +172,9 @@ const Experience = () => {
     "",
   ];
 
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
   const nextExperience = () => {
     setCurrentExperienceIndex((prev) =>
       prev < experiences.length - 1 ? prev + 1 : 0
@@ -182,6 +189,30 @@ const Experience = () => {
 
   const goToExperience = (index) => {
     setCurrentExperienceIndex(index);
+  };
+
+  // Touch handlers for swipe functionality
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextExperience();
+    } else if (isRightSwipe) {
+      prevExperience();
+    }
   };
 
   useEffect(() => {
@@ -225,18 +256,18 @@ const Experience = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="text-center mb-12">
-        <div className="inline-block bg-black/80 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-6 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300">
-          <div className="mb-3">
-            <span className="text-cyan-400 font-mono text-sm">
+      <div className="text-center mb-8 sm:mb-12 px-3 sm:px-0">
+        <div className="inline-block bg-black/80 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-4 sm:p-6 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 w-full max-w-2xl">
+          <div className="mb-2 sm:mb-3">
+            <span className="text-cyan-400 font-mono text-xs sm:text-sm block sm:inline">
               user@portfolio:~/experience$
             </span>
-            <span className="text-white font-mono text-sm animate-pulse">
+            <span className="text-white font-mono text-xs sm:text-sm animate-pulse block sm:inline sm:ml-1">
               cat work_history.log
             </span>
           </div>
           <p
-            className={`${styles.sectionSubText} text-center mb-2`}
+            className={`${styles.sectionSubText} text-center mb-1 sm:mb-2 text-xs sm:text-base`}
             style={{
               color: "#00ffff",
               textShadow: "0 0 10px rgba(0, 255, 255, 0.6)",
@@ -249,7 +280,7 @@ const Experience = () => {
           <h2
             className="text-white font-black text-center"
             style={{
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              fontSize: "clamp(1.5rem, 5vw, 3.5rem)",
               background: "linear-gradient(90deg, #00ffff, #aa00ff, #00ffff)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -263,7 +294,7 @@ const Experience = () => {
           >
             Work_Experience.log
           </h2>
-          <div className="mt-3 text-xs text-gray-400 font-mono">
+          <div className="mt-2 sm:mt-3 text-xs text-gray-400 font-mono break-all">
             Last modified: {new Date().toLocaleString()} | Size:{" "}
             {experiences.length} entries
           </div>
@@ -272,23 +303,25 @@ const Experience = () => {
 
       {/* Boot Sequence */}
       {!bootComplete && (
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-black border-2 border-green-500 rounded-lg p-6 font-mono text-sm">
-            <div className="flex items-center mb-4 pb-2 border-b border-gray-700">
+        <div className="max-w-4xl mx-auto mb-8 px-3 sm:px-0">
+          <div className="bg-black border-2 border-green-500 rounded-lg p-3 sm:p-6 font-mono text-xs sm:text-sm">
+            <div className="flex items-center mb-3 sm:mb-4 pb-2 border-b border-gray-700">
               <div className="flex space-x-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full animate-pulse"></div>
                 <div
-                  className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"
+                  className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full animate-pulse"
                   style={{ animationDelay: "0.2s" }}
                 ></div>
                 <div
-                  className="w-3 h-3 bg-green-500 rounded-full animate-pulse"
+                  className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"
                   style={{ animationDelay: "0.4s" }}
                 ></div>
               </div>
-              <div className="ml-4 text-green-400 text-xs">SYSTEM BOOT</div>
+              <div className="ml-2 sm:ml-4 text-green-400 text-xs">
+                SYSTEM BOOT
+              </div>
             </div>
-            <div className="min-h-[200px]">
+            <div className="min-h-[150px] sm:min-h-[200px]">
               {bootSequence.map((message, index) => (
                 <div key={index} className="mb-1">
                   {message && message.startsWith("✓") ? (
@@ -314,29 +347,30 @@ const Experience = () => {
       {showTerminals && (
         <div className="max-w-4xl mx-auto animate-fade-in-up">
           {/* Navigation Header */}
-          <div className="mb-6 bg-gray-900 border-2 border-cyan-400 rounded-lg p-4 font-mono">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <span className="text-cyan-400 text-sm">
+          <div className="mb-6 bg-gray-900 border-2 border-cyan-400 rounded-lg p-3 sm:p-4 font-mono">
+            {/* Terminal Command Line - responsive */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-0 gap-2 sm:gap-0">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-1 sm:gap-0">
+                <span className="text-cyan-400 text-xs sm:text-sm break-all">
                   user@portfolio:~/experience$ ls | head -1
                 </span>
-                <span className="text-yellow-400 font-bold">
+                <span className="text-yellow-400 font-bold text-sm">
                   {currentExperienceIndex + 1} of {experiences.length}
                 </span>
               </div>
 
-              {/* Navigation Controls */}
-              <div className="flex items-center space-x-2">
+              {/* Navigation Controls - responsive positioning */}
+              <div className="flex items-center justify-center sm:justify-end space-x-2 mt-2 sm:mt-0">
                 <button
                   onClick={prevExperience}
-                  className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-sm font-mono transition-colors duration-200 border border-purple-400 hover:border-purple-300"
+                  className="px-2 sm:px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs sm:text-sm font-mono transition-colors duration-200 border border-purple-400 hover:border-purple-300 flex-shrink-0"
                   title="Previous experience"
                 >
                   ← prev
                 </button>
                 <button
                   onClick={nextExperience}
-                  className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-sm font-mono transition-colors duration-200 border border-purple-400 hover:border-purple-300"
+                  className="px-2 sm:px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs sm:text-sm font-mono transition-colors duration-200 border border-purple-400 hover:border-purple-300 flex-shrink-0"
                   title="Next experience"
                 >
                   next →
@@ -362,7 +396,12 @@ const Experience = () => {
           </div>
 
           {/* Current Experience Terminal */}
-          <div className="min-h-[600px] max-h-[600px] overflow-hidden">
+          <div 
+            className="min-h-[450px] sm:min-h-[600px] max-h-[450px] sm:max-h-[600px] overflow-hidden touch-pan-y"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <TerminalExperience
               key={`terminal-experience-${currentExperienceIndex}`}
               experience={experiences[currentExperienceIndex]}
@@ -374,7 +413,7 @@ const Experience = () => {
           <div className="mt-4 text-center">
             <div className="inline-block bg-gray-900/80 border border-gray-600 rounded-lg px-4 py-2">
               <span className="text-gray-400 text-xs font-mono">
-                💡 Use ← → arrow keys or click buttons to navigate
+                💡 Use ← → arrow keys, swipe left/right, or click buttons to navigate
               </span>
             </div>
           </div>
@@ -444,17 +483,16 @@ const Experience = () => {
             <div className="mb-2 hover:bg-gray-800/20 px-2 py-1 rounded transition-colors">
               <span className="text-cyan-400">user@portfolio:~</span>
               <span className="text-white">
-                $ echo "Navigation: $(echo 'Use ← → keys or buttons above')"
+                $ echo "Navigation: $(echo 'Use ← → keys, swipe, or buttons above')"
               </span>
             </div>
             <div className="text-green-400 font-bold ml-2">
-              Navigation: Use ← → keys or buttons above 🚀
+              Navigation: Use ← → keys, swipe, or buttons above 🚀
             </div>
 
             <div className="mt-4 pt-3 border-t border-gray-700">
               <div className="text-purple-400 text-xs">
-                💡 Tip: Navigate through experiences using arrow keys or click
-                the navigation buttons
+                💡 Tip: Navigate through experiences using arrow keys, swipe left/right on mobile, or click the navigation buttons
               </div>
             </div>
           </div>

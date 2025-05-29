@@ -158,14 +158,14 @@ const ServiceMatrix = ({ service, index }) => {
         />
       </div>
 
-      {/* Main container */}
+      {/* Main container - responsive sizing */}
       <div
-        className={`relative bg-gray-900/80 backdrop-blur-sm rounded-xl border ${colorClasses.border} p-6 transition-all duration-500 hover:${colorClasses.glow} hover:shadow-lg group-hover:border-opacity-60`}
+        className={`relative bg-gray-900/80 backdrop-blur-sm rounded-xl border ${colorClasses.border} p-3 sm:p-6 transition-all duration-500 hover:${colorClasses.glow} hover:shadow-lg group-hover:border-opacity-60`}
       >
-        {/* Header with category and scan line */}
-        <div className="flex items-center justify-between mb-4">
+        {/* Header with category and scan line - responsive layout */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 gap-2 sm:gap-0">
           <div
-            className={`px-3 py-1 rounded-full ${colorClasses.bg} ${colorClasses.border} border`}
+            className={`px-2 sm:px-3 py-1 rounded-full ${colorClasses.bg} ${colorClasses.border} border self-start`}
           >
             <span
               className={`text-xs font-mono ${colorClasses.primary} tracking-wider`}
@@ -191,8 +191,8 @@ const ServiceMatrix = ({ service, index }) => {
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="mb-6">
+        {/* Progress bar - responsive spacing */}
+        <div className="mb-4 sm:mb-6">
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs font-mono text-gray-400">SYSTEM_SCAN</span>
             <span className={`text-xs font-mono ${colorClasses.primary}`}>
@@ -356,53 +356,59 @@ const About = () => {
 
       {/* Content with proper z-index */}
       <div className="relative z-10">
-        {/* Header Section with Futuristic Design */}
+        {/* Header Section with Futuristic Design - responsive */}
         <motion.div variants={textVariant()} className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
 
-          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/50 mb-12">
-            <p className="text-cyan-400 text-lg font-mono tracking-wider mb-4 relative">
-              <span className="text-purple-400">&gt;</span> SYSTEM_STATUS:{" "}
-              <span className="text-green-400">ONLINE</span>
-              <span className="ml-4 text-purple-400">&gt;</span> ROLE:{" "}
-              <span className="text-yellow-400">SOFTWARE_ENGINEER</span>
+          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50 mb-8 sm:mb-12">
+            <p className="text-cyan-400 text-sm sm:text-base lg:text-lg font-mono tracking-wider mb-3 sm:mb-4 relative flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <span>
+                <span className="text-purple-400">&gt;</span> SYSTEM_STATUS:{" "}
+                <span className="text-green-400">ONLINE</span>
+              </span>
+              <span>
+                <span className="text-purple-400">&gt;</span> ROLE:{" "}
+                <span className="text-yellow-400">SOFTWARE_ENGINEER</span>
+              </span>
             </p>
 
-            <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
               Neural_Profile
               <span className="text-cyan-400 animate-pulse">.</span>
             </h2>
           </div>
         </motion.div>
 
-        {/* Bio Section with Terminal Style */}
+        {/* Bio Section with Terminal Style - responsive */}
         <motion.div
           variants={fadeIn("", "", 0.1, 1)}
-          className="relative mb-12"
+          className="relative mb-8 sm:mb-12"
         >
-          <div className="bg-gray-900/90 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 font-mono text-sm relative overflow-hidden">
-            {/* Terminal header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-700/50">
-              <div className="flex items-center space-x-4">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div className="bg-gray-900/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden">
+            {/* Terminal header - responsive */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-700/50 gap-2 sm:gap-0">
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <div className="flex space-x-1 sm:space-x-2">
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <span className="text-gray-400">~/portfolio/about.exe</span>
+                <span className="text-gray-400 text-xs sm:text-sm">
+                  ~/portfolio/about.exe
+                </span>
               </div>
               <div className="text-cyan-400 text-xs">NEURAL_NETWORK_v2.0.1</div>
             </div>
 
-            {/* Terminal content */}
-            <div className="space-y-4">
-              <div className="text-cyan-400">
+            {/* Terminal content - responsive spacing */}
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-cyan-400 break-all sm:break-normal">
                 <span className="text-purple-400">user@portfolio</span>:
                 <span className="text-yellow-400">~$</span>{" "}
                 ./initialize_profile.sh
               </div>
 
-              <div className="text-green-400 mb-4">
+              <div className="text-green-400 mb-3 sm:mb-4">
                 [INFO] Loading neural profile...
                 <br />
                 [SUCCESS] Profile initialized successfully
@@ -416,7 +422,7 @@ const About = () => {
                 <span className="animate-pulse text-cyan-400">|</span>
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-6">
+              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
                 <span className="text-purple-400">&gt;</span>{" "}
                 <span className="text-cyan-400">EXPERTISE_DOMAINS:</span>
                 <br />
@@ -435,7 +441,7 @@ const About = () => {
                 Scalable applications
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-6">
+              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
                 <span className="text-purple-400">&gt;</span>{" "}
                 <span className="text-cyan-400">EDUCATION_MATRIX:</span>
                 <br />
