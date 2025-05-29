@@ -6,6 +6,7 @@ import { technologies } from "../constants";
 const FlappyTechGame = () => {
   const canvasRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const loadedImagesRef = useRef({});
   const gameStateRef = useRef({
     vehicle: { x: 80, y: 250, velocity: 0 },
     buildings: [],
@@ -13,7 +14,6 @@ const FlappyTechGame = () => {
     gameStarted: false,
     gameOver: false,
     collectedTechs: [],
-    currentTechIndex: 0,
   });
 
   const [gameState, setGameState] = useState({
@@ -23,6 +23,8 @@ const FlappyTechGame = () => {
     collectedTechs: [],
     showInstructions: true,
   });
+
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const GAME_CONFIG = {
     gravity: 0.2, // Reduced gravity for smoother flying
@@ -35,6 +37,37 @@ const FlappyTechGame = () => {
     horizontalSpacing: 300, // New property for horizontal spacing between buildings
   };
 
+  // Preload all tech images
+  useEffect(() => {
+    const loadImages = async () => {
+      const imagePromises = technologies.map((tech) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => {
+            loadedImagesRef.current[tech.name] = img;
+            resolve(img);
+          };
+          img.onerror = () => {
+            console.warn(`Failed to load image for ${tech.name}`);
+            resolve(null); // Resolve with null instead of rejecting
+          };
+          img.src = tech.icon;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error("Error loading images:", error);
+        setImagesLoaded(true); // Still set to true to allow game to start
+      }
+    };
+
+    loadImages();
+  }, []);
+
   const initializeGame = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -46,7 +79,6 @@ const FlappyTechGame = () => {
       gameStarted: false,
       gameOver: false,
       collectedTechs: [],
-      currentTechIndex: 0,
     };
 
     setGameState({
@@ -63,14 +95,31 @@ const FlappyTechGame = () => {
     const maxHeight = canvas.height - GAME_CONFIG.buildingGap - minHeight;
     const height = Math.random() * (maxHeight - minHeight) + minHeight;
 
+    // Get uncollected tech indices
+    const collectedTechIndices = gameStateRef.current.collectedTechs.map(
+      (tech) => technologies.findIndex((t) => t.name === tech.name)
+    );
+    const availableTechIndices = technologies
+      .map((_, index) => index)
+      .filter((index) => !collectedTechIndices.includes(index));
+
+    // If all techs are collected, don't show any more techs
+    const hasTech = availableTechIndices.length > 0 && Math.random() > 0.4;
+    const techIndex = hasTech
+      ? availableTechIndices[
+          Math.floor(Math.random() * availableTechIndices.length)
+        ]
+      : 0;
+
     return {
       x: canvas.width,
       topHeight: height,
       bottomY: height + GAME_CONFIG.buildingGap,
       bottomHeight: canvas.height - (height + GAME_CONFIG.buildingGap),
       passed: false,
-      hasTech: Math.random() > 0.4, // 60% chance to have tech
+      hasTech: hasTech,
       techCollected: false,
+      techIndex: techIndex,
     };
   };
 
@@ -282,36 +331,30 @@ const FlappyTechGame = () => {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Tech icon - use icon property for direct canvas loading
-    if (tech.icon) {
-      const img = new Image();
-      img.crossOrigin = "anonymous"; // Handle CORS if needed
-      img.onload = () => {
-        // Draw the tech icon in the center of the ball
-        const iconSize = GAME_CONFIG.techSize * 0.6; // Icon is 60% of ball size
-        const iconX = techX + (GAME_CONFIG.techSize - iconSize) / 2;
-        const iconY = techY + (GAME_CONFIG.techSize - iconSize) / 2;
+    // Draw tech icon if loaded
+    const loadedImage = loadedImagesRef.current[tech.name];
+    if (loadedImage) {
+      const iconSize = GAME_CONFIG.techSize * 0.6; // Icon is 60% of ball size
+      const iconX = techX + (GAME_CONFIG.techSize - iconSize) / 2;
+      const iconY = techY + (GAME_CONFIG.techSize - iconSize) / 2;
 
-        ctx.save();
-        ctx.globalCompositeOperation = "multiply";
-        ctx.drawImage(img, iconX, iconY, iconSize, iconSize);
-        ctx.restore();
-      };
-      img.onerror = () => {
-        // Fallback to tech name if image fails to load
-        ctx.shadowBlur = 5;
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "10px monospace";
-        ctx.textAlign = "center";
-        ctx.fillText(
-          tech.name,
-          techX + GAME_CONFIG.techSize / 2,
-          techY + GAME_CONFIG.techSize / 2 + 3
-        );
-      };
-      img.src = tech.icon;
+      ctx.save();
+      // Create a circular clipping path for the icon
+      ctx.beginPath();
+      ctx.arc(
+        techX + GAME_CONFIG.techSize / 2,
+        techY + GAME_CONFIG.techSize / 2,
+        (GAME_CONFIG.techSize / 2) * 0.7, // Slightly smaller than the ball
+        0,
+        Math.PI * 2
+      );
+      ctx.clip();
+
+      // Draw the icon
+      ctx.drawImage(loadedImage, iconX, iconY, iconSize, iconSize);
+      ctx.restore();
     } else {
-      // Fallback to tech name if no icon
+      // Fallback to tech name if image not loaded
       ctx.shadowBlur = 5;
       ctx.fillStyle = "#ffffff";
       ctx.font = "10px monospace";
@@ -374,7 +417,7 @@ const FlappyTechGame = () => {
             building.techCollected = true;
             return {
               collision: false,
-              techCollected: gameStateRef.current.currentTechIndex,
+              techCollected: building.techIndex, // Use the building's specific tech index
             };
           }
         }
@@ -474,8 +517,7 @@ const FlappyTechGame = () => {
     if (result.techCollected !== undefined) {
       const tech = technologies[result.techCollected % technologies.length];
       state.collectedTechs.push(tech);
-      state.currentTechIndex =
-        (state.currentTechIndex + 1) % technologies.length;
+      // Remove currentTechIndex increment since each building has its own tech
       setGameState((prev) => ({
         ...prev,
         collectedTechs: [...state.collectedTechs],
@@ -483,13 +525,9 @@ const FlappyTechGame = () => {
     }
 
     // Draw everything
-    state.buildings.forEach((building, index) => {
+    state.buildings.forEach((building) => {
       drawBuilding(ctx, building);
-      drawTech(
-        ctx,
-        building,
-        (state.currentTechIndex + index) % technologies.length
-      );
+      drawTech(ctx, building, building.techIndex); // Use building's own tech index
     });
 
     drawVehicle(ctx, state.vehicle);
@@ -506,6 +544,11 @@ const FlappyTechGame = () => {
   const jump = useCallback(() => {
     const state = gameStateRef.current;
 
+    if (!imagesLoaded) {
+      // Don't start game until images are loaded
+      return;
+    }
+
     if (!state.gameStarted) {
       state.gameStarted = true;
       setGameState((prev) => ({
@@ -520,7 +563,7 @@ const FlappyTechGame = () => {
       // Restart game
       initializeGame();
     }
-  }, [gameLoop, initializeGame]);
+  }, [gameLoop, initializeGame, imagesLoaded]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -612,12 +655,18 @@ const FlappyTechGame = () => {
                 </div>
                 <p className="text-sm text-gray-400">to fly smoothly</p>
               </div>
-              <button
-                onClick={jump}
-                className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-lg hover:scale-105 transition-transform"
-              >
-                Start Game
-              </button>
+              {!imagesLoaded ? (
+                <div className="px-6 py-3 bg-gray-600 text-gray-300 font-bold rounded-lg">
+                  Loading tech icons...
+                </div>
+              ) : (
+                <button
+                  onClick={jump}
+                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-lg hover:scale-105 transition-transform"
+                >
+                  Start Game
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -633,8 +682,19 @@ const FlappyTechGame = () => {
                 Score: {gameState.score}
               </p>
               <p className="text-lg text-purple-400 mb-4">
-                Skills Collected: {gameState.collectedTechs.length}
+                Skills Collected: {gameState.collectedTechs.length}/
+                {technologies.length}
               </p>
+              {gameState.collectedTechs.length === technologies.length && (
+                <div className="mb-4 p-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-400/30 rounded-lg">
+                  <p className="text-green-400 font-bold text-lg">
+                    🎉 Perfect Score!
+                  </p>
+                  <p className="text-green-300 text-sm">
+                    All technologies mastered!
+                  </p>
+                </div>
+              )}
               {gameState.collectedTechs.length > 0 && (
                 <div className="mb-4">
                   <p className="text-sm text-gray-400 mb-2">
@@ -668,8 +728,13 @@ const FlappyTechGame = () => {
             <div className="text-white font-mono">
               <div>Score: {gameState.score}</div>
               <div className="text-sm text-purple-300">
-                Skills: {gameState.collectedTechs.length}
+                Skills: {gameState.collectedTechs.length}/{technologies.length}
               </div>
+              {gameState.collectedTechs.length === technologies.length && (
+                <div className="text-xs text-green-400 mt-1">
+                  ✨ All Mastered!
+                </div>
+              )}
             </div>
           </div>
         )}
