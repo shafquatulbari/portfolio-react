@@ -12,9 +12,6 @@ import python from "./tech/python.png";
 import cplusplus from "./tech/cplusplus.png";
 import sqlicon from "./tech/sql.png";
 
-import startup from "./company/startup.png";
-import brainstation from "./company/brainstation.png";
-
 import chess from "./works/chess.png";
 import touchvoid from "./works/touchvoid.png";
 import proquest from "./works/proquest.png";
@@ -32,7 +29,6 @@ export {
   mongodb,
   nodejs,
   reactjs,
-  startup,
   chess,
   touchvoid,
   proquest,
@@ -42,5 +38,4 @@ export {
   cplusplus,
   sqlicon,
   pharmasphere,
-  brainstation,
 };

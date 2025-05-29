@@ -4,7 +4,6 @@ import {
   nodejs,
   mongodb,
   git,
-  startup,
   chess,
   touchvoid,
   proquest,
@@ -14,7 +13,6 @@ import {
   cplusplus,
   sqlicon,
   pharmasphere,
-  brainstation,
 } from "../../public/assets";
 
 export const navLinks = [
@@ -58,11 +56,11 @@ const technologies = [
     icon: cplusplus,
   },
   {
-    name: "Sql",
+    name: "SQL",
     icon: sqlicon,
   },
   {
-    name: "git",
+    name: "Git",
     icon: git,
   },
 ];
@@ -71,7 +69,6 @@ const experiences = [
   {
     title: "SQA Engineer I",
     company_name: "Brain Station 23",
-    icon: brainstation,
     iconBg: "#233E56",
     date: "February 2025 - Present",
     points: [
@@ -84,7 +81,6 @@ const experiences = [
   {
     title: "Trainee, Software & QA Automation Engineer",
     company_name: "Brain Station 23",
-    icon: brainstation,
     iconBg: "#233E56",
     date: "October 2024 - January 2025",
     points: [
@@ -97,7 +93,6 @@ const experiences = [
   {
     title: "Co-Founder & Engineer",
     company_name: "AI Data Labeling Startup",
-    icon: startup,
     iconBg: "#383E56",
     date: "July 2024 - October 2024",
     points: [
@@ -106,33 +101,6 @@ const experiences = [
       "Developed a mobile-based audio labeling platform using React Native and Node.js, optimizing contractor workflows for scalable operations.",
       "Streamlined data processing pipelines to improve resource utilization and efficiency.",
     ],
-  },
-];
-
-const testimonials = [
-  {
-    testimonial:
-      "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
-    name: "Sara Lee",
-    designation: "CFO",
-    company: "Acme Co",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    testimonial:
-      "I've never met a web developer who truly cares about their clients' success like Rick does.",
-    name: "Chris Brown",
-    designation: "COO",
-    company: "DEF Corp",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    testimonial:
-      "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
-    name: "Lisa Wang",
-    designation: "CTO",
-    company: "456 Enterprises",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
   },
 ];
 
@@ -265,4 +233,4 @@ const projects = [
   },
 ];
 
-export { technologies, experiences, testimonials, projects };
+export { technologies, experiences, projects };
