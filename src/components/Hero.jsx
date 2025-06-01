@@ -156,7 +156,7 @@ const Hero = () => {
 
       {/* Text content container - foreground layer */}
       <div
-        className={`absolute inset-0 top-[80px] sm:top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-col sm:flex-row items-start gap-3 sm:gap-5 z-30`}
+        className={`absolute inset-0 top-[80px] sm:top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-col sm:flex-row items-start gap-3 sm:gap-5 z-30 pointer-events-none`}
       >
         {/* Spacer to align with terminal layout */}
         <div className="flex flex-row sm:flex-col justify-start sm:justify-center items-center mt-2 sm:mt-5 w-full sm:w-auto opacity-0 pointer-events-none">
@@ -176,6 +176,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
+            className="pointer-events-auto"
           >
             <h1 className="text-white relative mb-2 sm:mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
               <span className="text-cyan-400 font-mono">&gt; </span>
@@ -250,8 +251,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Avatar container - middle layer */}
-      <div className="absolute inset-0 z-20 pointer-events-none">
+      {/* Avatar container - middle layer - hidden on mobile */}
+      <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block">
         <AvatarCanvas />
       </div>
 
@@ -260,7 +261,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-8 sm:bottom-10 w-full flex justify-center items-center z-10"
+        className="absolute bottom-8 sm:bottom-10 w-full flex justify-center items-center z-40"
       >
         <a href="#about">
           <div className="relative group">
