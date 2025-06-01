@@ -5,6 +5,8 @@ import emailjs from "@emailjs/browser";
 import { styles } from "../styles";
 import { SectionWrapper } from "../hoc";
 import { slideIn, fadeIn, textVariant } from "../utils/motion";
+import { trackButtonClick, trackEvent } from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 
 // Enhanced Transmission Animation Component
 const TransmissionEffect = ({ isActive }) => {

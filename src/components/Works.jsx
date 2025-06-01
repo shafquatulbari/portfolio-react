@@ -7,6 +7,12 @@ import { github } from "../../public/assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
+import {
+  trackButtonClick,
+  trackEvent,
+  trackExternalLink,
+} from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 
 const ProjectCard = ({
   index,
@@ -17,6 +23,17 @@ const ProjectCard = ({
   source_code_link,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleGitHubClick = () => {
+    trackExternalLink(source_code_link, `${name}_github`);
+    trackButtonClick("project_github", "works");
+    window.open(source_code_link, "_blank");
+  };
+
+  const handleProjectClick = () => {
+    trackEvent("engagement", "project_card_click", name);
+    setIsHovered(true);
+  };
 
   return (
     <motion.div
@@ -30,8 +47,12 @@ const ProjectCard = ({
         transitionSpeed={450}
         scale={1.02}
         className="w-full"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          trackEvent("engagement", "project_card_hover", name);
+        }}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={handleProjectClick}
       >
         {/* Card Container with Cyberpunk Border */}
         <div className="relative">
@@ -87,7 +108,7 @@ const ProjectCard = ({
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => window.open(source_code_link, "_blank")}
+                  onClick={handleGitHubClick}
                   className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex justify-center items-center cursor-pointer border border-purple-400/30 hover:border-purple-400 hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300"
                 >
                   <img
@@ -158,8 +179,10 @@ const ProjectCard = ({
 };
 
 const Works = () => {
+  const worksRef = useScrollTracking("works_section");
+
   return (
-    <div className="relative py-16">
+    <div ref={worksRef} className="relative py-16">
       {/* Section Header */}
       <motion.div variants={textVariant()} className="text-center mb-16">
         <p className={`${styles.sectionSubText} text-center mb-4`}>

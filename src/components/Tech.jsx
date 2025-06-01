@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
+import { trackEvent, trackButtonClick } from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 
 const FlappyTechGame = () => {
   const canvasRef = useRef(null);
@@ -15,6 +17,9 @@ const FlappyTechGame = () => {
     gameOver: false,
     collectedTechs: [],
   });
+
+  // Add scroll tracking for Tech section
+  const techRef = useScrollTracking("tech_section");
 
   const [gameState, setGameState] = useState({
     score: 0,
@@ -506,12 +511,18 @@ const FlappyTechGame = () => {
         gameOver: true,
         showInstructions: false,
       }));
+      // Track game over
+      trackEvent("game", "tech_game_over", "flappy_tech", state.score);
       return;
     }
 
     if (result.scored) {
       state.score += 1;
       setGameState((prev) => ({ ...prev, score: state.score }));
+      // Track score milestone
+      if (state.score % 5 === 0) {
+        trackEvent("game", "tech_score_milestone", "flappy_tech", state.score);
+      }
     }
 
     if (result.techCollected !== undefined) {
@@ -522,6 +533,19 @@ const FlappyTechGame = () => {
         ...prev,
         collectedTechs: [...state.collectedTechs],
       }));
+
+      // Track tech collection
+      trackEvent("game", "tech_collected", tech.name);
+
+      // Track if all techs collected
+      if (state.collectedTechs.length === technologies.length) {
+        trackEvent(
+          "game",
+          "tech_all_collected",
+          "flappy_tech",
+          technologies.length
+        );
+      }
     }
 
     // Draw everything
@@ -557,11 +581,20 @@ const FlappyTechGame = () => {
         showInstructions: false,
       }));
       gameLoop();
+      // Track game start
+      trackEvent("game", "tech_game_start", "flappy_tech");
     } else if (!state.gameOver) {
       state.vehicle.velocity = GAME_CONFIG.jumpStrength;
+      // Track jump action (limit to avoid spam)
+      if (Math.random() < 0.1) {
+        // Only track 10% of jumps to avoid spam
+        trackEvent("game", "tech_game_jump", "flappy_tech");
+      }
     } else {
       // Restart game
       initializeGame();
+      // Track game restart
+      trackEvent("game", "tech_game_restart", "flappy_tech");
     }
   }, [gameLoop, initializeGame, imagesLoaded]);
 
@@ -612,7 +645,7 @@ const FlappyTechGame = () => {
   }, [jump, initializeGame]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto" ref={techRef}>
       {/* Game Title */}
       <div className="text-center mb-6">
         <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">

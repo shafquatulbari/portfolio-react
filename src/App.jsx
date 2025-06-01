@@ -1,4 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
+import { useEffect } from "react";
 
 import {
   About,
@@ -10,6 +11,9 @@ import {
   Works,
   Footer,
 } from "./components";
+
+// Import Google Analytics utilities
+import { initGA, trackPageView } from "./utils/analytics";
 
 // Import GalaxyBackground component directly
 const GalaxyBackground = () => {
@@ -75,6 +79,14 @@ const GalaxyBackground = () => {
 };
 
 const App = () => {
+  useEffect(() => {
+    // Initialize Google Analytics when the app loads
+    initGA();
+
+    // Track initial page view
+    trackPageView(window.location.href, document.title);
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="relative z-0 bg-primary scroll-snap-y-mandatory h-screen overflow-y-scroll">

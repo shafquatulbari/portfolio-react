@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 
 import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
+import { trackEvent, trackButtonClick } from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 import web from "../../public/assets/services/web.png";
 import backend from "../../public/assets/services/backend.png";
 import sqa from "../../public/assets/services/sqa.png";
@@ -122,7 +124,11 @@ const ServiceMatrix = ({ service, index }) => {
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
       className="group relative"
-      onMouseEnter={() => setIsActive(true)}
+      onMouseEnter={() => {
+        setIsActive(true);
+        // Track service card hover
+        trackEvent("engagement", "service_card_hover", service.title);
+      }}
       onMouseLeave={() => {
         setIsActive(false);
         setScanProgress(0);
@@ -295,6 +301,9 @@ const About = () => {
   const fullText =
     "I'm a Software Engineer specializing in Full Stack Development and SDET. Currently, I serve as an SQA Engineer I at Brain Station 23, where I contribute to the test automation for Grameenphone's MyGP app, serving over 21 million monthly users.";
 
+  // Add scroll tracking for About section
+  const aboutRef = useScrollTracking("about_section");
+
   useEffect(() => {
     let index = 0;
     const timer = setInterval(() => {
@@ -310,7 +319,10 @@ const About = () => {
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
+    <div
+      className="relative w-full min-h-screen overflow-hidden"
+      ref={aboutRef}
+    >
       {/* Cyberpunk overlay with background blur effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
 

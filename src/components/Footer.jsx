@@ -13,6 +13,13 @@ import {
   faCode,
   faCoffee,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  trackButtonClick,
+  trackEvent,
+  trackExternalLink,
+  trackDownload,
+} from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 
 // Animated Background Component
 const CyberpunkBackground = () => {
@@ -119,6 +126,7 @@ const FooterStats = () => {
 
 const Footer = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const footerRef = useScrollTracking("footer_section");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -127,6 +135,21 @@ const Footer = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  const handleSocialClick = (link) => {
+    if (link.isDownload) {
+      trackDownload(link.href, link.label.toLowerCase());
+      trackButtonClick("resume_download", "footer");
+      trackEvent("engagement", "resume_download", "footer");
+    } else if (link.href.startsWith("mailto:")) {
+      trackEvent("engagement", "email_click", "footer");
+      trackButtonClick("email_contact", "footer");
+    } else {
+      trackExternalLink(link.href, `${link.label.toLowerCase()}_social`);
+      trackButtonClick(`${link.label.toLowerCase()}_social`, "footer");
+      trackEvent("engagement", "social_link_click", link.label.toLowerCase());
+    }
+  };
 
   const socialLinks = [
     {
@@ -157,7 +180,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-gray-950 text-white py-16 overflow-hidden">
+    <footer
+      ref={footerRef}
+      className="relative bg-gray-950 text-white py-16 overflow-hidden"
+    >
       <CyberpunkBackground />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -224,6 +250,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -5 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => handleSocialClick(link)}
                 className={`group relative flex flex-col items-center p-4 bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300 ${link.color}`}
               >
                 {/* Glow effect */}

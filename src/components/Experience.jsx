@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { styles } from "../styles";
 import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
+import { trackButtonClick, trackEvent } from "../utils/analytics";
+import { useScrollTracking } from "../utils/scrollTracking";
 
 const TerminalExperience = ({ experience, index }) => {
   const [displayedContent, setDisplayedContent] = useState("");
@@ -153,6 +155,9 @@ const Experience = () => {
   const [bootComplete, setBootComplete] = useState(false);
   const [currentExperienceIndex, setCurrentExperienceIndex] = useState(0);
 
+  // Add scroll tracking for Experience section
+  const experienceRef = useScrollTracking("experience_section");
+
   // Touch/swipe state
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -176,19 +181,48 @@ const Experience = () => {
   const minSwipeDistance = 50;
 
   const nextExperience = () => {
-    setCurrentExperienceIndex((prev) =>
-      prev < experiences.length - 1 ? prev + 1 : 0
+    const newIndex =
+      currentExperienceIndex < experiences.length - 1
+        ? currentExperienceIndex + 1
+        : 0;
+    setCurrentExperienceIndex(newIndex);
+
+    // Track navigation
+    trackButtonClick("next_experience", "experience");
+    trackEvent(
+      "navigation",
+      "experience_change",
+      `${experiences[currentExperienceIndex].company_name}_to_${experiences[newIndex].company_name}`
     );
   };
 
   const prevExperience = () => {
-    setCurrentExperienceIndex((prev) =>
-      prev > 0 ? prev - 1 : experiences.length - 1
+    const newIndex =
+      currentExperienceIndex > 0
+        ? currentExperienceIndex - 1
+        : experiences.length - 1;
+    setCurrentExperienceIndex(newIndex);
+
+    // Track navigation
+    trackButtonClick("prev_experience", "experience");
+    trackEvent(
+      "navigation",
+      "experience_change",
+      `${experiences[currentExperienceIndex].company_name}_to_${experiences[newIndex].company_name}`
     );
   };
 
   const goToExperience = (index) => {
+    const oldIndex = currentExperienceIndex;
     setCurrentExperienceIndex(index);
+
+    // Track direct navigation
+    trackButtonClick(`experience_indicator_${index}`, "experience");
+    trackEvent(
+      "navigation",
+      "experience_direct",
+      `${experiences[oldIndex].company_name}_to_${experiences[index].company_name}`
+    );
   };
 
   // Touch handlers for swipe functionality
@@ -210,8 +244,10 @@ const Experience = () => {
 
     if (isLeftSwipe) {
       nextExperience();
+      trackEvent("navigation", "experience_swipe", "swipe_left");
     } else if (isRightSwipe) {
       prevExperience();
+      trackEvent("navigation", "experience_swipe", "swipe_right");
     }
   };
 
@@ -243,9 +279,11 @@ const Experience = () => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
         nextExperience();
+        trackEvent("navigation", "experience_keyboard", "arrow_right");
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         prevExperience();
+        trackEvent("navigation", "experience_keyboard", "arrow_left");
       }
     };
 
@@ -256,7 +294,10 @@ const Experience = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="text-center mb-8 sm:mb-12 px-3 sm:px-0">
+      <div
+        className="text-center mb-8 sm:mb-12 px-3 sm:px-0"
+        ref={experienceRef}
+      >
         <div className="inline-block bg-black/80 backdrop-blur-sm border border-cyan-400/30 rounded-xl p-4 sm:p-6 shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 w-full max-w-2xl">
           <div className="mb-2 sm:mb-3">
             <span className="text-cyan-400 font-mono text-xs sm:text-sm block sm:inline">
