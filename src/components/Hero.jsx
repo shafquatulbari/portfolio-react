@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { AvatarCanvas } from "./canvas";
 import { useState, useEffect } from "react";
-
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -97,6 +96,7 @@ const Hero = () => {
         />
       </div>
 
+      {/* Terminal and sidebar container - background layer */}
       <div
         className={`absolute inset-0 top-[80px] sm:top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-col sm:flex-row items-start gap-3 sm:gap-5 z-10`}
       >
@@ -151,6 +151,25 @@ const Hero = () => {
               </div>
             </div>
           </motion.div>
+        </div>
+      </div>
+
+      {/* Text content container - foreground layer */}
+      <div
+        className={`absolute inset-0 top-[80px] sm:top-[120px] max-w-7xl mx-auto ${styles.paddingX} flex flex-col sm:flex-row items-start gap-3 sm:gap-5 z-30`}
+      >
+        {/* Spacer to align with terminal layout */}
+        <div className="flex flex-row sm:flex-col justify-start sm:justify-center items-center mt-2 sm:mt-5 w-full sm:w-auto opacity-0 pointer-events-none">
+          <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full flex-shrink-0"></div>
+          <div className="h-1 w-20 sm:w-1 sm:h-40 md:sm:h-80 ml-2 sm:ml-0 sm:mt-2"></div>
+        </div>
+
+        <div className="flex-1 w-full">
+          {/* Spacer for terminal window */}
+          <div className="mb-4 sm:mb-8 p-3 sm:p-6 opacity-0 pointer-events-none">
+            <div className="mb-2 sm:mb-4 h-4"></div>
+            <div className="space-y-1 sm:space-y-2 h-8"></div>
+          </div>
 
           {/* Main Content - responsive text sizes */}
           <motion.div
@@ -231,7 +250,10 @@ const Hero = () => {
         </div>
       </div>
 
-      <AvatarCanvas />
+      {/* Avatar container - middle layer */}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        <AvatarCanvas />
+      </div>
 
       {/* Enhanced Scroll Indicator - responsive positioning */}
       <motion.div

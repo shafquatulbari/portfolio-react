@@ -152,7 +152,7 @@ const Experience = () => {
   const [bootSequence, setBootSequence] = useState([]);
   const [bootComplete, setBootComplete] = useState(false);
   const [currentExperienceIndex, setCurrentExperienceIndex] = useState(0);
-  
+
   // Touch/swipe state
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -203,7 +203,7 @@ const Experience = () => {
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -396,7 +396,7 @@ const Experience = () => {
           </div>
 
           {/* Current Experience Terminal */}
-          <div 
+          <div
             className="min-h-[450px] sm:min-h-[600px] max-h-[450px] sm:max-h-[600px] overflow-hidden touch-pan-y"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -413,7 +413,8 @@ const Experience = () => {
           <div className="mt-4 text-center">
             <div className="inline-block bg-gray-900/80 border border-gray-600 rounded-lg px-4 py-2">
               <span className="text-gray-400 text-xs font-mono">
-                💡 Use ← → arrow keys, swipe left/right, or click buttons to navigate
+                💡 Use ← → arrow keys, swipe left/right, or click buttons to
+                navigate
               </span>
             </div>
           </div>
@@ -483,7 +484,8 @@ const Experience = () => {
             <div className="mb-2 hover:bg-gray-800/20 px-2 py-1 rounded transition-colors">
               <span className="text-cyan-400">user@portfolio:~</span>
               <span className="text-white">
-                $ echo "Navigation: $(echo 'Use ← → keys, swipe, or buttons above')"
+                $ echo "Navigation: $(echo 'Use ← → keys, swipe, or buttons
+                above')"
               </span>
             </div>
             <div className="text-green-400 font-bold ml-2">
@@ -492,7 +494,8 @@ const Experience = () => {
 
             <div className="mt-4 pt-3 border-t border-gray-700">
               <div className="text-purple-400 text-xs">
-                💡 Tip: Navigate through experiences using arrow keys, swipe left/right on mobile, or click the navigation buttons
+                💡 Tip: Navigate through experiences using arrow keys, swipe
+                left/right on mobile, or click the navigation buttons
               </div>
             </div>
           </div>
