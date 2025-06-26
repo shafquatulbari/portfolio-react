@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 import { styles } from "../styles";
-import { AvatarCanvas } from "./canvas";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useScrollTracking } from "../utils/scrollTracking";
+
+// Lazy load Avatar component for better performance
+const AvatarCanvas = lazy(() => import("./canvas/Avatar"));
 const Hero = ({ navigateToSection }) => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
-  const [particleCount, setParticleCount] = useState(15); // Reduced for better performance
-  const [glitterCount, setGlitterCount] = useState(10); // Reduced glitter particles
+  const [particleCount, setParticleCount] = useState(4); // Further reduced
+  const [glitterCount, setGlitterCount] = useState(2); // Further reduced
 
   // Add scroll tracking for Hero section
   const heroRef = useScrollTracking("hero_section");
@@ -21,10 +23,11 @@ const Hero = ({ navigateToSection }) => {
   ];
 
   useEffect(() => {
-    // Set particle count based on screen size
+    // Further reduced particle count based on screen size and performance
     const updateParticleCount = () => {
-      setParticleCount(window.innerWidth < 768 ? 8 : 15);
-      setGlitterCount(window.innerWidth < 768 ? 5 : 10);
+      const width = window.innerWidth;
+      setParticleCount(width < 768 ? 2 : width < 1024 ? 3 : 4);
+      setGlitterCount(width < 768 ? 1 : width < 1024 ? 1 : 2);
     };
 
     updateParticleCount();
@@ -33,42 +36,43 @@ const Hero = ({ navigateToSection }) => {
     return () => window.removeEventListener("resize", updateParticleCount);
   }, []);
 
-  // Memoize particles to prevent re-generation on every render
+  // Memoize particles to prevent re-generation on every render - optimized
   const particles = useMemo(() => {
     return [...Array(particleCount)].map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
       animationDelay: Math.random() * 3,
-      animationDuration: 2 + Math.random() * 2,
-      size: Math.random() * 2 + 1,
+      animationDuration: 3 + Math.random() * 2, // Slower animations
+      size: Math.random() * 1.5 + 0.5, // Smaller particles
     }));
   }, [particleCount]);
 
-  // Memoize glitter particles for extra sparkle effect
+  // Reduced glitter particles for better performance
   const glitterParticles = useMemo(() => {
     return [...Array(glitterCount)].map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
-      animationDelay: Math.random() * 4,
-      animationDuration: 1.5 + Math.random() * 2,
-      size: Math.random() * 1.5 + 0.5,
+      animationDelay: Math.random() * 5, // Longer delays
+      animationDuration: 2 + Math.random() * 3, // Slower animations
+      size: Math.random() * 1 + 0.3, // Smaller size
       color: ["#38bdf8", "#a855f7", "#ec4899", "#10b981"][
         Math.floor(Math.random() * 4)
       ],
     }));
   }, [glitterCount]);
 
-  // Memoize floating sparkles
+  // Significantly reduced floating sparkles
   const floatingSparkles = useMemo(() => {
-    return [...Array(8)].map((_, i) => ({
+    return [...Array(2)].map((_, i) => ({
+      // Further reduced from 4 to 2
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
-      animationDelay: Math.random() * 6,
-      animationDuration: 4 + Math.random() * 3,
-      size: Math.random() * 3 + 1,
+      animationDelay: Math.random() * 10, // Even longer delays
+      animationDuration: 8 + Math.random() * 4, // Even slower animations
+      size: Math.random() * 1.5 + 0.5, // Smaller size
     }));
   }, []);
 
@@ -104,25 +108,25 @@ const Hero = ({ navigateToSection }) => {
       {/* Cyberpunk overlay with original background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
 
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - Optimized */}
       <div className="absolute inset-0">
-        {/* Grid pattern - responsive sizing with enhanced opacity */}
+        {/* Simplified grid pattern */}
         <div
-          className="absolute inset-0 opacity-12" // Increased from opacity-8 to opacity-12
+          className="absolute inset-0 opacity-8" // Reduced opacity
           style={{
             backgroundImage: `
-              linear-gradient(rgba(56, 189, 248, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(56, 189, 248, 0.3) 1px, transparent 1px)
+              linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
             `,
-            backgroundSize: "80px 80px",
+            backgroundSize: "100px 100px", // Larger grid for better performance
           }}
         />
 
-        {/* Enhanced floating particles using memoized array */}
+        {/* Optimized floating particles */}
         {particles.map((particle) => (
           <div
             key={particle.id}
-            className="absolute rounded-full bg-cyan-400 animate-pulse"
+            className="absolute rounded-full bg-cyan-400 optimized-particle hero-particle"
             style={{
               left: `${particle.left}%`,
               top: `${particle.top}%`,
@@ -130,16 +134,16 @@ const Hero = ({ navigateToSection }) => {
               height: `${particle.size}px`,
               animationDelay: `${particle.animationDelay}s`,
               animationDuration: `${particle.animationDuration}s`,
-              boxShadow: "0 0 6px rgba(56, 189, 248, 0.8)",
+              boxShadow: "0 0 4px rgba(56, 189, 248, 0.6)", // Reduced glow
             }}
           />
         ))}
 
-        {/* Glitter particles for extra sparkle */}
+        {/* Reduced glitter particles */}
         {glitterParticles.map((glitter) => (
           <div
             key={`glitter-${glitter.id}`}
-            className="absolute rounded-full animate-ping"
+            className="absolute rounded-full optimized-sparkle hero-sparkle"
             style={{
               left: `${glitter.left}%`,
               top: `${glitter.top}%`,
@@ -148,22 +152,21 @@ const Hero = ({ navigateToSection }) => {
               backgroundColor: glitter.color,
               animationDelay: `${glitter.animationDelay}s`,
               animationDuration: `${glitter.animationDuration}s`,
-              boxShadow: `0 0 8px ${glitter.color}`,
+              boxShadow: `0 0 6px ${glitter.color}`, // Reduced glow
             }}
           />
         ))}
 
-        {/* Floating sparkles with more complex animation */}
+        {/* Reduced floating sparkles */}
         {floatingSparkles.map((sparkle) => (
           <div
             key={`sparkle-${sparkle.id}`}
-            className="absolute"
+            className="absolute optimized-sparkle hero-float"
             style={{
               left: `${sparkle.left}%`,
               top: `${sparkle.top}%`,
               animationDelay: `${sparkle.animationDelay}s`,
               animationDuration: `${sparkle.animationDuration}s`,
-              animation: "float-sparkle 6s ease-in-out infinite",
             }}
           >
             <div
@@ -171,57 +174,18 @@ const Hero = ({ navigateToSection }) => {
               style={{
                 width: `${sparkle.size}px`,
                 height: `${sparkle.size}px`,
-                boxShadow: "0 0 10px rgba(168, 85, 247, 0.6)",
-                animation: "twinkle 2s ease-in-out infinite alternate",
+                boxShadow: "0 0 8px rgba(168, 85, 247, 0.4)", // Reduced glow
               }}
             />
           </div>
         ))}
 
-        {/* Enhanced animated lines with more variety */}
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-pulse" />
+        {/* Simplified animated lines */}
+        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" />
         <div
-          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-pink-400/30 to-transparent animate-pulse"
+          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
           style={{ animationDelay: "2s" }}
         />
-        <div
-          className="absolute right-1/3 top-0 w-px h-full bg-gradient-to-b from-transparent via-cyan-400/25 to-transparent animate-pulse"
-          style={{ animationDelay: "2.5s" }}
-        />
-
-        {/* Shooting stars */}
-        {[...Array(3)].map((_, i) => (
-          <div
-            key={`star-${i}`}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-0"
-            style={{
-              top: `${20 + i * 25}%`,
-              left: "-5%",
-              animation: `shoot 4s linear infinite`,
-              animationDelay: `${i * 2}s`,
-              boxShadow: "0 0 6px rgba(255, 255, 255, 0.8)",
-            }}
-          />
-        ))}
-
-        {/* Orbiting particles */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={`orbit-${i}`}
-              className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500"
-              style={{
-                animation: `orbit ${3 + i}s linear infinite`,
-                animationDelay: `${i * 0.5}s`,
-                transformOrigin: `${50 + i * 30}px 0`,
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Terminal and sidebar container - background layer */}
@@ -312,18 +276,6 @@ const Hero = ({ navigateToSection }) => {
               <span className="glittery-text relative block sm:inline">
                 Shafquat Ul Bari
                 <div className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 animate-pulse"></div>
-                {/* Add sparkle burst effects around the name */}
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={`name-sparkle-${i}`}
-                    className="sparkle-burst"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      animationDelay: `${i * 0.4}s`,
-                    }}
-                  />
-                ))}
               </span>
             </h1>
 
@@ -336,25 +288,7 @@ const Hero = ({ navigateToSection }) => {
             >
               <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold font-mono relative">
                 <span className="text-gray-400">I'm a </span>
-                <span className="text-cyan-400 relative">
-                  {displayText}
-                  {/* Add tiny sparkles around the typing text */}
-                  {[...Array(3)].map((_, i) => (
-                    <div
-                      key={`typing-sparkle-${i}`}
-                      className="absolute w-1 h-1 rounded-full bg-cyan-400"
-                      style={{
-                        top: `${-10 + i * 5}px`,
-                        right: `${-15 + i * 8}px`,
-                        animation: `twinkle ${
-                          1.5 + i * 0.3
-                        }s ease-in-out infinite`,
-                        animationDelay: `${i * 0.2}s`,
-                        boxShadow: "0 0 4px rgba(56, 189, 248, 0.8)",
-                      }}
-                    />
-                  ))}
-                </span>
+                <span className="text-cyan-400 relative">{displayText}</span>
                 <span className="animate-pulse text-cyan-400">|</span>
               </h2>
             </motion.div>
@@ -396,25 +330,9 @@ const Hero = ({ navigateToSection }) => {
                   <div
                     key={tech}
                     className="relative px-2 sm:px-4 py-1 sm:py-2 bg-gray-900/60 backdrop-blur-sm rounded-lg border border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 group overflow-hidden"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    style={{ animationDelay: `${index * 0.2}s` }} // Slower stagger
                   >
-                    {/* Reduced glitter effect overlay */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {[...Array(2)].map((_, i) => (
-                        <div
-                          key={`tech-glitter-${i}`}
-                          className="absolute w-0.5 h-0.5 rounded-full bg-cyan-400"
-                          style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            animation: `twinkle ${
-                              1 + Math.random()
-                            }s ease-in-out infinite`,
-                            animationDelay: `${i * 0.1}s`,
-                          }}
-                        />
-                      ))}
-                    </div>
+                    {/* Simplified hover effect - no glitter */}
                     <span className="relative text-cyan-400 font-mono text-xs sm:text-sm group-hover:text-white transition-colors duration-300">
                       {tech}
                     </span>
@@ -426,9 +344,17 @@ const Hero = ({ navigateToSection }) => {
         </div>
       </div>
 
-      {/* Avatar container - middle layer - hidden on mobile */}
-      <div className="absolute inset-0 z-20 pointer-events-none hidden sm:block">
-        <AvatarCanvas />
+      {/* Avatar container - middle layer - hidden on mobile and tablets */}
+      <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block avatar-container performance-optimized">
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-full">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400"></div>
+            </div>
+          }
+        >
+          <AvatarCanvas />
+        </Suspense>
       </div>
 
       {/* Enhanced Scroll Indicator - responsive positioning */}
@@ -445,25 +371,8 @@ const Hero = ({ navigateToSection }) => {
           className="cursor-pointer"
         >
           <div className="relative group">
-            {/* Enhanced glow effect with glitter */}
-            <div className="absolute inset-0 bg-cyan-400/20 rounded-3xl blur-md group-hover:bg-cyan-400/40 transition-all duration-300">
-              {/* Add sparkles around the glow */}
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={`scroll-sparkle-${i}`}
-                  className="absolute w-1 h-1 rounded-full bg-cyan-400"
-                  style={{
-                    top: `${10 + Math.random() * 80}%`,
-                    left: `${10 + Math.random() * 80}%`,
-                    animation: `twinkle ${
-                      2 + Math.random()
-                    }s ease-in-out infinite`,
-                    animationDelay: `${i * 0.3}s`,
-                    opacity: 0.7,
-                  }}
-                />
-              ))}
-            </div>
+            {/* Simplified glow effect */}
+            <div className="absolute inset-0 bg-cyan-400/15 rounded-3xl blur-md group-hover:bg-cyan-400/25 transition-all duration-300"></div>
 
             {/* Main scroll indicator - responsive sizing with enhanced glow */}
             <div className="relative w-[30px] h-[50px] sm:w-[35px] sm:h-[64px] rounded-3xl border-2 border-cyan-400/60 bg-gray-900/80 backdrop-blur-sm flex justify-center items-start p-2 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 group-hover:scale-110 overflow-hidden">
@@ -476,17 +385,8 @@ const Hero = ({ navigateToSection }) => {
                   repeat: Infinity,
                   repeatType: "loop",
                 }}
-                className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-b from-cyan-400 to-purple-500 mb-1 shadow-lg shadow-cyan-400/50 relative"
-              >
-                {/* Add trailing sparkles to the moving dot */}
-                <div
-                  className="absolute w-1 h-1 rounded-full bg-cyan-400 -top-2 left-1/2 transform -translate-x-1/2"
-                  style={{
-                    animation: "twinkle 1s ease-in-out infinite",
-                    opacity: 0.6,
-                  }}
-                />
-              </motion.div>
+                className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-b from-cyan-400 to-purple-500 mb-1 shadow-lg shadow-cyan-400/30 relative"
+              ></motion.div>
             </div>
 
             {/* Terminal-style label with glow effect - hidden on small screens */}

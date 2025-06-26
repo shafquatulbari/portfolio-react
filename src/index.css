@@ -1586,6 +1586,150 @@ section {
   -webkit-backface-visibility: hidden;
 }
 
+/* Performance-optimized animations for Hero section */
+.optimized-particle {
+  will-change: transform, opacity;
+  contain: layout style paint;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.optimized-sparkle {
+  will-change: transform, opacity;
+  contain: layout;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* Optimized keyframes with GPU acceleration */
+@keyframes optimized-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) scale(1.05);
+  }
+}
+
+@keyframes optimized-twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes optimized-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes optimized-shoot {
+  0% {
+    transform: translate3d(-100px, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(100vw, -100px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes optimized-orbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optimized sparkle burst for name effect */
+@keyframes sparkle-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0) translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translate3d(-5px, -5px, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translate3d(-10px, -10px, 0);
+  }
+}
+
+/* Apply optimized classes to particles */
+.hero-particle {
+  animation: optimized-pulse 3s ease-in-out infinite;
+}
+
+.hero-sparkle {
+  animation: optimized-twinkle 2s ease-in-out infinite alternate;
+}
+
+.hero-float {
+  animation: optimized-float 6s ease-in-out infinite;
+}
+
+.hero-shoot {
+  animation: optimized-shoot 6s linear infinite;
+}
+
+.hero-orbit {
+  animation: optimized-orbit 8s linear infinite;
+}
+
+/* Avatar container optimization */
+.avatar-container {
+  will-change: auto;
+  contain: layout style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce animations on low-end devices */
+@media (max-width: 768px) {
+  .hero-particle,
+  .hero-sparkle,
+  .hero-float {
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+
+  .optimized-particle,
+  .optimized-sparkle {
+    will-change: auto;
+  }
+}
+
+/* Performance hints for browsers */
+.performance-optimized {
+  contain: layout style paint;
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 /* Professional button hover effects */
 button,
 .btn {

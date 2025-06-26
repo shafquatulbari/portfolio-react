@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState, useMemo } from "react";
+import React, { Suspense, useEffect, useState, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Preload, useFBX, useGLTF } from "@react-three/drei";
+import { Preload, useFBX, useGLTF } from "@react-three/drei";
 import { AnimationMixer } from "three";
 
 import CanvasLoader from "../Loader";
@@ -8,52 +8,67 @@ import CanvasLoader from "../Loader";
 const Avatar = ({ isMobile }) => {
   const avatar = useGLTF("./avatar/avatar.glb");
   const fbx = useFBX("/animations/JumpingJacks.fbx");
-  const [mixer] = useState(() => new AnimationMixer());
+  const mixerRef = useRef(null);
 
+  // Initialize mixer only once
   useEffect(() => {
-    if (fbx && avatar) {
-      const action = mixer.clipAction(fbx.animations[0], avatar.scene);
-      action.play();
+    if (fbx && avatar && !mixerRef.current) {
+      try {
+        mixerRef.current = new AnimationMixer(avatar.scene);
+
+        if (fbx.animations && fbx.animations.length > 0) {
+          const action = mixerRef.current.clipAction(fbx.animations[0]);
+          action.reset();
+          action.setLoop(2201, Infinity); // LoopRepeat
+          action.play();
+        }
+      } catch (error) {
+        console.error("Error setting up animation:", error);
+      }
     }
-  }, [mixer, fbx, avatar]);
+
+    return () => {
+      if (mixerRef.current) {
+        mixerRef.current.stopAllAction();
+        mixerRef.current = null;
+      }
+    };
+  }, [fbx, avatar]);
 
   useFrame((state, delta) => {
-    mixer.update(delta); // Normal animation speed for smooth motion
+    if (mixerRef.current) {
+      // Use a consistent delta time for smooth animation
+      mixerRef.current.update(Math.min(delta, 0.1) * 1.1); // Slightly faster animation speed
+    }
   });
 
-  // Memoize the avatar to prevent unnecessary re-renders
-  const avatarMesh = useMemo(
-    () => (
-      <mesh>
-        <hemisphereLight intensity={2} groundColor="black" />
-        <spotLight
-          position={[-20, 50, 10]}
-          angle={0.12}
-          penumbra={1}
-          intensity={0.8}
-          castShadow={false} // Disable shadows for better performance
-          shadow-mapSize={512} // Reduced shadow map size
-        />
-        <pointLight intensity={0.8} />
-        <primitive
-          object={avatar.scene}
-          scale={isMobile ? 1.5 : 2.5}
-          position={isMobile ? [0, -3, -2.2] : [6, -3.25, -1.5]}
-          rotation={[0, 1, 0]}
-        />
-      </mesh>
-    ),
-    [avatar.scene, isMobile]
-  );
+  // Optimized avatar mesh with reduced lighting
+  return (
+    <group>
+      {/* Simplified lighting setup */}
+      <ambientLight intensity={0.7} />
+      <directionalLight
+        position={[5, 10, 5]}
+        intensity={1.0}
+        castShadow={false}
+      />
+      <pointLight position={[-5, 5, 5]} intensity={0.3} />
 
-  return avatarMesh;
+      <primitive
+        object={avatar.scene}
+        scale={isMobile ? 1.8 : 2.8}
+        position={isMobile ? [0, -3, -2.2] : [5, -3.25, -1.5]}
+        rotation={[0, 0.8, 0]}
+      />
+    </group>
+  );
 };
 
 const AvatarCanvas = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    const mediaQuery = window.matchMedia("(max-width: 768px)"); // Increased threshold
     setIsMobile(mediaQuery.matches);
 
     const handleMediaQueryChange = (event) => {
@@ -67,35 +82,33 @@ const AvatarCanvas = () => {
     };
   }, []);
 
-  // Don't render on mobile to improve performance
+  // Don't render on mobile/tablet for better performance
   if (isMobile) {
     return null;
   }
 
   return (
     <Canvas
-      frameloop="always" // Enable continuous rendering for smooth animations
-      shadows={false} // Keep shadows disabled for performance
-      dpr={[1, 1.5]} // Reduced max device pixel ratio
-      camera={{ position: [20, 3, 5], fov: 25 }}
+      frameloop="always" // Changed back to always for smooth animations
+      shadows={false}
+      dpr={[0.5, 1]} // Reduced DPR for better performance
+      camera={{
+        position: [15, 2, 8],
+        fov: 30,
+        near: 0.1,
+        far: 1000,
+      }}
       gl={{
-        preserveDrawingBuffer: true,
-        antialias: false, // Keep antialiasing disabled for performance
+        preserveDrawingBuffer: false, // Better performance
+        antialias: false,
         alpha: true,
         powerPreference: "high-performance",
+        precision: "lowp", // Lower precision for better performance
       }}
-      performance={{ min: 0.5, max: 1.0 }} // Adjust performance monitoring
+      performance={{ min: 0.1, max: 0.8 }} // Aggressive performance throttling
     >
       <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          enableRotate={true} // Re-enable rotation for better interaction
-          autoRotate={true} // Add subtle auto-rotation
-          autoRotateSpeed={0.5} // Slow auto-rotation
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        />
+        {/* Removed OrbitControls completely for stationary avatar */}
         <Avatar isMobile={isMobile} />
       </Suspense>
 
