@@ -94,10 +94,7 @@ const NeuralProfile = () => {
         </motion.div>
 
         {/* Bio Section with Terminal Style - responsive */}
-        <motion.div
-          variants={fadeIn("", "", 0.1, 1)}
-          className="relative"
-        >
+        <motion.div variants={fadeIn("", "", 0.1, 1)} className="relative">
           <div className="bg-gray-900/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden">
             {/* Terminal header - responsive */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-700/50 gap-2 sm:gap-0">
@@ -111,7 +108,9 @@ const NeuralProfile = () => {
                   ~/portfolio/profile.exe
                 </span>
               </div>
-              <div className="text-purple-400 text-xs">NEURAL_NETWORK_v2.0.1</div>
+              <div className="text-purple-400 text-xs">
+                NEURAL_NETWORK_v2.0.1
+              </div>
             </div>
 
             {/* Terminal content - responsive spacing */}
@@ -173,8 +172,8 @@ const NeuralProfile = () => {
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">CURRENT_DEPLOYMENT:</span>
                 <br />
-                <span className="text-pink-400">Brain Station 23 Ltd.</span>{" "}
-                - SQA Engineer I
+                <span className="text-pink-400">Brain Station 23 Ltd.</span> -
+                SQA Engineer I
                 <br />
                 <span className="text-gray-400">
                   └─ MyGP App Test Automation (21M+ monthly users)
@@ -198,8 +197,9 @@ const NeuralProfile = () => {
                 <span className="text-purple-400">MISSION_STATEMENT:</span>
                 <br />
                 <span className="text-cyan-300">
-                  "Building robust, scalable solutions while ensuring the highest
-                  quality standards through comprehensive testing and automation."
+                  "Building robust, scalable solutions while ensuring the
+                  highest quality standards through comprehensive testing and
+                  automation."
                 </span>
               </div>
 
@@ -226,20 +226,36 @@ const NeuralProfile = () => {
                 {/* Neural connections */}
                 <svg className="absolute inset-0 w-full h-full">
                   <line
-                    x1="20%" y1="20%" x2="60%" y2="20%"
-                    stroke="rgba(147, 51, 234, 0.3)" strokeWidth="1"
+                    x1="20%"
+                    y1="20%"
+                    x2="60%"
+                    y2="20%"
+                    stroke="rgba(147, 51, 234, 0.3)"
+                    strokeWidth="1"
                   />
                   <line
-                    x1="60%" y1="20%" x2="100%" y2="20%"
-                    stroke="rgba(147, 51, 234, 0.3)" strokeWidth="1"
+                    x1="60%"
+                    y1="20%"
+                    x2="100%"
+                    y2="20%"
+                    stroke="rgba(147, 51, 234, 0.3)"
+                    strokeWidth="1"
                   />
                   <line
-                    x1="20%" y1="20%" x2="20%" y2="60%"
-                    stroke="rgba(147, 51, 234, 0.3)" strokeWidth="1"
+                    x1="20%"
+                    y1="20%"
+                    x2="20%"
+                    y2="60%"
+                    stroke="rgba(147, 51, 234, 0.3)"
+                    strokeWidth="1"
                   />
                   <line
-                    x1="60%" y1="20%" x2="60%" y2="60%"
-                    stroke="rgba(147, 51, 234, 0.3)" strokeWidth="1"
+                    x1="60%"
+                    y1="20%"
+                    x2="60%"
+                    y2="60%"
+                    stroke="rgba(147, 51, 234, 0.3)"
+                    strokeWidth="1"
                   />
                 </svg>
               </div>
