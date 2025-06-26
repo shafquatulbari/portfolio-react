@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
+
+// Stagger container animation (decoupled from SectionWrapper)
+const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+  return {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staggerChildren,
+        delayChildren: delayChildren || 0,
+      },
+    },
+  };
+};
 import web from "/assets/services/web.png";
 import backend from "/assets/services/backend.png";
 import sqa from "/assets/services/sqa.png";
@@ -300,118 +312,130 @@ const ServiceMatrix = ({ service, index }) => {
 
 const NeuralMatrix = () => {
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
-      {/* Grid overlay with background blur effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16"
+    >
+      <span className="hash-span" id="neural-matrix">
+        &nbsp;
+      </span>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {/* Enhanced grid pattern for matrix effect */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `
+      <div className="relative w-full min-h-screen overflow-hidden">
+        {/* Grid overlay with background blur effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
+
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          {/* Enhanced grid pattern for matrix effect */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `
               linear-gradient(rgba(56, 189, 248, 0.3) 1px, transparent 1px),
               linear-gradient(90deg, rgba(56, 189, 248, 0.3) 1px, transparent 1px)
             `,
-            backgroundSize: "50px 50px",
-            animation: "gridShift 10s linear infinite",
-          }}
-        />
-
-        {/* Floating particles */}
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
+              backgroundSize: "50px 50px",
+              animation: "gridShift 10s linear infinite",
             }}
           />
-        ))}
 
-        {/* Matrix-style scanning lines */}
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-pulse" />
-        <div
-          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-pink-400/40 to-transparent animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-      </div>
+          {/* Floating particles */}
+          {[...Array(30)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
 
-      {/* Content with proper z-index */}
-      <div className="relative z-10">
-        {/* Header Section */}
-        <motion.div variants={textVariant()} className="relative mb-12">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
+          {/* Matrix-style scanning lines */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-pulse" />
+          <div
+            className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
+          <div
+            className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-pink-400/40 to-transparent animate-pulse"
+            style={{ animationDelay: "2s" }}
+          />
+        </div>
 
-          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50">
-            <div className="text-center">
-              <div className="flex items-center justify-center space-x-4 mb-6">
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                  Neural_Matrix
-                </h2>
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
+        {/* Content with proper z-index */}
+        <div className="relative z-10">
+          {/* Header Section */}
+          <motion.div variants={textVariant()} className="relative mb-12">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
+
+            <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50">
+              <div className="text-center">
+                <div className="flex items-center justify-center space-x-4 mb-6">
+                  <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                    Neural_Matrix
+                  </h2>
+                  <div className="w-12 h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
+                </div>
+                <p className="text-gray-400 font-mono mb-2">
+                  &gt; Scanning specialized subsystems...
+                </p>
+                <div className="flex justify-center items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 font-mono text-sm">
+                    4 MODULES DETECTED
+                  </span>
+                </div>
               </div>
-              <p className="text-gray-400 font-mono mb-2">
-                &gt; Scanning specialized subsystems...
-              </p>
-              <div className="flex justify-center items-center space-x-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-mono text-sm">
-                  4 MODULES DETECTED
-                </span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Services Grid */}
-        <motion.div
-          variants={fadeIn("up", "spring", 0.3, 0.75)}
-          className="relative"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-            {services.map((service, index) => (
-              <ServiceMatrix
-                key={service.title}
-                service={service}
-                index={index}
-              />
-            ))}
-          </div>
-
-          {/* System status footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 text-center"
-          >
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 max-w-md mx-auto">
-              <div className="flex items-center justify-center space-x-2 mb-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-mono text-sm">
-                  MATRIX_STATUS: OPERATIONAL
-                </span>
-              </div>
-              <p className="text-gray-400 text-xs font-mono">
-                All subsystems initialized and ready for deployment
-              </p>
             </div>
           </motion.div>
-        </motion.div>
+
+          {/* Services Grid */}
+          <motion.div
+            variants={fadeIn("up", "spring", 0.3, 0.75)}
+            className="relative"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {services.map((service, index) => (
+                <ServiceMatrix
+                  key={service.title}
+                  service={service}
+                  index={index}
+                />
+              ))}
+            </div>
+
+            {/* System status footer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 text-center"
+            >
+              <div className="bg-gray-900/60 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 max-w-md mx-auto">
+                <div className="flex items-center justify-center space-x-2 mb-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 font-mono text-sm">
+                    MATRIX_STATUS: OPERATIONAL
+                  </span>
+                </div>
+                <p className="text-gray-400 text-xs font-mono">
+                  All subsystems initialized and ready for deployment
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(NeuralMatrix, "neural-matrix");
+export default NeuralMatrix;

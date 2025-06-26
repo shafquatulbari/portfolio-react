@@ -37,8 +37,8 @@ const Avatar = ({ isMobile }) => {
         <pointLight intensity={0.8} />
         <primitive
           object={avatar.scene}
-          scale={isMobile ? 1.5 : 3}
-          position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
+          scale={isMobile ? 1.5 : 2.5}
+          position={isMobile ? [0, -3, -2.2] : [6, -3.25, -1.5]}
           rotation={[0, 1, 0]}
         />
       </mesh>

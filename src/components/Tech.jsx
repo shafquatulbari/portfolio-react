@@ -1,7 +1,19 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
+
+// Stagger container animation (decoupled from SectionWrapper)
+const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+  return {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staggerChildren,
+        delayChildren: delayChildren || 0,
+      },
+    },
+  };
+};
 
 const FlappyTechGame = () => {
   const canvasRef = useRef(null);
@@ -35,6 +47,7 @@ const FlappyTechGame = () => {
     vehicleSize: 35,
     techSize: 40,
     horizontalSpacing: 300, // New property for horizontal spacing between buildings
+    maxParticles: 15, // Reduced particle count for better performance
   };
 
   // Preload all tech images
@@ -761,10 +774,22 @@ const FlappyTechGame = () => {
 
 const Tech = () => {
   return (
-    <div className="py-12">
-      <FlappyTechGame />
-    </div>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16"
+    >
+      <span className="hash-span" id="tech">
+        &nbsp;
+      </span>
+
+      <div className="py-12">
+        <FlappyTechGame />
+      </div>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(Tech, "tech");
+export default Tech;

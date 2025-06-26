@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, memo } from "react";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 
-import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
 import web from "../../public/assets/services/web.png";
 import backend from "../../public/assets/services/backend.png";
@@ -214,33 +213,25 @@ const ServiceMatrix = ({ service, index }) => {
 
         {/* Icon and title section */}
         <div className="flex items-center space-x-4 mb-4">
-          <div className="relative">
-            <div
-              className={`absolute inset-0 ${colorClasses.primary.replace(
-                "text",
-                "bg"
-              )}/20 rounded-lg blur-md scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+          <div
+            className={`relative p-3 ${colorClasses.bg} rounded-lg border ${colorClasses.border} group-hover:shadow-lg transition-all duration-300`}
+          >
+            <img
+              src={service.icon}
+              alt={service.title}
+              className="w-8 h-8 object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
+              style={{
+                filter: `brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(${
+                  service.color === "cyan"
+                    ? "180deg"
+                    : service.color === "purple"
+                    ? "270deg"
+                    : service.color === "green"
+                    ? "120deg"
+                    : "30deg"
+                })`,
+              }}
             />
-            <div
-              className={`relative p-3 ${colorClasses.bg} rounded-lg border ${colorClasses.border}`}
-            >
-              <img
-                src={service.icon}
-                alt={service.title}
-                className="w-8 h-8 object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
-                style={{
-                  filter: `brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(${
-                    service.color === "cyan"
-                      ? "180deg"
-                      : service.color === "purple"
-                      ? "270deg"
-                      : service.color === "green"
-                      ? "120deg"
-                      : "30deg"
-                  })`,
-                }}
-              />
-            </div>
           </div>
           <div className="flex-1">
             <h3
@@ -311,229 +302,215 @@ const About = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Stagger container animation (decoupled)
+  const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+    return {
+      hidden: {},
+      show: {
+        transition: {
+          staggerChildren: staggerChildren,
+          delayChildren: delayChildren || 0,
+        },
+      },
+    };
+  };
+
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
-      {/* Cyberpunk overlay with background blur effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16"
+    >
+      <span className="hash-span" id="about">
+        &nbsp;
+      </span>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
-            `,
-            backgroundSize: "100px 100px",
-          }}
-        />
+      <div className="relative w-full min-h-screen overflow-hidden">
+        {/* Content with proper z-index */}
+        <div className="relative z-10">
+          {/* Header Section with Futuristic Design - responsive */}
+          <motion.div variants={textVariant()} className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
 
-        {/* Floating particles - reduced from 20 to 12 */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-
-        {/* Animated lines */}
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" />
-        <div
-          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-pink-400/30 to-transparent animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-      </div>
-
-      {/* Content with proper z-index */}
-      <div className="relative z-10">
-        {/* Header Section with Futuristic Design - responsive */}
-        <motion.div variants={textVariant()} className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
-
-          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50 mb-8 sm:mb-12">
-            <p className="text-cyan-400 text-sm sm:text-base lg:text-lg font-mono tracking-wider mb-3 sm:mb-4 relative flex flex-col sm:flex-row gap-2 sm:gap-4">
-              <span>
-                <span className="text-purple-400">&gt;</span> SYSTEM_STATUS:{" "}
-                <span className="text-green-400">ONLINE</span>
-              </span>
-              <span>
-                <span className="text-purple-400">&gt;</span> ROLE:{" "}
-                <span className="text-yellow-400">SOFTWARE_ENGINEER</span>
-              </span>
-            </p>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
-              Neural_Profile
-              <span className="text-cyan-400 animate-pulse">.</span>
-            </h2>
-          </div>
-        </motion.div>
-
-        {/* Bio Section with Terminal Style - responsive */}
-        <motion.div
-          variants={fadeIn("", "", 0.1, 1)}
-          className="relative mb-8 sm:mb-12"
-        >
-          <div className="bg-gray-900/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden">
-            {/* Terminal header - responsive */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-700/50 gap-2 sm:gap-0">
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                <div className="flex space-x-1 sm:space-x-2">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                </div>
-                <span className="text-gray-400 text-xs sm:text-sm">
-                  ~/portfolio/about.exe
+            <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50 mb-8 sm:mb-12">
+              <p className="text-cyan-400 text-sm sm:text-base lg:text-lg font-mono tracking-wider mb-3 sm:mb-4 relative flex flex-col sm:flex-row gap-2 sm:gap-4">
+                <span>
+                  <span className="text-purple-400">&gt;</span> SYSTEM_STATUS:{" "}
+                  <span className="text-green-400">ONLINE</span>
                 </span>
-              </div>
-              <div className="text-cyan-400 text-xs">NEURAL_NETWORK_v2.0.1</div>
-            </div>
-
-            {/* Terminal content - responsive spacing */}
-            <div className="space-y-3 sm:space-y-4">
-              <div className="text-cyan-400 break-all sm:break-normal">
-                <span className="text-purple-400">user@portfolio</span>:
-                <span className="text-yellow-400">~$</span>{" "}
-                ./initialize_profile.sh
-              </div>
-
-              <div className="text-green-400 mb-3 sm:mb-4">
-                [INFO] Loading neural profile...
-                <br />
-                [SUCCESS] Profile initialized successfully
-              </div>
-
-              <div className="text-gray-300 leading-relaxed">
-                <span className="text-purple-400">&gt;</span>{" "}
-                <span className="text-cyan-400">CORE_IDENTITY:</span>
-                <br />
-                {typingText}
-                <span className="animate-pulse text-cyan-400">|</span>
-              </div>
-
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
-                <span className="text-purple-400">&gt;</span>{" "}
-                <span className="text-cyan-400">EXPERTISE_DOMAINS:</span>
-                <br />
-                <span className="text-yellow-400">
-                  • Full-Stack Development
-                </span>{" "}
-                - React, Node.js, Python
-                <br />
-                <span className="text-yellow-400">• Test Automation</span> -
-                WebdriverIO, Appium, CI/CD
-                <br />
-                <span className="text-yellow-400">• Quality Assurance</span> -
-                Backend API validation
-                <br />
-                <span className="text-yellow-400">• System Architecture</span> -
-                Scalable applications
-              </div>
-
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
-                <span className="text-purple-400">&gt;</span>{" "}
-                <span className="text-cyan-400">EDUCATION_MATRIX:</span>
-                <br />
-                <span className="text-green-400">
-                  University of British Columbia
-                </span>{" "}
-                - Computer Science
-                <br />
-                <span className="text-gray-400">
-                  └─ Software Engineering & Web Development Focus
+                <span>
+                  <span className="text-purple-400">&gt;</span> ROLE:{" "}
+                  <span className="text-yellow-400">SOFTWARE_ENGINEER</span>
                 </span>
-              </div>
-
-              <div className="text-gray-300 leading-relaxed mt-6">
-                <span className="text-purple-400">&gt;</span>{" "}
-                <span className="text-cyan-400">PERSONAL_PROTOCOLS:</span>
-                <br />
-                <span className="text-pink-400">Fitness Enthusiast</span> |
-                Discipline & Continuous Growth
-                <br />
-                <span className="text-gray-400">
-                  └─ Pushing limits in technology and life
-                </span>
-              </div>
-
-              <div className="text-green-400 mt-6">
-                [STATUS] Profile scan complete. All systems operational.
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Services Grid with Enhanced Design */}
-        <motion.div
-          variants={fadeIn("up", "spring", 0.3, 0.75)}
-          className="relative"
-        >
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center space-x-4 mb-6">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
-              <h3 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                Neural_Matrix
-              </h3>
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
-            </div>
-            <p className="text-gray-400 font-mono mb-2">
-              &gt; Scanning specialized subsystems...
-            </p>
-            <div className="flex justify-center items-center space-x-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-green-400 font-mono text-sm">
-                4 MODULES DETECTED
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-            {services.map((service, index) => (
-              <ServiceMatrix
-                key={service.title}
-                service={service}
-                index={index}
-              />
-            ))}
-          </div>
-
-          {/* System status footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 text-center"
-          >
-            <div className="bg-gray-900/60 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 max-w-md mx-auto">
-              <div className="flex items-center justify-center space-x-2 mb-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-mono text-sm">
-                  SYSTEM_STATUS: OPERATIONAL
-                </span>
-              </div>
-              <p className="text-gray-400 text-xs font-mono">
-                All subsystems initialized and ready for deployment
               </p>
+
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
+                Neural_Profile
+                <span className="text-cyan-400 animate-pulse">.</span>
+              </h2>
             </div>
           </motion.div>
-        </motion.div>
+
+          {/* Bio Section with Terminal Style - responsive */}
+          <motion.div
+            variants={fadeIn("", "", 0.1, 1)}
+            className="relative mb-8 sm:mb-12"
+          >
+            <div className="bg-gray-900/90 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden glassmorphism">
+              {/* Terminal header - responsive */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-700/50 gap-2 sm:gap-0">
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                  <div className="flex space-x-1 sm:space-x-2">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <span className="text-gray-400 text-xs sm:text-sm">
+                    ~/portfolio/about.exe
+                  </span>
+                </div>
+                <div className="text-cyan-400 text-xs">
+                  NEURAL_NETWORK_v2.0.1
+                </div>
+              </div>
+
+              {/* Terminal content - responsive spacing */}
+              <div className="space-y-3 sm:space-y-4">
+                <div className="text-cyan-400 break-all sm:break-normal">
+                  <span className="text-purple-400">user@portfolio</span>:
+                  <span className="text-yellow-400">~$</span>{" "}
+                  ./initialize_profile.sh
+                </div>
+
+                <div className="text-green-400 mb-3 sm:mb-4">
+                  [INFO] Loading neural profile...
+                  <br />
+                  [SUCCESS] Profile initialized successfully
+                </div>
+
+                <div className="text-gray-300 leading-relaxed">
+                  <span className="text-purple-400">&gt;</span>{" "}
+                  <span className="text-cyan-400">CORE_IDENTITY:</span>
+                  <br />
+                  {typingText}
+                  <span className="animate-pulse text-cyan-400">|</span>
+                </div>
+
+                <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+                  <span className="text-purple-400">&gt;</span>{" "}
+                  <span className="text-cyan-400">EXPERTISE_DOMAINS:</span>
+                  <br />
+                  <span className="text-yellow-400">
+                    • Full-Stack Development
+                  </span>{" "}
+                  - React, Node.js, Python
+                  <br />
+                  <span className="text-yellow-400">• Test Automation</span> -
+                  WebdriverIO, Appium, CI/CD
+                  <br />
+                  <span className="text-yellow-400">• Quality Assurance</span> -
+                  Backend API validation
+                  <br />
+                  <span className="text-yellow-400">
+                    • System Architecture
+                  </span>{" "}
+                  - Scalable applications
+                </div>
+
+                <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+                  <span className="text-purple-400">&gt;</span>{" "}
+                  <span className="text-cyan-400">EDUCATION_MATRIX:</span>
+                  <br />
+                  <span className="text-green-400">
+                    University of British Columbia
+                  </span>{" "}
+                  - Computer Science
+                  <br />
+                  <span className="text-gray-400">
+                    └─ Software Engineering & Web Development Focus
+                  </span>
+                </div>
+
+                <div className="text-gray-300 leading-relaxed mt-6">
+                  <span className="text-purple-400">&gt;</span>{" "}
+                  <span className="text-cyan-400">PERSONAL_PROTOCOLS:</span>
+                  <br />
+                  <span className="text-pink-400">Fitness Enthusiast</span> |
+                  Discipline & Continuous Growth
+                  <br />
+                  <span className="text-gray-400">
+                    └─ Pushing limits in technology and life
+                  </span>
+                </div>
+
+                <div className="text-green-400 mt-6">
+                  [STATUS] Profile scan complete. All systems operational.
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Services Grid with Enhanced Design */}
+          <motion.div
+            variants={fadeIn("up", "spring", 0.3, 0.75)}
+            className="relative"
+          >
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center space-x-4 mb-6">
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+                <h3 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  Neural_Matrix
+                </h3>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
+              </div>
+              <p className="text-gray-400 font-mono mb-2">
+                &gt; Scanning specialized subsystems...
+              </p>
+              <div className="flex justify-center items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-green-400 font-mono text-sm">
+                  4 MODULES DETECTED
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {services.map((service, index) => (
+                <ServiceMatrix
+                  key={service.title}
+                  service={service}
+                  index={index}
+                />
+              ))}
+            </div>
+
+            {/* System status footer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 text-center"
+            >
+              <div className="bg-gray-900/60 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 max-w-md mx-auto">
+                <div className="flex items-center justify-center space-x-2 mb-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 font-mono text-sm">
+                    SYSTEM_STATUS: OPERATIONAL
+                  </span>
+                </div>
+                <p className="text-gray-400 text-xs font-mono">
+                  All subsystems initialized and ready for deployment
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(About, "about");
+export default About;

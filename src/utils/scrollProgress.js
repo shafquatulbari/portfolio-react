@@ -1,46 +1,83 @@
-// Scroll Progress Utility
+// Scroll Progress Utility - Ultra-tight snap scrolling optimized
 export const initScrollProgress = () => {
+  let ticking = false;
+
   const updateScrollProgress = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        // Check if we have a scroll container or use window
+        const scrollContainer = document.querySelector(".scroll-container");
 
-    document.documentElement.style.setProperty(
-      "--scroll-progress",
-      `${progress}%`
-    );
+        if (!scrollContainer) return;
 
-    // Update active navigation dot
-    const sections = document.querySelectorAll("section[id]");
-    const scrollPosition = scrollTop + 100; // Offset for navbar
+        const scrollTop = scrollContainer.scrollTop;
+        const scrollHeight =
+          scrollContainer.scrollHeight - scrollContainer.clientHeight;
 
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute("id");
-
-      if (
-        scrollPosition >= sectionTop &&
-        scrollPosition < sectionTop + sectionHeight
-      ) {
-        // Update active dot
-        document.querySelectorAll(".nav-dot").forEach((dot) => {
-          dot.classList.remove("active");
-        });
-        const activeDot = document.querySelector(
-          `.nav-dot[data-section="${sectionId}"]`
+        // More precise progress calculation for snap scrolling
+        const progress = Math.min(
+          100,
+          Math.max(0, (scrollTop / scrollHeight) * 100)
         );
-        if (activeDot) {
-          activeDot.classList.add("active");
+
+        document.documentElement.style.setProperty(
+          "--scroll-progress",
+          `${progress}%`
+        );
+
+        // Enhanced section detection for snap scrolling
+        const sections = document.querySelectorAll("section[id]");
+        const containerRect = scrollContainer.getBoundingClientRect();
+
+        // Find the section that's most in view (for snap scrolling)
+        let activeSection = null;
+        let maxIntersection = 0;
+
+        sections.forEach((section) => {
+          const sectionRect = section.getBoundingClientRect();
+          const sectionTop = sectionRect.top - containerRect.top;
+          const sectionBottom = sectionRect.bottom - containerRect.top;
+
+          // Calculate how much of the section is in the viewport
+          const viewportHeight = containerRect.height;
+          const intersectionTop = Math.max(0, -sectionTop);
+          const intersectionBottom = Math.min(
+            viewportHeight,
+            sectionRect.height + sectionTop
+          );
+          const intersection = Math.max(
+            0,
+            intersectionBottom - intersectionTop
+          );
+          const intersectionRatio = intersection / viewportHeight;
+
+          if (intersectionRatio > maxIntersection) {
+            maxIntersection = intersectionRatio;
+            activeSection = section;
+          }
+        });
+
+        // Update active navigation dot with more precision
+        if (activeSection) {
+          const sectionId = activeSection.getAttribute("id");
+          document.querySelectorAll(".nav-dot").forEach((dot) => {
+            dot.classList.remove("active");
+          });
+          const activeDot = document.querySelector(
+            `.nav-dot[data-section="${sectionId}"]`
+          );
+          if (activeDot) {
+            activeDot.classList.add("active");
+          }
         }
-      }
-    });
+
+        ticking = false;
+      });
+    }
+    ticking = true;
   };
 
   // Throttled scroll event listener
-  let ticking = false;
   const handleScroll = () => {
     if (!ticking) {
       requestAnimationFrame(() => {
@@ -51,26 +88,49 @@ export const initScrollProgress = () => {
     }
   };
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
+  // Add listener to both window and scroll container
+  const scrollContainer = document.querySelector(".scroll-container");
+
+  if (scrollContainer) {
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+  } else {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  }
 
   // Initial call
   updateScrollProgress();
 
   // Cleanup function
   return () => {
-    window.removeEventListener("scroll", handleScroll);
+    if (scrollContainer) {
+      scrollContainer.removeEventListener("scroll", handleScroll);
+    } else {
+      window.removeEventListener("scroll", handleScroll);
+    }
   };
 };
 
-// Smooth scroll to section
+// Enhanced smooth scroll to section with snap scrolling support
 export const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId);
+  const scrollContainer = document.querySelector(".scroll-container");
+
   if (element) {
-    const offsetTop = element.offsetTop - 80; // Account for navbar height
-    window.scrollTo({
-      top: offsetTop,
-      behavior: "smooth",
-    });
+    if (scrollContainer) {
+      // For scroll container, calculate position relative to container
+      const elementTop = element.offsetTop;
+      scrollContainer.scrollTo({
+        top: elementTop,
+        behavior: "smooth",
+      });
+    } else {
+      // Fallback to window scrolling
+      const offsetTop = element.offsetTop - 80; // Account for navbar height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    }
   }
 };
 

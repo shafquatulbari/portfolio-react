@@ -3,10 +3,22 @@ import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
-import { SectionWrapper } from "../hoc";
 import { slideIn, fadeIn, textVariant } from "../utils/motion";
 
-// Enhanced Transmission Animation Component
+// Stagger container animation (decoupled from SectionWrapper)
+const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+  return {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staggerChildren,
+        delayChildren: delayChildren || 0,
+      },
+    },
+  };
+};
+
+// Enhanced Transmission Animation Component - Optimized
 const TransmissionEffect = ({ isActive }) => {
   if (!isActive) return null;
 
@@ -15,13 +27,13 @@ const TransmissionEffect = ({ isActive }) => {
       {/* Main transmission overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent animate-pulse" />
 
-      {/* Enhanced signal bars - reduced from 30 to 20 */}
-      {[...Array(20)].map((_, i) => (
+      {/* Reduced signal bars for better performance */}
+      {[...Array(10)].map((_, i) => (
         <div
           key={i}
           className="absolute bottom-0 bg-gradient-to-t from-cyan-400 via-purple-400 to-transparent opacity-70 signal-bar"
           style={{
-            left: `${(i / 30) * 100}%`,
+            left: `${(i / 15) * 100}%`,
             width: "2px",
             height: `${Math.random() * 70 + 10}%`,
             animationDelay: `${i * 0.05}s`,
@@ -29,64 +41,25 @@ const TransmissionEffect = ({ isActive }) => {
         />
       ))}
 
-      {/* Data streams - reduced from 8 to 5 */}
-      {[...Array(5)].map((_, i) => (
+      {/* Reduced data streams */}
+      {[...Array(3)].map((_, i) => (
         <div
           key={i}
           className="absolute data-stream"
           style={{
-            left: `${(i / 8) * 100}%`,
+            left: `${(i / 5) * 100}%`,
             animationDelay: `${i * 0.2}s`,
           }}
         />
       ))}
 
-      {/* Pulse rings */}
+      {/* Simplified pulse rings */}
       <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-cyan-400/30 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse" />
-      <div
-        className="absolute top-1/2 left-1/2 w-64 h-64 border border-purple-400/20 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse"
-        style={{ animationDelay: "0.5s" }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 w-96 h-96 border border-pink-400/10 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse"
-        style={{ animationDelay: "1s" }}
-      />
-
-      {/* Scanning lines */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-pulse"
-          style={{ top: "20%" }}
-        />
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-purple-400/50 to-transparent animate-pulse"
-          style={{ top: "60%", animationDelay: "0.3s" }}
-        />
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent animate-pulse"
-          style={{ top: "80%", animationDelay: "0.6s" }}
-        />
-      </div>
-
-      {/* Holographic interference */}
-      <div className="absolute inset-0 opacity-30">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
-            style={{
-              top: `${20 + i * 15}%`,
-              animation: `data-flow ${2 + i * 0.3}s linear infinite`,
-              animationDelay: `${i * 0.2}s`,
-            }}
-          />
-        ))}
-      </div>
     </div>
   );
 };
 
-const Contact = () => {
+const Contact = ({ navigateToSection }) => {
   const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
@@ -163,7 +136,17 @@ const Contact = () => {
   };
 
   return (
-    <>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16"
+    >
+      <span className="hash-span" id="contact">
+        &nbsp;
+      </span>
+
       {/* Section Header */}
       <motion.div
         variants={textVariant()}
@@ -196,8 +179,8 @@ const Contact = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-sm opacity-30 animate-pulse" />
             <div className="absolute inset-[2px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl" />
 
-            {/* Form Content */}
-            <div className="relative p-6 lg:p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20">
+            {/* Form Content with Enhanced Blur */}
+            <div className="relative p-6 lg:p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md rounded-2xl border border-cyan-400/20 glassmorphism">
               {/* Terminal Header */}
               <div className="flex items-center gap-2 mb-6 lg:mb-8 pb-3 lg:pb-4 border-b border-gray-700/50">
                 <div className="flex gap-2">
@@ -461,8 +444,8 @@ const Contact = () => {
           </div>
         </motion.div>
       </div>
-    </>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(Contact, "contact");
+export default Contact;

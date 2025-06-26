@@ -2,7 +2,19 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { styles } from "../styles";
 import { experiences } from "../constants";
-import { SectionWrapper } from "../hoc";
+
+// Stagger container animation (decoupled from SectionWrapper)
+const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+  return {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staggerChildren,
+        delayChildren: delayChildren || 0,
+      },
+    },
+  };
+};
 
 const ExperienceCard = ({
   experience,
@@ -46,14 +58,14 @@ const ExperienceCard = ({
         />
       </div>
 
-      {/* Glow effect */}
+      {/* Glow effect - simplified */}
       <div
         className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
           isActive || isDetailed
-            ? "bg-gradient-to-r from-cyan-500/40 via-purple-500/40 to-pink-500/40 blur-xl scale-110"
+            ? "bg-gradient-to-r from-cyan-500/30 via-purple-500/30 to-pink-500/30 blur-lg scale-105"
             : isHovered
-            ? "bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-lg scale-105"
-            : "bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 blur-lg"
+            ? "bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-pink-500/15 blur-lg"
+            : "bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 blur-lg"
         }`}
       />
 
@@ -416,213 +428,225 @@ const Experience = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Cyberpunk background */}
-      <div className="absolute inset-0">
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
+    >
+      <span className="hash-span" id="work">
+        &nbsp;
+      </span>
+
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Cyberpunk background */}
+        <div className="absolute inset-0">
+          {/* Grid overlay */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `
               linear-gradient(rgba(34, 211, 238, 0.3) 1px, transparent 1px),
               linear-gradient(90deg, rgba(34, 211, 238, 0.3) 1px, transparent 1px)
             `,
-            backgroundSize: "50px 50px",
-            animation: "gridShift 20s linear infinite",
-          }}
-        />
-
-        {/* Floating particles - reduced from 20 to 12 */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
+              backgroundSize: "50px 50px",
+              animation: "gridShift 20s linear infinite",
             }}
           />
-        ))}
 
-        {/* Scanning lines */}
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" />
-        <div
-          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
+          {/* Floating particles - reduced from 20 to 8 */}
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
 
-      {/* Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-12 lg:mb-16 relative z-10 px-4"
-      >
-        <div className="relative inline-block">
-          {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl" />
+          {/* Scanning lines */}
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" />
+          <div
+            className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
+        </div>
 
-          {/* Terminal window */}
-          <div className="relative bg-gray-900/90 backdrop-blur-sm border border-cyan-400/30 rounded-2xl shadow-2xl overflow-hidden max-w-4xl">
-            {/* Terminal header */}
-            <div className="flex items-center justify-between bg-gray-800/50 px-4 lg:px-6 py-3 border-b border-gray-700/50">
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12 lg:mb-16 relative z-10 px-4"
+        >
+          <div className="relative inline-block">
+            {/* Background glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl" />
+
+            {/* Terminal window with Enhanced Blur */}
+            <div className="relative bg-gray-900/90 backdrop-blur-lg border border-cyan-400/30 rounded-2xl shadow-2xl overflow-hidden max-w-4xl glassmorphism">
+              {/* Terminal header */}
+              <div className="flex items-center justify-between bg-gray-800/50 backdrop-blur-sm px-4 lg:px-6 py-3 border-b border-gray-700/50">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <span className="text-gray-900 font-mono text-sm ml-4">
+                    experience_terminal.exe
+                  </span>
                 </div>
-                <span className="text-gray-400 font-mono text-sm ml-4">
-                  experience_terminal.exe
-                </span>
+                <div className="text-xs font-mono text-cyan-400">
+                  NEURAL_NET_v2.1.0
+                </div>
               </div>
-              <div className="text-xs font-mono text-cyan-400">
-                NEURAL_NET_v2.1.0
+
+              {/* Terminal content */}
+              <div className="p-4 lg:p-6">
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-cyan-400 mb-2 text-sm lg:text-base font-mono"
+                >
+                  &gt; Professional Timeline Accessed
+                </motion.p>
+
+                <motion.h2
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-white mb-3 text-2xl lg:text-4xl xl:text-5xl font-black"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #00ffff, #aa00ff, #ff006e)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundSize: "200% auto",
+                    animation: "shimmer 3s linear infinite",
+                  }}
+                >
+                  Work Experience.exe
+                </motion.h2>
+
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 0.7, duration: 1 }}
+                  className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+                />
               </div>
-            </div>
-
-            {/* Terminal content */}
-            <div className="p-4 lg:p-6">
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-cyan-400 mb-2 text-sm lg:text-base font-mono"
-              >
-                &gt; Professional Timeline Accessed
-              </motion.p>
-
-              <motion.h2
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-white mb-3 text-2xl lg:text-4xl xl:text-5xl font-black"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #00ffff, #aa00ff, #ff006e)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundSize: "200% auto",
-                  animation: "shimmer 3s linear infinite",
-                }}
-              >
-                Work Experience.exe
-              </motion.h2>
-
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 0.7, duration: 1 }}
-                className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-              />
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Interactive Content */}
-      <AnimatePresence>
-        {showContent && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10"
-          >
-            {/* Timeline Navigation - only show when not in detailed view */}
-            {detailedView === null && (
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex justify-center mb-6 lg:mb-8"
-              >
-                <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2 shadow-2xl">
-                  <div className="flex space-x-1 text-xs font-mono text-center">
-                    <span className="text-cyan-400 px-2 py-1">Timeline:</span>
-                    {experiences.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveIndex(index)}
-                        className={`w-8 h-8 rounded-lg border transition-all duration-300 ${
-                          activeIndex === index
-                            ? "bg-cyan-400 border-cyan-400 text-gray-900"
-                            : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
-                        }`}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Experience Cards - Horizontal Layout */}
-            <motion.div
-              layout
-              className={`folded-card-container transition-all duration-700 ${
-                detailedView !== null
-                  ? "w-full"
-                  : "flex gap-4 lg:gap-6 h-[350px] lg:h-[450px]"
-              }`}
-            >
-              {experiences.map((experience, index) => (
-                <ExperienceCard
-                  key={index}
-                  experience={experience}
-                  index={index}
-                  isActive={activeIndex === index}
-                  isDetailed={detailedView === index}
-                  onClick={() => handleCardClick(index)}
-                />
-              ))}
-            </motion.div>
-
-            {/* Back to grid button for mobile */}
-            {detailedView !== null && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex justify-center mt-8 lg:hidden"
-              >
-                <button
-                  onClick={() => setDetailedView(null)}
-                  className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-3 rounded-xl font-mono text-sm hover:shadow-lg transition-all duration-300 flex items-center gap-2"
-                >
-                  <div className="w-4 h-0.5 bg-white rounded-full"></div>
-                  <span>Back to Grid</span>
-                </button>
-              </motion.div>
-            )}
-
-            {/* System status footer */}
+        {/* Interactive Content */}
+        <AnimatePresence>
+          {showContent && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.0 }}
-              className="mt-12 lg:mt-16 text-center"
+              exit={{ opacity: 0 }}
+              className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10"
             >
-              <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50 max-w-md mx-auto">
-                <div className="flex items-center justify-center space-x-2 mb-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 font-mono text-sm">
-                    EXPERIENCE_MATRIX: OPERATIONAL
-                  </span>
+              {/* Timeline Navigation - only show when not in detailed view */}
+              {detailedView === null && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex justify-center mb-6 lg:mb-8"
+                >
+                  <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2 shadow-2xl">
+                    <div className="flex space-x-1 text-xs font-mono text-center">
+                      <span className="text-cyan-400 px-2 py-1">Timeline:</span>
+                      {experiences.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setActiveIndex(index)}
+                          className={`w-8 h-8 rounded-lg border transition-all duration-300 ${
+                            activeIndex === index
+                              ? "bg-cyan-400 border-cyan-400 text-gray-900"
+                              : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
+                          }`}
+                        >
+                          {index + 1}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Experience Cards - Horizontal Layout */}
+              <motion.div
+                layout
+                className={`folded-card-container transition-all duration-700 ${
+                  detailedView !== null
+                    ? "w-full"
+                    : "flex gap-4 lg:gap-6 h-[350px] lg:h-[450px]"
+                }`}
+              >
+                {experiences.map((experience, index) => (
+                  <ExperienceCard
+                    key={index}
+                    experience={experience}
+                    index={index}
+                    isActive={activeIndex === index}
+                    isDetailed={detailedView === index}
+                    onClick={() => handleCardClick(index)}
+                  />
+                ))}
+              </motion.div>
+
+              {/* Back to grid button for mobile */}
+              {detailedView !== null && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-center mt-8 lg:hidden"
+                >
+                  <button
+                    onClick={() => setDetailedView(null)}
+                    className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-3 rounded-xl font-mono text-sm hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+                  >
+                    <div className="w-4 h-0.5 bg-white rounded-full"></div>
+                    <span>Back to Grid</span>
+                  </button>
+                </motion.div>
+              )}
+
+              {/* System status footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0 }}
+                className="mt-12 lg:mt-16 text-center"
+              >
+                <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50 max-w-md mx-auto">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 font-mono text-sm">
+                      EXPERIENCE_MATRIX: OPERATIONAL
+                    </span>
+                  </div>
+                  <p className="text-gray-400 text-xs font-mono">
+                    {experiences.length} experience modules loaded and verified
+                  </p>
                 </div>
-                <p className="text-gray-400 text-xs font-mono">
-                  {experiences.length} experience modules loaded and verified
-                </p>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(Experience, "work");
+export default Experience;

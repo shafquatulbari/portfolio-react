@@ -5,10 +5,27 @@ import { styles } from "../styles";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../../public/assets";
 
-const Navbar = () => {
+const Navbar = ({ currentSection, navigateToSection }) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Update active state when currentSection changes
+  useEffect(() => {
+    if (currentSection) {
+      // Map section IDs to nav titles
+      const sectionToTitle = {
+        hero: "",
+        "neural-profile": "About",
+        "neural-matrix": "Neural Matrix",
+        experience: "Work",
+        tech: "Tech",
+        projects: "Work",
+        contact: "Contact",
+      };
+      setActive(sectionToTitle[currentSection] || "");
+    }
+  }, [currentSection]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,13 +53,13 @@ const Navbar = () => {
       }`}
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
-        {/* Logo and Title with Cyberpunk Effects */}
+        {/* Logo and Title with Cyberpunk Effects */}{" "}
         <Link
           to="/"
           className="flex items-center gap-3 group"
           onClick={() => {
             setActive("");
-            window.scrollTo(0, 0);
+            navigateToSection("hero");
           }}
         >
           {/* Logo with glow effect */}
@@ -73,7 +90,6 @@ const Navbar = () => {
             <span className="inline-block w-2 h-5 bg-cyan-400 ml-1 animate-pulse"></span>
           </div>
         </Link>
-
         {/* Desktop Navigation with Cyberpunk Style */}
         <ul className="list-none hidden sm:flex flex-row gap-8">
           {navLinks.map((nav, index) => (
@@ -89,13 +105,8 @@ const Navbar = () => {
                 } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
                 onClick={(e) => {
                   e.preventDefault();
-                  const element = document.getElementById(nav.id);
-                  if (element) {
-                    element.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
+                  setActive(nav.title);
+                  navigateToSection(nav.id);
                 }}
               >
                 <span className="text-cyan-400">
@@ -114,7 +125,6 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-
         {/* Mobile Navigation with Enhanced Design */}
         <div className="sm:hidden flex flex-1 justify-end items-center">
           <div className="relative">
@@ -160,6 +170,12 @@ const Navbar = () => {
                     className={`${
                       active === nav.title ? "text-cyan-400" : "text-gray-300"
                     } font-mono text-[14px] cursor-pointer hover:text-cyan-400 transition-all duration-300 flex items-center gap-2`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToggle(!toggle);
+                      setActive(nav.title);
+                      navigateToSection(nav.id);
+                    }}
                   >
                     <span className="text-cyan-400">
                       {String(index + 1).padStart(2, "0")}.
