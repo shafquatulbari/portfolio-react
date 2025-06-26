@@ -261,7 +261,7 @@ const App = () => {
 
         {/* Enhanced Navigation Buttons - Show on all sections except Hero */}
         {currentSection !== "hero" && (
-          <div className="fixed bottom-6 left-6 z-40 flex flex-col gap-3">
+          <div className="fixed bottom-20 sm:bottom-16 md:bottom-12 lg:bottom-8 left-4 sm:left-6 z-40 flex flex-col gap-3">
             {/* Navigate Up Button */}
             <button
               onClick={() => {
@@ -360,7 +360,7 @@ const App = () => {
 
         {/* Home Navigation Button - Show only when NOT on Hero */}
         {currentSection !== "hero" && (
-          <div className="fixed bottom-6 right-6 z-40">
+          <div className="fixed bottom-20 sm:bottom-16 md:bottom-12 lg:bottom-8 right-4 sm:right-6 z-40">
             <button
               onClick={() => {
                 setCurrentSection("hero");

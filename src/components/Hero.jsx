@@ -355,12 +355,12 @@ const Hero = ({ navigateToSection }) => {
         </Suspense>
       </div>
 
-      {/* Enhanced Scroll Indicator - responsive positioning */}
+      {/* Enhanced Scroll Indicator - responsive positioning with mobile fix */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-8 sm:bottom-10 w-full flex justify-center items-center z-40"
+        className="absolute bottom-20 sm:bottom-16 md:bottom-12 lg:bottom-10 w-full flex justify-center items-center z-40 hero-scroll-indicator"
       >
         <button
           onClick={() => {

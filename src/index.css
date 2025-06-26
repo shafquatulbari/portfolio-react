@@ -1620,6 +1620,17 @@ section {
   .optimized-sparkle {
     will-change: auto;
   }
+
+  /* Experience section improvements */
+  .experience-slider {
+    padding: 0 16px;
+    min-height: 300px;
+  }
+
+  .experience-card-wrapper {
+    min-width: 240px;
+    max-width: calc(100vw - 80px);
+  }
 }
 
 /* Performance hints for browsers */
@@ -1798,4 +1809,179 @@ section[id] {
   /* Clean section structure for XPath targeting */
   contain: layout style paint;
   isolation: isolate;
+}
+
+/* iOS Safari specific fixes for scroll indicator */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific styling with safe area support */
+  .hero-scroll-indicator {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 100px) !important;
+  }
+}
+
+/* Enhanced mobile positioning for all navigation elements */
+@media screen and (max-width: 768px) {
+  .hero-scroll-indicator {
+    bottom: 100px !important;
+  }
+
+  /* Ensure navigation buttons are visible on mobile */
+  .fixed.bottom-20 {
+    bottom: 100px !important;
+  }
+}
+
+/* Extra spacing for mobile devices in landscape */
+@media screen and (max-width: 812px) and (orientation: landscape) {
+  .hero-scroll-indicator {
+    bottom: 80px !important;
+  }
+
+  .fixed.bottom-20 {
+    bottom: 80px !important;
+  }
+}
+
+/* iPhone specific adjustments for newer models */
+@media screen and (max-width: 430px) {
+  .hero-scroll-indicator {
+    bottom: 120px !important;
+  }
+
+  .fixed.bottom-20 {
+    bottom: 120px !important;
+  }
+}
+
+/* Extra safe positioning for very small screens */
+@media screen and (max-width: 360px) {
+  .hero-scroll-indicator {
+    bottom: 140px !important;
+  }
+
+  .fixed.bottom-20 {
+    bottom: 140px !important;
+  }
+}
+
+/* Ensure buttons stay visible during iOS Safari minimal UI mode */
+@supports (-webkit-touch-callout: none) {
+  @media screen and (max-height: 700px) {
+    .hero-scroll-indicator,
+    .fixed.bottom-20 {
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 120px) !important;
+    }
+  }
+}
+
+/* Experience Section Mobile Optimizations */
+/* Desktop optimizations - proper container heights */
+@media screen and (min-width: 1024px) {
+  /* Desktop: reduce container height for better proportions */
+  #experience .min-h-\[280px\] {
+    min-height: 260px !important;
+  }
+
+  #experience .min-h-\[300px\] {
+    min-height: 260px !important;
+  }
+
+  #experience .max-h-\[320px\] {
+    max-height: 280px !important;
+  }
+
+  #experience .max-h-\[300px\] {
+    max-height: 280px !important;
+  }
+
+  /* Ensure proper card spacing on desktop */
+  .experience-card-wrapper {
+    margin: 0 16px;
+  }
+
+  .experience-slider {
+    padding: 0 20px;
+  }
+}
+
+/* Tablet optimizations */
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  #experience .min-h-\[280px\] {
+    min-height: 280px !important;
+  }
+
+  #experience .max-h-\[320px\] {
+    max-height: 300px !important;
+  }
+}
+
+/* Enhanced container height management for mobile devices */
+@media screen and (max-width: 768px) {
+  /* Experience slider container improvements */
+  #experience .min-h-\[300px\] {
+    min-height: 320px !important;
+  }
+
+  #experience .max-h-\[360px\] {
+    max-height: 380px !important;
+  }
+
+  /* Ensure cards have proper spacing on mobile */
+  .experience-card-wrapper {
+    margin: 0 8px;
+  }
+
+  /* Better touch interaction */
+  .experience-slider {
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .experience-card-wrapper {
+    scroll-snap-align: center;
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  #experience .min-h-\[300px\] {
+    min-height: 300px !important;
+  }
+
+  #experience .max-h-\[360px\] {
+    max-height: 340px !important;
+  }
+
+  .experience-card-wrapper {
+    min-width: 220px;
+    max-width: calc(100vw - 60px);
+  }
+}
+
+/* Very small screens */
+@media screen and (max-width: 360px) {
+  #experience .min-h-\[300px\] {
+    min-height: 280px !important;
+  }
+
+  #experience .max-h-\[360px\] {
+    max-height: 320px !important;
+  }
+
+  .experience-card-wrapper {
+    min-width: 200px;
+    max-width: calc(100vw - 40px);
+  }
+}
+
+/* Landscape orientation for mobile */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  #experience .min-h-\[300px\] {
+    min-height: 250px !important;
+  }
+
+  #experience .max-h-\[360px\] {
+    max-height: 300px !important;
+  }
 }

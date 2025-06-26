@@ -103,7 +103,7 @@ const ExperienceCard = ({
             : "border-gray-700/50 hover:border-gray-600"
         } ${
           isDetailed
-            ? "detailed p-6 lg:p-8"
+            ? "detailed p-4 lg:p-6"
             : isActive
             ? "active p-4 lg:p-6 h-[400px] lg:h-[450px]"
             : "p-3 lg:p-4 h-[350px] lg:h-[400px]"
@@ -147,7 +147,7 @@ const ExperienceCard = ({
         </div>
 
         {/* Company header */}
-        <div className={`${isDetailed ? "grid md:grid-cols-2 gap-6" : ""}`}>
+        <div className={`${isDetailed ? "grid md:grid-cols-2 gap-4" : ""}`}>
           <div className="h-full flex flex-col">
             <div
               className={`flex items-start justify-between ${
@@ -193,7 +193,7 @@ const ExperienceCard = ({
 
             {/* Date for detailed view */}
             {isDetailed && (
-              <div className="mb-6">
+              <div className="mb-4">
                 <div className="inline-flex items-center gap-2 bg-gray-800/70 px-4 py-2 rounded-lg border border-cyan-400/30">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                   <span className="text-gray-300 font-mono text-sm">
@@ -206,7 +206,7 @@ const ExperienceCard = ({
             {/* Matrix-style divider */}
             <div
               className={`relative ${
-                isDetailed ? "mb-6" : isActive ? "mb-3" : "mb-2"
+                isDetailed ? "mb-4" : isActive ? "mb-3" : "mb-2"
               }`}
             >
               <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent" />
@@ -223,7 +223,7 @@ const ExperienceCard = ({
             <div
               className={`space-y-2 flex-1 overflow-hidden ${
                 isDetailed
-                  ? "max-h-none space-y-4"
+                  ? "max-h-none space-y-3"
                   : isActive
                   ? "max-h-[250px] overflow-y-auto"
                   : "max-h-[150px]"
@@ -308,7 +308,7 @@ const ExperienceCard = ({
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="space-y-6"
+              className="space-y-4"
             >
               {/* Skills/Technologies used */}
               {experience.technologies && (
@@ -377,23 +377,6 @@ const ExperienceCard = ({
           )}
         </div>
 
-        {/* Close button for detailed view */}
-        {isDetailed && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick();
-            }}
-            className="absolute top-4 right-4 w-8 h-8 bg-red-500/20 hover:bg-red-500/40 border border-red-500/50 rounded-full flex items-center justify-center transition-all duration-300 group"
-          >
-            <div className="w-4 h-0.5 bg-red-400 rounded-full transform rotate-45 absolute"></div>
-            <div className="w-4 h-0.5 bg-red-400 rounded-full transform -rotate-45 absolute"></div>
-          </motion.button>
-        )}
-
         {/* Active indicator */}
         {(isActive || isDetailed) && !isDetailed && (
           <motion.div
@@ -433,18 +416,6 @@ const ExperienceCard = ({
 const Experience = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showContent, setShowContent] = useState(false);
-  const [detailedView, setDetailedView] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-
-  // Slider refs and motion values
-  const sliderRef = useRef(null);
-  const containerRef = useRef(null);
-  const x = useMotionValue(0);
-
-  // Card dimensions
-  const cardWidth = 320; // Fixed card width
-  const cardGap = 32; // Gap between cards
-  const totalCardWidth = cardWidth + cardGap;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -453,131 +424,36 @@ const Experience = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Center the active card
-  useEffect(() => {
-    if (containerRef.current && !isDragging && detailedView === null) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const centerOffset = containerWidth / 2 - cardWidth / 2;
-      const targetX = centerOffset - activeIndex * totalCardWidth;
-      x.set(targetX);
-    }
-  }, [activeIndex, x, isDragging, detailedView, totalCardWidth, cardWidth]);
-
-  // Handle drag end to snap to nearest card
-  const handleDragEnd = (event, info) => {
-    setIsDragging(false);
-    const currentX = x.get();
-    const velocity = info.velocity.x;
-    const containerWidth = containerRef.current?.offsetWidth || 0;
-    const centerOffset = containerWidth / 2 - cardWidth / 2;
-
-    // Calculate which card should be in center based on current position
-    let targetIndex = Math.round((centerOffset - currentX) / totalCardWidth);
-
-    // Adjust for velocity (swipe detection)
-    if (Math.abs(velocity) > 500) {
-      if (velocity > 0 && targetIndex > 0) {
-        targetIndex -= 1;
-      } else if (velocity < 0 && targetIndex < experiences.length - 1) {
-        targetIndex += 1;
-      }
-    }
-
-    const clampedIndex = Math.max(
-      0,
-      Math.min(experiences.length - 1, targetIndex)
-    );
-    setActiveIndex(clampedIndex);
-  };
-
-  const handleCardClick = (index) => {
-    if (activeIndex === index) {
-      // If clicking the active card, toggle detailed view
-      if (detailedView === index) {
-        setDetailedView(null);
-      } else {
-        setDetailedView(index);
-      }
-    } else {
-      // If clicking a different card, make it active
-      setActiveIndex(index);
-      setDetailedView(null);
-    }
-  };
-
   // Navigation functions
   const goToSlide = (index) => {
     setActiveIndex(index);
-    setDetailedView(null);
   };
 
   const nextSlide = () => {
     if (activeIndex < experiences.length - 1) {
       setActiveIndex((prev) => prev + 1);
-      setDetailedView(null);
     }
   };
 
   const prevSlide = () => {
     if (activeIndex > 0) {
       setActiveIndex((prev) => prev - 1);
-      setDetailedView(null);
-    }
-  };
-
-  // Get card position relative to active card
-  const getCardPosition = (index) => {
-    if (index < activeIndex) return "left";
-    if (index > activeIndex) return "right";
-    return "center";
-  };
-
-  // Touch handling for mobile
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    }
-    if (isRightSwipe) {
-      prevSlide();
     }
   };
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (detailedView !== null) return;
-
       if (e.key === "ArrowLeft") {
         prevSlide();
       } else if (e.key === "ArrowRight") {
         nextSlide();
-      } else if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleCardClick(activeIndex);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex, detailedView]);
+  }, [activeIndex]);
 
   return (
     <motion.section
@@ -588,49 +464,6 @@ const Experience = () => {
       className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
     >
       <style jsx>{`
-        .experience-slider {
-          touch-action: pan-x;
-          user-select: none;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-        }
-
-        .experience-slider:active {
-          cursor: grabbing !important;
-        }
-
-        @media (max-width: 768px) {
-          .experience-slider {
-            touch-action: pan-x;
-            -webkit-overflow-scrolling: touch;
-          }
-        }
-
-        .experience-card-wrapper {
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: transform, opacity;
-        }
-
-        .experience-card-wrapper:hover {
-          transform: translateY(-4px) scale(1.02);
-        }
-
-        .navigation-arrow {
-          backdrop-filter: blur(12px);
-          transition: all 0.3s ease;
-          will-change: transform;
-        }
-
-        .navigation-arrow:hover:not(:disabled) {
-          transform: scale(1.1);
-          box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
-        }
-
-        .navigation-arrow:active:not(:disabled) {
-          transform: scale(0.95);
-        }
-
         .timeline-dot {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           will-change: transform;
@@ -645,18 +478,33 @@ const Experience = () => {
         }
 
         @media (hover: none) and (pointer: coarse) {
-          .navigation-arrow:hover {
-            transform: none;
-            box-shadow: none;
-          }
-
-          .experience-card-wrapper:hover {
-            transform: none;
-          }
-
           .timeline-dot:hover {
             transform: none;
           }
+        }
+
+        @keyframes gridShift {
+          0% {
+            transform: translate(0, 0);
+          }
+          100% {
+            transform: translate(20px, 20px);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: -200% center;
+          }
+          100% {
+            background-position: 200% center;
+          }
+        }
+
+        .glassmorphism {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
       `}</style>
       <span className="hash-span" id="work">
@@ -708,12 +556,12 @@ const Experience = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 lg:mb-16 relative z-10 px-4"
         >
-          <div className="relative inline-block">
+          <div className="relative flex justify-center">
             {/* Background glow */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl" />
 
             {/* Terminal window with Enhanced Blur */}
-            <div className="relative bg-gray-900/90 backdrop-blur-lg border border-cyan-400/30 rounded-2xl shadow-2xl overflow-hidden max-w-4xl glassmorphism">
+            <div className="relative bg-gray-900/90 backdrop-blur-lg border border-cyan-400/30 rounded-2xl shadow-2xl overflow-hidden w-full max-w-4xl glassmorphism">
               {/* Terminal header */}
               <div className="flex items-center justify-between bg-gray-800/50 backdrop-blur-sm px-4 lg:px-6 py-3 border-b border-gray-700/50">
                 <div className="flex items-center space-x-2">
@@ -722,11 +570,11 @@ const Experience = () => {
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
-                  <span className="text-gray-900 font-mono text-sm ml-4">
+                  <span className="text-gray-400 font-mono text-xs sm:text-sm ml-2 sm:ml-4">
                     experience_terminal.exe
                   </span>
                 </div>
-                <div className="text-xs font-mono text-cyan-400">
+                <div className="text-[10px] sm:text-xs font-mono text-cyan-400">
                   NEURAL_NET_v2.1.0
                 </div>
               </div>
@@ -737,7 +585,7 @@ const Experience = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-cyan-400 mb-2 text-sm lg:text-base font-mono"
+                  className="text-cyan-400 mb-2 text-xs sm:text-sm lg:text-base font-mono"
                 >
                   &gt; Professional Timeline Accessed
                 </motion.p>
@@ -746,7 +594,7 @@ const Experience = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="text-white mb-3 text-2xl lg:text-4xl xl:text-5xl font-black"
+                  className="text-white mb-3 text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-black text-center"
                   style={{
                     background:
                       "linear-gradient(90deg, #00ffff, #aa00ff, #ff006e)",
@@ -779,152 +627,121 @@ const Experience = () => {
               exit={{ opacity: 0 }}
               className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10"
             >
-              {/* Timeline Navigation - Enhanced with navigation buttons */}
-              {detailedView === null && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex flex-col items-center gap-4 mb-6 lg:mb-8"
-                >
-                  {/* Timeline dots */}
-                  <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2 shadow-2xl">
-                    <div className="flex items-center space-x-1 text-xs font-mono text-center">
-                      <button
-                        onClick={prevSlide}
-                        disabled={activeIndex === 0}
-                        className="text-cyan-400 px-2 py-1 hover:text-cyan-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                        aria-label="Previous experience"
-                      >
-                        ←
-                      </button>
-                      <span className="text-cyan-400 px-2 py-1">Timeline:</span>
-                      {experiences.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => goToSlide(index)}
-                          className={`timeline-dot w-8 h-8 rounded-lg border transition-all duration-300 ${
-                            activeIndex === index
-                              ? "bg-cyan-400 border-cyan-400 text-gray-900"
-                              : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
-                          }`}
-                        >
-                          {index + 1}
-                        </button>
-                      ))}
-                      <button
-                        onClick={nextSlide}
-                        disabled={activeIndex === experiences.length - 1}
-                        className="text-cyan-400 px-2 py-1 hover:text-cyan-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                        aria-label="Next experience"
-                      >
-                        →
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Slide indicator */}
-                  <div className="text-center">
-                    <span className="text-gray-400 text-xs font-mono">
-                      {activeIndex + 1} / {experiences.length} • Drag to
-                      navigate • Click active card for details
-                    </span>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Experience Cards - Horizontal Slider */}
+              {/* Navigation Header */}
               <motion.div
-                layout
-                className={`relative ${
-                  detailedView !== null
-                    ? "w-full"
-                    : "h-[450px] lg:h-[500px] overflow-hidden"
-                }`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8"
               >
-                {detailedView !== null ? (
-                  // Detailed view - show single card
-                  <div className="w-full">
-                    <ExperienceCard
-                      key={detailedView}
-                      experience={experiences[detailedView]}
-                      index={detailedView}
-                      isActive={true}
-                      isDetailed={true}
-                      onClick={() => handleCardClick(detailedView)}
-                    />
+                {/* Timeline indicator */}
+                <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-3 shadow-2xl">
+                  <div className="flex items-center space-x-2 text-xs font-mono">
+                    <span className="text-cyan-400">Timeline:</span>
+                    {experiences.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => goToSlide(index)}
+                        className={`timeline-dot w-6 h-6 sm:w-8 sm:h-8 rounded-lg border transition-all duration-300 text-xs ${
+                          activeIndex === index
+                            ? "bg-cyan-400 border-cyan-400 text-gray-900"
+                            : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
                   </div>
-                ) : (
-                  // Slider view
-                  <div
-                    ref={containerRef}
-                    className="relative w-full h-full"
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
+                </div>
+
+                {/* Unique Navigation Buttons */}
+                <div className="flex items-center gap-4">
+                  {/* Previous Experience Button */}
+                  <motion.button
+                    onClick={prevSlide}
+                    disabled={activeIndex === 0}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative overflow-hidden bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-purple-400/30 rounded-xl px-4 py-3 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:border-purple-400/60"
                   >
-                    <motion.div
-                      ref={sliderRef}
-                      style={{ x }}
-                      drag="x"
-                      dragConstraints={{ left: -2000, right: 2000 }}
-                      dragElastic={0.2}
-                      dragMomentum={false}
-                      onDragStart={() => setIsDragging(true)}
-                      onDragEnd={handleDragEnd}
-                      className="experience-slider flex gap-8 h-full cursor-grab active:cursor-grabbing select-none items-center"
-                      whileTap={{ cursor: "grabbing" }}
-                    >
-                      {experiences.map((experience, index) => (
-                        <div key={index} className="experience-card-wrapper">
-                          <ExperienceCard
-                            experience={experience}
-                            index={index}
-                            isActive={activeIndex === index}
-                            isDetailed={false}
-                            position={getCardPosition(index)}
-                            onClick={() => handleCardClick(index)}
-                          />
-                        </div>
-                      ))}
-                    </motion.div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-purple-400 rounded-full flex items-center justify-center">
+                        <div className="w-0 h-0 border-t-2 border-b-2 border-r-4 border-transparent border-r-purple-400 -ml-0.5" />
+                      </div>
+                      <span className="text-purple-400 font-mono text-sm hidden sm:block">
+                        PREV_EXP
+                      </span>
+                    </div>
+                  </motion.button>
 
-                    {/* Navigation arrows */}
-                    <button
-                      onClick={prevSlide}
-                      disabled={activeIndex === 0}
-                      className="navigation-arrow absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gray-900/80 backdrop-blur-sm border border-cyan-400/30 rounded-full flex items-center justify-center text-cyan-400 hover:border-cyan-400 hover:bg-gray-800/80 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      ←
-                    </button>
-
-                    <button
-                      onClick={nextSlide}
-                      disabled={activeIndex === experiences.length - 1}
-                      className="navigation-arrow absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gray-900/80 backdrop-blur-sm border border-cyan-400/30 rounded-full flex items-center justify-center text-cyan-400 hover:border-cyan-400 hover:bg-gray-800/80 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      →
-                    </button>
-                  </div>
-                )}
+                  {/* Next Experience Button */}
+                  <motion.button
+                    onClick={nextSlide}
+                    disabled={activeIndex === experiences.length - 1}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative overflow-hidden bg-gradient-to-r from-cyan-600/20 to-blue-600/20 backdrop-blur-sm border border-cyan-400/30 rounded-xl px-4 py-3 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed hover:border-cyan-400/60"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="relative flex items-center gap-2">
+                      <span className="text-cyan-400 font-mono text-sm hidden sm:block">
+                        NEXT_EXP
+                      </span>
+                      <div className="w-4 h-4 border-2 border-cyan-400 rounded-full flex items-center justify-center">
+                        <div className="w-0 h-0 border-t-2 border-b-2 border-l-4 border-transparent border-l-cyan-400 ml-0.5" />
+                      </div>
+                    </div>
+                  </motion.button>
+                </div>
               </motion.div>
 
-              {/* Back to grid button for mobile */}
-              {detailedView !== null && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex justify-center mt-8 lg:hidden"
-                >
-                  <button
-                    onClick={() => setDetailedView(null)}
-                    className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-3 rounded-xl font-mono text-sm hover:shadow-lg transition-all duration-300 flex items-center gap-2"
-                  >
-                    <div className="w-4 h-0.5 bg-white rounded-full"></div>
-                    <span>Back to Grid</span>
-                  </button>
-                </motion.div>
-              )}
+              {/* Experience Card - Single View */}
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className="w-full"
+              >
+                <ExperienceCard
+                  experience={experiences[activeIndex]}
+                  index={activeIndex}
+                  isActive={true}
+                  isDetailed={true}
+                  onClick={() => {}} // No action needed for single view
+                />
+              </motion.div>
+
+              {/* Progress indicator */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex justify-center mt-8"
+              >
+                <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 font-mono text-sm">
+                      EXPERIENCE {activeIndex + 1} OF {experiences.length}
+                    </span>
+                  </div>
+                  <div className="flex space-x-1">
+                    {experiences.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`h-1 rounded-full transition-all duration-300 ${
+                          index === activeIndex
+                            ? "w-8 bg-cyan-400"
+                            : "w-2 bg-gray-600"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
 
               {/* System status footer */}
               <motion.div
