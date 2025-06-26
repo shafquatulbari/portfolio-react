@@ -39,6 +39,12 @@ module.exports = {
         center: "center",
         end: "end",
       },
+      animation: {
+        "spin-slow": "spin-slow 20s linear infinite",
+        "spin-reverse-slow": "spin-reverse-slow 25s linear infinite",
+        "orbital-glow": "orbital-glow 3s ease-in-out infinite",
+        "holographic-shimmer": "holographic-shimmer 2s linear infinite",
+      },
     },
   },
   plugins: [

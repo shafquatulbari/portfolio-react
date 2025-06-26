@@ -169,145 +169,183 @@ const ProjectCard = ({
 };
 
 const Works = () => {
+  const [hoveredProject, setHoveredProject] = useState(null);
+
   return (
-    <div className="relative py-16">
-      {/* Section Header */}
-      <motion.div variants={textVariant()} className="text-center mb-16">
-        <p className={`${styles.sectionSubText} text-center mb-4`}>
-          Portfolio showcase
-        </p>
-
-        {/* Enhanced title with terminal styling */}
-        <div className="relative inline-block">
-          {/* Glowing border effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-violet-500 to-fuchsia-500 rounded-2xl blur-sm opacity-30 animate-pulse" />
-          <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/30 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-purple-400/20 px-8 py-6">
-            {/* Terminal header */}
-            <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-700/50">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              </div>
-              <div className="ml-4 text-purple-400 font-mono text-sm">
-                projects_portfolio.exe
-              </div>
-            </div>
-
-            {/* Terminal command */}
-            <div className="mb-4 font-mono text-sm">
-              <div className="text-purple-400">
-                <span className="text-green-400">shafquat@portfolio</span>
-                <span className="text-white">:</span>
-                <span className="text-blue-400">~/projects</span>
-                <span className="text-white">$ </span>
-                <span className="text-violet-400">ls -la --showcase</span>
-              </div>
-              <div className="text-gray-300 mt-1">
-                &gt; Loading project files...
-                <span className="animate-pulse ml-2">█</span>
-              </div>
-            </div>
-
-            <h2
-              className={`${styles.sectionHeadText} text-center bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent font-mono`}
-            >
-              &lt;PROJECTS /&gt;
-            </h2>
-          </div>
-        </div>
-
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="flex justify-center gap-8 mt-8"
-        >
-          {[
-            {
-              label: "Total Projects",
-              value: projects.length,
-              color: "text-purple-400",
-            },
-            { label: "Technologies", value: "15+", color: "text-violet-400" },
-            {
-              label: "Lines of Code",
-              value: "50K+",
-              color: "text-fuchsia-400",
-            },
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className={`text-2xl font-bold font-mono ${stat.color}`}>
-                {stat.value}
-              </div>
-              <div className="text-gray-400 text-sm">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
+    <div className="relative py-8 h-screen flex flex-col">
+      {/* Compact Header */}
+      <motion.div variants={textVariant()} className="text-center mb-8">
+        <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+          Projects
+        </h2>
+        <p className="text-gray-400 text-sm">Interactive showcase of my work</p>
       </motion.div>
 
-      {/* Projects Sliding Container */}
-      <div className="relative">
-        {/* Gradient overlays for visual effect */}
-        <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-gray-900 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-gray-900 to-transparent z-10 pointer-events-none"></div>
+      {/* Compact Grid Layout */}
+      <div className="flex-1 max-w-7xl mx-auto w-full px-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 h-full">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.name}
+              className="relative group cursor-pointer h-full"
+              variants={fadeIn("up", "spring", index * 0.1, 0.75)}
+              onMouseEnter={() => setHoveredProject(index)}
+              onMouseLeave={() => setHoveredProject(null)}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => window.open(project.source_code_link, "_blank")}
+            >
+              {/* Card Background with Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Scrollable container */}
-        <div className="overflow-x-auto overflow-y-hidden scrollbar-hide">
-          <div
-            className="flex gap-8 pb-4 px-8"
-            style={{ width: `${projects.length * 400}px` }}
-          >
-            {projects.map((project, index) => (
-              <div key={`project-${index}`} className="flex-shrink-0 w-80">
-                <ProjectCard index={index} {...project} />
+              <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
+                {/* Project Image */}
+                <div className="relative h-32 md:h-40 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+
+                  {/* Quick Access Icons */}
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-gray-900/80 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center border border-purple-400/30">
+                      <img
+                        src={github}
+                        alt="github"
+                        className="w-4 h-4 filter brightness-0 invert"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Project Number */}
+                  <div className="absolute top-2 left-2">
+                    <div className="bg-gray-900/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Project Info */}
+                <div className="p-3 md:p-4 flex-1 flex flex-col">
+                  <h3 className="text-white text-sm md:text-base font-bold mb-2 group-hover:text-purple-300 transition-colors duration-300 line-clamp-1">
+                    {project.name}
+                  </h3>
+
+                  <p className="text-gray-400 text-xs md:text-sm leading-relaxed mb-3 flex-1 line-clamp-2 md:line-clamp-3">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Tags - Compact */}
+                  <div className="flex flex-wrap gap-1">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag.name}
+                        className={`px-2 py-1 text-xs rounded-full border transition-all duration-300 ${tag.color} border-current/30 hover:border-current`}
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
+                    {project.tags.length > 3 && (
+                      <span className="px-2 py-1 text-xs rounded-full border border-gray-500/30 text-gray-400">
+                        +{project.tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Expanded Detail Overlay */}
+                {hoveredProject === index && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="absolute inset-0 bg-gray-900/95 backdrop-blur-md rounded-xl border border-purple-400/50 p-4 flex flex-col justify-between z-10"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-white text-lg font-bold">
+                          {project.name}
+                        </h3>
+                        <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">
+                          Live
+                        </div>
+                      </div>
+
+                      <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div>
+                      {/* All Tech Tags */}
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag.name}
+                            className={`px-2 py-1 text-xs rounded-full border ${tag.color} border-current/50`}
+                          >
+                            {tag.name}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action Button */}
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg text-sm font-medium hover:from-purple-400 hover:to-pink-400 transition-all duration-300"
+                      >
+                        View Project →
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Hover particles */}
+                {hoveredProject === index && (
+                  <div className="absolute inset-0 pointer-events-none">
+                    {[...Array(4)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-1 h-1 bg-purple-400 rounded-full animate-pulse"
+                        style={{
+                          left: `${Math.random() * 100}%`,
+                          top: `${Math.random() * 100}%`,
+                          animationDelay: `${i * 0.3}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="flex justify-center mt-6">
-          <div className="flex items-center gap-2 bg-gray-900/80 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-400/20">
-            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-            <span className="text-purple-400 text-xs font-mono">
-              SCROLL_HORIZONTAL
-            </span>
-            <div className="text-purple-400 text-xs">→</div>
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
 
-      {/* View More Section */}
+      {/* Footer Stats */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-        className="text-center mt-16"
+        className="text-center mt-6"
       >
-        <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-400/20 inline-block">
-          <p className="text-gray-300 mb-4 font-mono">
-            &gt; More projects available on GitHub
-          </p>
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() =>
-              window.open("https://github.com/shafquatulbari", "_blank")
-            }
-            className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-6 py-3 rounded-lg font-mono hover:from-purple-400 hover:to-violet-500 transition-all duration-300 border border-purple-400/30"
-          >
-            <span className="flex items-center gap-2">
-              <span>VIEW_ALL_PROJECTS</span>
-              <span className="text-purple-300">&gt;</span>
-            </span>
-          </motion.button>
+        <div className="flex justify-center gap-6 text-sm">
+          <div className="text-center">
+            <div className="text-purple-400 font-bold">{projects.length}</div>
+            <div className="text-gray-500">Projects</div>
+          </div>
+          <div className="text-center">
+            <div className="text-pink-400 font-bold">15+</div>
+            <div className="text-gray-500">Technologies</div>
+          </div>
+          <div className="text-center">
+            <div className="text-cyan-400 font-bold">50K+</div>
+            <div className="text-gray-500">Lines of Code</div>
+          </div>
         </div>
       </motion.div>
     </div>
