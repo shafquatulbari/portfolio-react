@@ -4,6 +4,9 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'globalThis',
+  },
   build: {
     target: "esnext",
     minify: "esbuild",
@@ -16,6 +19,7 @@ export default defineConfig({
           utils: ["maath"],
         },
       },
+      external: [],
     },
     chunkSizeWarningLimit: 1000,
     // Enable source maps for better debugging
@@ -24,9 +28,21 @@ export default defineConfig({
     cssCodeSplit: true,
     // Enable asset inlining for small files
     assetsInlineLimit: 4096,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "framer-motion", "three"],
+    include: [
+      "react", 
+      "react-dom", 
+      "framer-motion", 
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei",
+      "maath"
+    ],
+    exclude: [],
     force: true,
   },
   server: {

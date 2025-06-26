@@ -454,7 +454,6 @@ const Experience = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeIndex]);
-
   return (
     <motion.section
       variants={staggerContainer()}
@@ -463,7 +462,7 @@ const Experience = () => {
       viewport={{ once: true, amount: 0.25 }}
       className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
     >
-      <style jsx>{`
+      <style>{`
         .timeline-dot {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           will-change: transform;

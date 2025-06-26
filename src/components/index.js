@@ -18,3 +18,4 @@ export { StarsCanvas, AvatarCanvas };
 
 // Utility components
 export { default as PerformanceMonitor } from "./PerformanceMonitor";
+export { default as ErrorBoundary } from "./ErrorBoundary";
