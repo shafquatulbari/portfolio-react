@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 
 import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
-import web from "../../public/assets/services/web.png";
-import backend from "../../public/assets/services/backend.png";
-import sqa from "../../public/assets/services/sqa.png";
-import automation from "../../public/assets/services/automation.png";
+import web from "/assets/services/web.png";
+import backend from "/assets/services/backend.png";
+import sqa from "/assets/services/sqa.png";
+import automation from "/assets/services/automation.png";
 
 // Services array with enhanced descriptions
 const services = [
@@ -27,9 +27,9 @@ const services = [
     color: "purple",
   },
   {
-    title: "SQA Engineer / SDET",
+    title: "SQA Engineer",
     icon: sqa,
-    description: "Test automation & quality assurance",
+    description: "Software quality assurance",
     category: "QUALITY_MATRIX",
     technologies: ["WebdriverIO", "Appium", "Jest", "Cypress"],
     color: "green",
@@ -50,6 +50,7 @@ const ServiceMatrix = ({ service, index }) => {
 
   useEffect(() => {
     if (isActive) {
+      setScanProgress(0); // Reset progress when starting
       const timer = setInterval(() => {
         setScanProgress((prev) => {
           if (prev >= 100) {
@@ -60,6 +61,8 @@ const ServiceMatrix = ({ service, index }) => {
         });
       }, 50);
       return () => clearInterval(timer);
+    } else {
+      setScanProgress(0); // Reset progress when not active
     }
   }, [isActive]);
 
@@ -111,7 +114,6 @@ const ServiceMatrix = ({ service, index }) => {
       }}
       onMouseLeave={() => {
         setIsActive(false);
-        setScanProgress(0);
       }}
     >
       {/* Matrix grid background */}
@@ -211,17 +213,17 @@ const ServiceMatrix = ({ service, index }) => {
               <img
                 src={service.icon}
                 alt={service.title}
-                className="w-8 h-8 object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
-                style={{
-                  filter: `brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(${
+                className="w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-300"
+                onError={(e) => {
+                  console.error(`Failed to load image: ${service.icon}`, e);
+                  e.target.style.backgroundColor =
                     service.color === "cyan"
-                      ? "180deg"
+                      ? "#0891b2"
                       : service.color === "purple"
-                      ? "270deg"
+                      ? "#a855f7"
                       : service.color === "green"
-                      ? "120deg"
-                      : "30deg"
-                  })`,
+                      ? "#10b981"
+                      : "#f97316";
                 }}
               />
             </div>
@@ -260,13 +262,33 @@ const ServiceMatrix = ({ service, index }) => {
         {isActive && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
             <div
-              className={`absolute top-0 left-0 w-full h-0.5 ${colorClasses.primary.replace(
+              className={`absolute left-0 w-full h-0.5 ${colorClasses.primary.replace(
                 "text",
                 "bg"
-              )} animate-pulse`}
+              )} opacity-80`}
               style={{
                 top: `${scanProgress}%`,
-                transition: "top 0.1s ease-out",
+                transition: "top 0.05s linear",
+                boxShadow: `0 0 10px ${
+                  service.color === "cyan"
+                    ? "#22d3ee"
+                    : service.color === "purple"
+                    ? "#a855f7"
+                    : service.color === "green"
+                    ? "#22c55e"
+                    : "#f97316"
+                }`,
+              }}
+            />
+            {/* Additional scanning effect trail */}
+            <div
+              className={`absolute left-0 w-full h-1 ${colorClasses.primary.replace(
+                "text",
+                "bg"
+              )} opacity-30 blur-sm`}
+              style={{
+                top: `${Math.max(0, scanProgress - 5)}%`,
+                transition: "top 0.05s linear",
               }}
             />
           </div>

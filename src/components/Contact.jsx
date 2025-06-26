@@ -97,6 +97,15 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [isTransmitting, setIsTransmitting] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleChange = (e) => {
     const { target } = e;
@@ -407,6 +416,21 @@ const Contact = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                     <span className="text-gray-300">Status: Online</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                    <span className="text-gray-300">
+                      Current time: {currentTime.toLocaleTimeString()}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-gray-300">
+                      Status: Ready for new projects
+                      <span className="animate-pulse ml-2 text-green-400">
+                        ●
+                      </span>
+                    </span>
                   </div>
                 </div>
               </motion.div>
