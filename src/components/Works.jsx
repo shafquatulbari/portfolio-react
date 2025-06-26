@@ -227,67 +227,67 @@ const Works = () => {
           {projects
             .slice(0, Math.ceil(projects.length / 2))
             .map((project, index) => (
-                <motion.div
-                  key={project.name}
-                  className="relative group cursor-pointer h-full w-full max-w-xs"
-                  variants={fadeIn("up", "spring", index * 0.1, 0.75)}
-                  onMouseEnter={() => setHoveredProject(index)}
-                  onMouseLeave={() => setHoveredProject(null)}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => handleProjectClick(project, index)}
-                >
-                  {/* Card Background with Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <motion.div
+                key={project.name}
+                className="relative group cursor-pointer h-full w-full max-w-xs"
+                variants={fadeIn("up", "spring", index * 0.1, 0.75)}
+                onMouseEnter={() => setHoveredProject(index)}
+                onMouseLeave={() => setHoveredProject(null)}
+                whileHover={{ scale: 1.02 }}
+                onClick={() => handleProjectClick(project, index)}
+              >
+                {/* Card Background with Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
-                    {/* Project Image - reduced height */}
-                    <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
+                <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
+                  {/* Project Image - reduced height */}
+                  <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
 
-                      {/* Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
 
-                      {/* Project Number - smaller */}
-                      <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
-                        <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
-                          {String(index + 1).padStart(2, "0")}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Project Info - reduced padding */}
-                    <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
-                          {project.name}
-                        </h3>
-                      </div>
-
-                      {/* Click hint - smaller */}
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          Click to explore
-                        </span>
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
-                          <div
-                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                            style={{ animationDelay: "0.2s" }}
-                          ></div>
-                          <div
-                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                            style={{ animationDelay: "0.4s" }}
-                          ></div>
-                        </div>
+                    {/* Project Number - smaller */}
+                    <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
+                      <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
+                        {String(index + 1).padStart(2, "0")}
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+
+                  {/* Project Info - reduced padding */}
+                  <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
+                        {project.name}
+                      </h3>
+                    </div>
+
+                    {/* Click hint - smaller */}
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Click to explore
+                      </span>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
+                        <div
+                          className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
+                        <div
+                          className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.4s" }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
         </div>
 
         {/* Second Row */}
@@ -295,81 +295,81 @@ const Works = () => {
           {projects
             .slice(Math.ceil(projects.length / 2))
             .map((project, index) => (
-                <motion.div
-                  key={project.name}
-                  className="relative group cursor-pointer h-full w-full max-w-xs"
-                  variants={fadeIn(
-                    "up",
-                    "spring",
-                    (index + Math.ceil(projects.length / 2)) * 0.1,
-                    0.75
-                  )}
-                  onMouseEnter={() =>
-                    setHoveredProject(index + Math.ceil(projects.length / 2))
-                  }
-                  onMouseLeave={() => setHoveredProject(null)}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() =>
-                    handleProjectClick(
-                      project,
-                      index + Math.ceil(projects.length / 2)
-                    )
-                  }
-                >
-                  {/* Card Background with Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <motion.div
+                key={project.name}
+                className="relative group cursor-pointer h-full w-full max-w-xs"
+                variants={fadeIn(
+                  "up",
+                  "spring",
+                  (index + Math.ceil(projects.length / 2)) * 0.1,
+                  0.75
+                )}
+                onMouseEnter={() =>
+                  setHoveredProject(index + Math.ceil(projects.length / 2))
+                }
+                onMouseLeave={() => setHoveredProject(null)}
+                whileHover={{ scale: 1.02 }}
+                onClick={() =>
+                  handleProjectClick(
+                    project,
+                    index + Math.ceil(projects.length / 2)
+                  )
+                }
+              >
+                {/* Card Background with Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
-                    {/* Project Image - reduced height */}
-                    <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
+                <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
+                  {/* Project Image - reduced height */}
+                  <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
 
-                      {/* Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
 
-                      {/* Project Number - smaller */}
-                      <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
-                        <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
-                          {String(
-                            index + Math.ceil(projects.length / 2) + 1
-                          ).padStart(2, "0")}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Project Info - reduced padding */}
-                    <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
-                          {project.name}
-                        </h3>
-                      </div>
-
-                      {/* Click hint - smaller */}
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          Click to explore
-                        </span>
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
-                          <div
-                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                            style={{ animationDelay: "0.2s" }}
-                          ></div>
-                          <div
-                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                            style={{ animationDelay: "0.4s" }}
-                          ></div>
-                        </div>
+                    {/* Project Number - smaller */}
+                    <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
+                      <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
+                        {String(
+                          index + Math.ceil(projects.length / 2) + 1
+                        ).padStart(2, "0")}
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+
+                  {/* Project Info - reduced padding */}
+                  <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
+                        {project.name}
+                      </h3>
+                    </div>
+
+                    {/* Click hint - smaller */}
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Click to explore
+                      </span>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
+                        <div
+                          className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
+                        <div
+                          className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                          style={{ animationDelay: "0.4s" }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
         </div>
 
         {/* More Projects Button */}
@@ -401,142 +401,147 @@ const Works = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="fixed inset-0 bg-gray-900/95 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6"
+            className="fixed inset-0 bg-gray-900/95 backdrop-blur-md z-50 flex items-center justify-center p-0 sm:p-6"
             onClick={closeModal}
           >
             <div
-              className="relative bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm rounded-2xl border border-purple-400/50 overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto"
+              className="relative bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm rounded-none sm:rounded-2xl border-0 sm:border border-purple-400/50 overflow-hidden max-w-5xl w-full h-[85vh] sm:max-h-[90vh] my-auto flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Header */}
-              <div className="sticky top-0 bg-gray-800/90 backdrop-blur-sm border-b border-gray-700/50 p-4 sm:p-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                  <h2 className="text-white text-xl sm:text-2xl font-bold">
+              {/* Modal Header - Sticky */}
+              <div className="sticky top-0 z-10 bg-gray-800/95 backdrop-blur-md border-b border-gray-700/50 p-4 sm:p-6 flex items-center justify-between shadow-lg">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse flex-shrink-0"></div>
+                  <h2 className="text-white text-lg sm:text-xl lg:text-2xl font-bold truncate">
                     {selectedProject.name}
                   </h2>
                 </div>
                 <button
                   onClick={closeModal}
-                  className="w-8 h-8 bg-red-500/20 hover:bg-red-500/40 border border-red-500/50 rounded-full flex items-center justify-center transition-all duration-300 group"
+                  className="w-8 h-8 bg-red-500/20 hover:bg-red-500/40 border border-red-500/50 rounded-full flex items-center justify-center transition-all duration-300 group flex-shrink-0 ml-3"
                 >
                   <div className="w-4 h-0.5 bg-red-400 rounded-full transform rotate-45 absolute"></div>
                   <div className="w-4 h-0.5 bg-red-400 rounded-full transform -rotate-45 absolute"></div>
                 </button>
               </div>
 
-              {/* Modal Content */}
-              <div className="p-4 sm:p-6">
-                <div className="grid lg:grid-cols-2 gap-6">
-                  {/* Project Image */}
-                  <div className="relative">
-                    <img
-                      src={selectedProject.image}
-                      alt={selectedProject.name}
-                      className="w-full h-64 sm:h-80 object-cover rounded-xl"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent rounded-xl"></div>
+              {/* Modal Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4 sm:p-6">
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    {/* Project Image */}
+                    <div className="relative">
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.name}
+                        className="w-full h-64 sm:h-80 object-cover rounded-xl"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent rounded-xl"></div>
 
-                    {/* Project Links */}
-                    <div className="absolute bottom-4 right-4 flex gap-2">
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() =>
-                          window.open(
-                            selectedProject.source_code_link,
-                            "_blank"
-                          )
-                        }
-                        className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center border border-purple-400/30 hover:border-purple-400 transition-all duration-300"
-                      >
-                        <img
-                          src={github}
-                          alt="source code"
-                          className="w-6 h-6 filter brightness-0 invert"
-                        />
-                      </motion.button>
-                    </div>
-                  </div>
-
-                  {/* Project Details */}
-                  <div className="space-y-6">
-                    {/* Description */}
-                    <div>
-                      <h3 className="text-cyan-400 font-mono text-sm mb-3 flex items-center gap-2">
-                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                        PROJECT_DESCRIPTION
-                      </h3>
-                      <p className="text-gray-300 leading-relaxed text-base">
-                        {selectedProject.description}
-                      </p>
-                    </div>
-
-                    {/* Technologies */}
-                    <div>
-                      <h3 className="text-purple-400 font-mono text-sm mb-3 flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                        TECHNOLOGIES_USED
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.tags.map((tag) => (
-                          <span
-                            key={tag.name}
-                            className={`px-3 py-1 text-sm rounded-full border transition-all duration-300 ${tag.color} border-current/50 hover:border-current`}
-                          >
-                            {tag.name}
-                          </span>
-                        ))}
+                      {/* Project Links */}
+                      <div className="absolute bottom-4 right-4 flex gap-2">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() =>
+                            window.open(
+                              selectedProject.source_code_link,
+                              "_blank"
+                            )
+                          }
+                          className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center border border-purple-400/30 hover:border-purple-400 transition-all duration-300"
+                        >
+                          <img
+                            src={github}
+                            alt="source code"
+                            className="w-6 h-6 filter brightness-0 invert"
+                          />
+                        </motion.button>
                       </div>
                     </div>
 
-                    {/* Project Stats */}
-                    <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
-                      <h3 className="text-green-400 font-mono text-sm mb-3 flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        PROJECT_STATUS
-                      </h3>
-                      <div className="space-y-2 text-sm font-mono">
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Project_ID:</span>
-                          <span className="text-cyan-400">
-                            PRJ_
-                            {String(selectedProject.index + 1).padStart(3, "0")}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Status:</span>
-                          <span className="text-green-400">COMPLETED</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Technologies:</span>
-                          <span className="text-purple-400">
-                            {selectedProject.tags.length}
-                          </span>
+                    {/* Project Details */}
+                    <div className="space-y-6">
+                      {/* Description */}
+                      <div>
+                        <h3 className="text-cyan-400 font-mono text-sm mb-3 flex items-center gap-2">
+                          <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                          PROJECT_DESCRIPTION
+                        </h3>
+                        <p className="text-gray-300 leading-relaxed text-base">
+                          {selectedProject.description}
+                        </p>
+                      </div>
+
+                      {/* Technologies */}
+                      <div>
+                        <h3 className="text-purple-400 font-mono text-sm mb-3 flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                          TECHNOLOGIES_USED
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.tags.map((tag) => (
+                            <span
+                              key={tag.name}
+                              className={`px-3 py-1 text-sm rounded-full border transition-all duration-300 ${tag.color} border-current/50 hover:border-current`}
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex justify-center">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() =>
-                          window.open(
-                            selectedProject.source_code_link,
-                            "_blank"
-                          )
-                        }
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-lg font-medium hover:from-purple-400 hover:to-pink-400 transition-all duration-300 flex items-center justify-center gap-2"
-                      >
-                        <img
-                          src={github}
-                          alt="github"
-                          className="w-5 h-5 filter brightness-0 invert"
-                        />
-                        View Source Code
-                      </motion.button>
+                      {/* Project Stats */}
+                      <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+                        <h3 className="text-green-400 font-mono text-sm mb-3 flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                          PROJECT_STATUS
+                        </h3>
+                        <div className="space-y-2 text-sm font-mono">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Project_ID:</span>
+                            <span className="text-cyan-400">
+                              PRJ_
+                              {String(selectedProject.index + 1).padStart(
+                                3,
+                                "0"
+                              )}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Status:</span>
+                            <span className="text-green-400">COMPLETED</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Technologies:</span>
+                            <span className="text-purple-400">
+                              {selectedProject.tags.length}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex justify-center">
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() =>
+                            window.open(
+                              selectedProject.source_code_link,
+                              "_blank"
+                            )
+                          }
+                          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-lg font-medium hover:from-purple-400 hover:to-pink-400 transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <img
+                            src={github}
+                            alt="github"
+                            className="w-5 h-5 filter brightness-0 invert"
+                          />
+                          View Source Code
+                        </motion.button>
+                      </div>
                     </div>
                   </div>
                 </div>

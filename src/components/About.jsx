@@ -286,7 +286,7 @@ const ServiceMatrix = ({ service, index }) => {
 const About = () => {
   const [typingText, setTypingText] = useState("");
   const fullText =
-    "I'm a Software Engineer specializing in Full Stack Development and SDET. Currently, I serve as an SQA Engineer I at Brain Station 23, where I contribute to the test automation for Grameenphone's MyGP app, serving over 21 million monthly users.";
+    "I'm a Software Engineer with expertise in Full Stack Development, Test Automation, and AI Training. I worked as an SQA Engineer at Brain Station 23 on Grameenphone's MyGP app serving 21M+ users, and as an AI Trainer & Prompt Engineer at Outlier, where I gained experience in both traditional software development and cutting-edge AI technologies.";
 
   useEffect(() => {
     let index = 0;
@@ -405,18 +405,22 @@ const About = () => {
                   <span className="text-yellow-400">
                     • Full-Stack Development
                   </span>{" "}
-                  - React, Node.js, Python
+                  - React, Node.js, Python, MERN Stack
                   <br />
-                  <span className="text-yellow-400">• Test Automation</span> -
-                  WebdriverIO, Appium, CI/CD
+                  <span className="text-yellow-400">
+                    • Test Automation & QA
+                  </span>{" "}
+                  - WebdriverIO, Appium, CI/CD, API Testing
                   <br />
-                  <span className="text-yellow-400">• Quality Assurance</span> -
-                  Backend API validation
+                  <span className="text-yellow-400">
+                    • AI Training & Prompt Engineering
+                  </span>{" "}
+                  - Model Enhancement, Data Annotation, NLP
                   <br />
                   <span className="text-yellow-400">
                     • System Architecture
                   </span>{" "}
-                  - Scalable applications
+                  - Scalable applications, Database Design
                 </div>
 
                 <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">

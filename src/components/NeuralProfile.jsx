@@ -19,7 +19,7 @@ const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
 const NeuralProfile = () => {
   const [typingText, setTypingText] = useState("");
   const fullText =
-    "I'm a Software Engineer specializing in Full Stack Development and SDET. Currently, I serve as an SQA Engineer I at Brain Station 23, where I contribute to the test automation for Grameenphone's MyGP app, serving over 21 million monthly users.";
+    "I'm a Software Engineer with expertise in Full Stack Development, Test Automation, and AI Training. I worked as an SQA Engineer at Brain Station 23 on Grameenphone's MyGP app serving 21M+ users, and as an AI Trainer & Prompt Engineer at Outlier, where I gained experience in cutting-edge AI technologies.";
 
   useEffect(() => {
     let index = 0;
@@ -198,7 +198,7 @@ const NeuralProfile = () => {
 
                 <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                   <span className="text-cyan-400">&gt;</span>{" "}
-                  <span className="text-purple-400">CURRENT_DEPLOYMENT:</span>
+                  <span className="text-purple-400">PREVIOUS_DEPLOYMENT:</span>
                   <br />
                   <span className="text-pink-400">Brain Station 23 Ltd.</span> -
                   SQA Engineer I
