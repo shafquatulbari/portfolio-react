@@ -17,12 +17,20 @@ import {
 
 export const navLinks = [
   {
-    id: "about",
+    id: "hero",
+    title: "Home",
+  },
+  {
+    id: "neural-profile",
     title: "About",
   },
   {
-    id: "work",
+    id: "experience",
     title: "Work",
+  },
+  {
+    id: "projects",
+    title: "Projects",
   },
   {
     id: "contact",

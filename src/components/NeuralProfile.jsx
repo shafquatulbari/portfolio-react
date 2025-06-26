@@ -24,7 +24,7 @@ const NeuralProfile = () => {
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
+    <div className="relative w-full py-6 sm:py-8 lg:py-12 overflow-hidden">
       {/* Cyberpunk overlay with background blur effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
 
@@ -42,8 +42,8 @@ const NeuralProfile = () => {
           }}
         />
 
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {/* Floating particles - reduced from 20 to 12 */}
+        {[...Array(12)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-purple-400 rounded-full animate-pulse"
@@ -69,13 +69,16 @@ const NeuralProfile = () => {
       </div>
 
       {/* Content with proper z-index */}
-      <div className="relative z-10">
+      <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         {/* Header Section with Futuristic Design - responsive */}
-        <motion.div variants={textVariant()} className="relative mb-8 sm:mb-12">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 rounded-2xl sm:rounded-3xl blur-3xl" />
+        <motion.div
+          variants={textVariant()}
+          className="relative mb-6 sm:mb-8 lg:mb-10"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 rounded-xl sm:rounded-2xl blur-2xl" />
 
-          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-700/50">
-            <p className="text-purple-400 text-sm sm:text-base lg:text-lg font-mono tracking-wider mb-3 sm:mb-4 relative flex flex-col sm:flex-row gap-2 sm:gap-4">
+          <div className="relative bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-gray-700/50">
+            <p className="text-purple-400 text-xs sm:text-sm lg:text-base font-mono tracking-wider mb-2 sm:mb-3 relative flex flex-col sm:flex-row gap-1 sm:gap-3">
               <span>
                 <span className="text-cyan-400">&gt;</span> SYSTEM_STATUS:{" "}
                 <span className="text-green-400">ONLINE</span>
@@ -86,7 +89,7 @@ const NeuralProfile = () => {
               </span>
             </p>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-3 sm:mb-4 lg:mb-5 leading-tight">
               Neural_Profile
               <span className="text-purple-400 animate-pulse">.</span>
             </h2>
@@ -95,16 +98,16 @@ const NeuralProfile = () => {
 
         {/* Bio Section with Terminal Style - responsive */}
         <motion.div variants={fadeIn("", "", 0.1, 1)} className="relative">
-          <div className="bg-gray-900/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden">
+          <div className="bg-gray-900/90 backdrop-blur-sm rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 border border-gray-700/50 font-mono text-xs sm:text-sm relative overflow-hidden">
             {/* Terminal header - responsive */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-700/50 gap-2 sm:gap-0">
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                <div className="flex space-x-1 sm:space-x-2">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 pb-2 sm:pb-3 border-b border-gray-700/50 gap-2 sm:gap-0">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 </div>
-                <span className="text-gray-400 text-xs sm:text-sm">
+                <span className="text-gray-400 text-xs">
                   ~/portfolio/profile.exe
                 </span>
               </div>
@@ -114,14 +117,14 @@ const NeuralProfile = () => {
             </div>
 
             {/* Terminal content - responsive spacing */}
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-2 sm:space-y-3">
               <div className="text-purple-400 break-all sm:break-normal">
                 <span className="text-cyan-400">user@portfolio</span>:
                 <span className="text-yellow-400">~$</span>{" "}
                 ./initialize_profile.sh
               </div>
 
-              <div className="text-green-400 mb-3 sm:mb-4">
+              <div className="text-green-400 mb-2 sm:mb-3">
                 [INFO] Loading neural profile...
                 <br />
                 [SUCCESS] Profile initialized successfully
@@ -135,7 +138,7 @@ const NeuralProfile = () => {
                 <span className="animate-pulse text-purple-400">|</span>
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+              <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">EXPERTISE_DOMAINS:</span>
                 <br />
@@ -154,7 +157,7 @@ const NeuralProfile = () => {
                 Scalable applications
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+              <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">EDUCATION_MATRIX:</span>
                 <br />
@@ -168,7 +171,7 @@ const NeuralProfile = () => {
                 </span>
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+              <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">CURRENT_DEPLOYMENT:</span>
                 <br />
@@ -180,7 +183,7 @@ const NeuralProfile = () => {
                 </span>
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+              <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">PERSONAL_PROTOCOLS:</span>
                 <br />
@@ -192,7 +195,7 @@ const NeuralProfile = () => {
                 </span>
               </div>
 
-              <div className="text-gray-300 leading-relaxed mt-4 sm:mt-6">
+              <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                 <span className="text-cyan-400">&gt;</span>{" "}
                 <span className="text-purple-400">MISSION_STATEMENT:</span>
                 <br />
@@ -203,19 +206,19 @@ const NeuralProfile = () => {
                 </span>
               </div>
 
-              <div className="text-green-400 mt-6">
+              <div className="text-green-400 mt-4 sm:mt-5">
                 [STATUS] Profile scan complete. All systems operational.
               </div>
             </div>
 
             {/* Neural network visualization overlay */}
-            <div className="absolute top-0 right-0 w-32 h-32 opacity-20 pointer-events-none">
+            <div className="absolute top-2 right-2 w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 opacity-20 pointer-events-none">
               <div className="relative w-full h-full">
                 {/* Neural nodes */}
                 {[...Array(9)].map((_, i) => (
                   <div
                     key={i}
-                    className="absolute w-2 h-2 bg-purple-400 rounded-full animate-pulse"
+                    className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-400 rounded-full animate-pulse"
                     style={{
                       left: `${(i % 3) * 40 + 10}%`,
                       top: `${Math.floor(i / 3) * 40 + 10}%`,

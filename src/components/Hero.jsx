@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { AvatarCanvas } from "./canvas";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useScrollTracking } from "../utils/scrollTracking";
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
-  const [particleCount, setParticleCount] = useState(20);
+  const [particleCount, setParticleCount] = useState(10); // Reduced default from 20 to 10
+
+  // Add scroll tracking for Hero section
+  const heroRef = useScrollTracking("hero_section");
 
   const roles = [
     "Full Stack Developer",
@@ -16,9 +20,9 @@ const Hero = () => {
   ];
 
   useEffect(() => {
-    // Set particle count based on screen size
+    // Set particle count based on screen size - reduced counts
     const updateParticleCount = () => {
-      setParticleCount(window.innerWidth < 768 ? 10 : 20);
+      setParticleCount(window.innerWidth < 768 ? 5 : 10); // Reduced from 10:20 to 5:10
     };
 
     updateParticleCount();
@@ -26,6 +30,17 @@ const Hero = () => {
 
     return () => window.removeEventListener("resize", updateParticleCount);
   }, []);
+
+  // Memoize particles to prevent re-generation on every render
+  const particles = useMemo(() => {
+    return [...Array(particleCount)].map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      animationDelay: Math.random() * 3,
+      animationDuration: 2 + Math.random() * 2,
+    }));
+  }, [particleCount]);
 
   useEffect(() => {
     const typeText = () => {
@@ -52,15 +67,18 @@ const Hero = () => {
   }, [displayText, currentIndex, isTyping, roles]);
 
   return (
-    <section className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-no-repeat bg-center overflow-hidden">
+    <section
+      ref={heroRef}
+      className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-no-repeat bg-center overflow-hidden"
+    >
       {/* Cyberpunk overlay with original background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        {/* Grid pattern - responsive sizing */}
+        {/* Grid pattern - responsive sizing with reduced opacity */}
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-8" // Reduced from opacity-10 to opacity-8
           style={{
             backgroundImage: `
               linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
@@ -70,29 +88,25 @@ const Hero = () => {
           }}
         />
 
-        {/* Floating particles - fewer on mobile */}
-        {[...Array(particleCount)].map((_, i) => (
+        {/* Optimized floating particles using memoized array */}
+        {particles.map((particle) => (
           <div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
+              animationDelay: `${particle.animationDelay}s`,
+              animationDuration: `${particle.animationDuration}s`,
             }}
           />
         ))}
 
-        {/* Animated lines */}
+        {/* Simplified animated lines - reduced from 4 to 2 */}
         <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" />
         <div
           className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
           style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute left-1/4 top-0 w-px h-full bg-gradient-to-b from-transparent via-pink-400/30 to-transparent animate-pulse"
-          style={{ animationDelay: "2s" }}
         />
       </div>
 

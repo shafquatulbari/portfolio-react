@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload, useFBX, useGLTF } from "@react-three/drei";
 import { AnimationMixer } from "three";
@@ -18,29 +18,35 @@ const Avatar = ({ isMobile }) => {
   }, [mixer, fbx, avatar]);
 
   useFrame((state, delta) => {
-    mixer.update(delta);
+    mixer.update(delta); // Normal animation speed for smooth motion
   });
 
-  return (
-    <mesh>
-      <hemisphereLight intensity={3} groundColor="black" />
-      <spotLight
-        position={[-20, 50, 10]}
-        angle={0.12}
-        penumbra={1}
-        intensity={1}
-        castShadow
-        shadow-mapSize={1024}
-      />
-      <pointLight intensity={1} />
-      <primitive
-        object={avatar.scene}
-        scale={isMobile ? 1.5 : 3}
-        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
-        rotation={[0, 1, 0]}
-      />
-    </mesh>
+  // Memoize the avatar to prevent unnecessary re-renders
+  const avatarMesh = useMemo(
+    () => (
+      <mesh>
+        <hemisphereLight intensity={2} groundColor="black" />
+        <spotLight
+          position={[-20, 50, 10]}
+          angle={0.12}
+          penumbra={1}
+          intensity={0.8}
+          castShadow={false} // Disable shadows for better performance
+          shadow-mapSize={512} // Reduced shadow map size
+        />
+        <pointLight intensity={0.8} />
+        <primitive
+          object={avatar.scene}
+          scale={isMobile ? 1.5 : 3}
+          position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
+          rotation={[0, 1, 0]}
+        />
+      </mesh>
+    ),
+    [avatar.scene, isMobile]
   );
+
+  return avatarMesh;
 };
 
 const AvatarCanvas = () => {
@@ -61,17 +67,32 @@ const AvatarCanvas = () => {
     };
   }, []);
 
+  // Don't render on mobile to improve performance
+  if (isMobile) {
+    return null;
+  }
+
   return (
     <Canvas
-      frameloop="always" // Changed to "always" to ensure continuous rendering
-      shadows
-      dpr={[1, 2]}
+      frameloop="always" // Enable continuous rendering for smooth animations
+      shadows={false} // Keep shadows disabled for performance
+      dpr={[1, 1.5]} // Reduced max device pixel ratio
       camera={{ position: [20, 3, 5], fov: 25 }}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{
+        preserveDrawingBuffer: true,
+        antialias: false, // Keep antialiasing disabled for performance
+        alpha: true,
+        powerPreference: "high-performance",
+      }}
+      performance={{ min: 0.5, max: 1.0 }} // Adjust performance monitoring
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
           enableZoom={false}
+          enablePan={false}
+          enableRotate={true} // Re-enable rotation for better interaction
+          autoRotate={true} // Add subtle auto-rotation
+          autoRotateSpeed={0.5} // Slow auto-rotation
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />

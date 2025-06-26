@@ -15,8 +15,8 @@ const TransmissionEffect = ({ isActive }) => {
       {/* Main transmission overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent animate-pulse" />
 
-      {/* Enhanced signal bars */}
-      {[...Array(30)].map((_, i) => (
+      {/* Enhanced signal bars - reduced from 30 to 20 */}
+      {[...Array(20)].map((_, i) => (
         <div
           key={i}
           className="absolute bottom-0 bg-gradient-to-t from-cyan-400 via-purple-400 to-transparent opacity-70 signal-bar"
@@ -29,8 +29,8 @@ const TransmissionEffect = ({ isActive }) => {
         />
       ))}
 
-      {/* Data streams */}
-      {[...Array(8)].map((_, i) => (
+      {/* Data streams - reduced from 8 to 5 */}
+      {[...Array(5)].map((_, i) => (
         <div
           key={i}
           className="absolute data-stream"
@@ -184,11 +184,11 @@ const Contact = () => {
         </p>
       </motion.div>
 
-      <div className="xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden relative z-10">
+      <div className="lg:mt-8 xl:mt-12 flex lg:flex-row flex-col gap-6 lg:gap-8 xl:gap-10 overflow-hidden relative z-10">
         {/* Contact Form */}
         <motion.div
           variants={slideIn("left", "tween", 0.2, 1)}
-          className="flex-[0.6] relative z-20"
+          className="flex-1 lg:flex-[0.65] xl:flex-[0.6] relative z-20"
         >
           {/* Form Container with Cyberpunk Border */}
           <div className="relative">
@@ -197,9 +197,9 @@ const Contact = () => {
             <div className="absolute inset-[2px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl" />
 
             {/* Form Content */}
-            <div className="relative p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20">
+            <div className="relative p-6 lg:p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20">
               {/* Terminal Header */}
-              <div className="flex items-center gap-2 mb-8 pb-4 border-b border-gray-700/50">
+              <div className="flex items-center gap-2 mb-6 lg:mb-8 pb-3 lg:pb-4 border-b border-gray-700/50">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -211,7 +211,7 @@ const Contact = () => {
               </div>
 
               {/* Terminal Output */}
-              <div className="mb-6 font-mono text-sm">
+              <div className="mb-4 lg:mb-6 font-mono text-sm">
                 <div className="text-cyan-400">
                   <span className="text-green-400">shafquat@portfolio</span>
                   <span className="text-white">:</span>
@@ -230,14 +230,14 @@ const Contact = () => {
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-4 lg:gap-6"
               >
                 {/* Name Field */}
                 <motion.label
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.1, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> IDENTITY.name
                   </span>
                   <div className="relative">
@@ -249,7 +249,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter your identification..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
                         focusedField === "name"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -268,7 +268,7 @@ const Contact = () => {
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.2, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> CONTACT.email
                   </span>
                   <div className="relative">
@@ -280,7 +280,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter communication channel..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
                         focusedField === "email"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -299,19 +299,19 @@ const Contact = () => {
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.3, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> MESSAGE.content
                   </span>
                   <div className="relative">
                     <textarea
-                      rows={7}
+                      rows={6}
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("message")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Encode your message here..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono resize-none ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono resize-none ${
                         focusedField === "message"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -332,7 +332,7 @@ const Contact = () => {
                   variants={fadeIn("up", "spring", 0.4, 0.75)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative group bg-gradient-to-r from-cyan-500 to-purple-600 py-4 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-mono overflow-hidden"
+                  className="relative group bg-gradient-to-r from-cyan-500 to-purple-600 py-3 lg:py-4 px-6 lg:px-8 rounded-xl outline-none w-fit text-white font-bold shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-mono overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                   <div className="relative flex items-center gap-3">
@@ -387,22 +387,22 @@ const Contact = () => {
         {/* Background Section */}
         <motion.div
           variants={slideIn("right", "tween", 0.2, 1)}
-          className="xl:flex-1 xl:h-auto md:h-[600px] h-[400px] relative z-20"
+          className="flex-1 lg:flex-[0.35] xl:flex-1 lg:h-auto md:h-[550px] h-[400px] relative z-20"
         >
           <div className="relative w-full h-full rounded-2xl overflow-hidden border border-purple-400/20 bg-gray-900/20 backdrop-blur-sm">
             {/* Transmission Effect Overlay */}
             <TransmissionEffect isActive={isTransmitting} />
 
             {/* Info Cards */}
-            <div className="absolute inset-0 flex flex-col justify-center items-center p-8 z-10">
+            <div className="absolute inset-0 flex flex-col justify-center items-center p-4 lg:p-6 xl:p-8 z-10">
               <motion.div
                 variants={fadeIn("up", "spring", 0.5, 0.75)}
-                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20 mb-6 w-full max-w-sm"
+                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 lg:p-5 xl:p-6 border border-cyan-400/20 mb-4 lg:mb-6 w-full max-w-sm"
               >
-                <h4 className="text-cyan-400 font-bold mb-3 font-mono">
+                <h4 className="text-cyan-400 font-bold mb-2 lg:mb-3 font-mono text-sm lg:text-base">
                   DIRECT_CHANNELS
                 </h4>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                     <span className="text-gray-300">Email: Available 24/7</span>
@@ -437,12 +437,12 @@ const Contact = () => {
 
               <motion.div
                 variants={fadeIn("up", "spring", 0.6, 0.75)}
-                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-400/20 w-full max-w-sm"
+                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 lg:p-5 xl:p-6 border border-purple-400/20 w-full max-w-sm"
               >
-                <h4 className="text-purple-400 font-bold mb-3 font-mono">
+                <h4 className="text-purple-400 font-bold mb-2 lg:mb-3 font-mono text-sm lg:text-base">
                   CONNECTION_STATS
                 </h4>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Encryption:</span>
                     <span className="text-green-400">AES-256</span>

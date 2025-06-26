@@ -18,16 +18,16 @@ const ExperienceCard = ({
       layout
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, layout: { duration: 0.3 } }}
+      transition={{ delay: index * 0.1, layout: { duration: 0.5 } }}
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative cursor-pointer transition-all duration-500 ${
+      className={`relative cursor-pointer transition-all duration-700 ${
         isDetailed
-          ? "col-span-full"
+          ? "w-full"
           : isActive
-          ? "scale-105 z-10"
-          : "hover:scale-102"
+          ? "flex-grow-[3] z-20"
+          : "flex-grow-[1] hover:flex-grow-[1.2] z-10"
       }`}
     >
       {/* Animated background grid */}
@@ -59,64 +59,96 @@ const ExperienceCard = ({
 
       {/* Card content */}
       <div
-        className={`relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border-2 transition-all duration-500 overflow-hidden ${
+        className={`folded-card relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border-2 transition-all duration-700 overflow-hidden ${
           isActive || isDetailed
             ? "border-cyan-400 shadow-2xl shadow-cyan-500/25"
             : isHovered
             ? "border-purple-400/70 shadow-xl shadow-purple-500/20"
             : "border-gray-700/50 hover:border-gray-600"
-        } ${isDetailed ? "p-8" : "p-6"}`}
+        } ${
+          isDetailed
+            ? "detailed p-6 lg:p-8 h-auto"
+            : isActive
+            ? "active p-4 lg:p-6 h-[400px] lg:h-[450px]"
+            : "p-3 lg:p-4 h-[300px] lg:h-[350px]"
+        }`}
       >
         {/* Terminal header */}
-        <div className="flex items-center gap-2 mb-4">
+        <div
+          className={`flex items-center gap-2 ${isDetailed ? "mb-4" : "mb-2"}`}
+        >
           <div className="flex gap-1">
             <div
-              className={`w-2 h-2 rounded-full ${
+              className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full ${
                 isActive || isDetailed ? "bg-green-400" : "bg-red-500"
               }`}
             ></div>
             <div
-              className={`w-2 h-2 rounded-full ${
+              className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full ${
                 isActive || isDetailed ? "bg-yellow-400" : "bg-yellow-500"
               }`}
             ></div>
             <div
-              className={`w-2 h-2 rounded-full ${
+              className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full ${
                 isActive || isDetailed ? "bg-red-400" : "bg-gray-500"
               }`}
             ></div>
           </div>
-          <div className="text-xs font-mono text-cyan-400">
-            experience_{index + 1}.exe
+          <div
+            className={`font-mono text-cyan-400 ${
+              isDetailed ? "text-xs" : isActive ? "text-xs" : "text-[10px]"
+            }`}
+          >
+            exp_{index + 1}.exe
           </div>
-          <div className="ml-auto text-xs font-mono text-gray-400">
+          <div
+            className={`ml-auto font-mono text-gray-400 ${
+              isDetailed ? "text-xs" : isActive ? "text-xs" : "text-[10px]"
+            }`}
+          >
             [{isActive || isHovered || isDetailed ? "ACTIVE" : "STANDBY"}]
           </div>
         </div>
 
         {/* Company header */}
         <div className={`${isDetailed ? "grid md:grid-cols-2 gap-6" : ""}`}>
-          <div>
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
+          <div className="h-full flex flex-col">
+            <div
+              className={`flex items-start justify-between ${
+                isDetailed ? "mb-4" : "mb-2"
+              }`}
+            >
+              <div className="flex-1 min-w-0">
                 <h3
-                  className={`font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2 ${
-                    isDetailed ? "text-3xl md:text-4xl" : "text-xl"
+                  className={`font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent leading-tight ${
+                    isDetailed
+                      ? "text-2xl md:text-3xl mb-2"
+                      : isActive
+                      ? "text-lg lg:text-xl mb-2"
+                      : "text-sm lg:text-base mb-1"
                   }`}
                 >
                   {experience.company_name}
                 </h3>
                 <p
-                  className={`text-pink-400 font-semibold mb-3 ${
-                    isDetailed ? "text-lg md:text-xl" : "text-sm"
+                  className={`text-pink-400 font-semibold leading-tight ${
+                    isDetailed
+                      ? "text-lg md:text-xl mb-3"
+                      : isActive
+                      ? "text-sm lg:text-base mb-2"
+                      : "text-xs lg:text-sm mb-1"
                   }`}
                 >
                   {experience.title}
                 </p>
               </div>
               {!isDetailed && (
-                <div className="text-right">
-                  <div className="text-xs text-gray-300 font-mono bg-gray-800/70 px-3 py-1 rounded-full border border-cyan-400/30">
+                <div className="text-right flex-shrink-0 ml-2">
+                  <div
+                    className={`text-gray-300 font-mono bg-gray-800/70 px-2 py-1 rounded border border-cyan-400/30 ${
+                      isActive ? "text-xs" : "text-[10px]"
+                    }`}
+                  >
                     {experience.date}
                   </div>
                 </div>
@@ -136,20 +168,35 @@ const ExperienceCard = ({
             )}
 
             {/* Matrix-style divider */}
-            <div className="relative mb-6">
+            <div
+              className={`relative ${
+                isDetailed ? "mb-6" : isActive ? "mb-3" : "mb-2"
+              }`}
+            >
               <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent" />
               <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                <div
+                  className={`bg-cyan-400 rounded-full animate-pulse ${
+                    isActive || isDetailed ? "w-2 h-2" : "w-1.5 h-1.5"
+                  }`}
+                />
               </div>
             </div>
 
             {/* Experience points */}
             <div
-              className={`space-y-4 ${
-                isDetailed ? "max-h-none" : "max-h-40 overflow-hidden"
+              className={`space-y-2 flex-1 overflow-hidden ${
+                isDetailed
+                  ? "max-h-none space-y-4"
+                  : isActive
+                  ? "max-h-[250px] overflow-y-auto"
+                  : "max-h-[150px]"
               }`}
             >
-              {experience.points.map((point, pointIndex) => (
+              {(isActive || isDetailed
+                ? experience.points
+                : experience.points.slice(0, 2)
+              ).map((point, pointIndex) => (
                 <motion.div
                   key={pointIndex}
                   initial={{ opacity: 0, x: -30 }}
@@ -158,36 +205,62 @@ const ExperienceCard = ({
                     delay: isActive || isDetailed ? pointIndex * 0.1 : 0,
                     duration: 0.5,
                   }}
-                  className="flex items-start space-x-3 group"
+                  className="flex items-start space-x-2 group"
                 >
-                  <div className="relative mt-2 flex-shrink-0">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full group-hover:bg-purple-400 transition-colors duration-300" />
-                    <div className="absolute inset-0 bg-cyan-400 rounded-full group-hover:bg-purple-400 animate-ping opacity-20" />
+                  <div className="relative mt-1.5 flex-shrink-0">
+                    <div
+                      className={`bg-cyan-400 rounded-full group-hover:bg-purple-400 transition-colors duration-300 ${
+                        isActive || isDetailed ? "w-2 h-2" : "w-1.5 h-1.5"
+                      }`}
+                    />
+                    <div
+                      className={`absolute inset-0 bg-cyan-400 rounded-full group-hover:bg-purple-400 animate-ping opacity-20 ${
+                        isActive || isDetailed ? "w-2 h-2" : "w-1.5 h-1.5"
+                      }`}
+                    />
                   </div>
                   <p
                     className={`text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300 ${
-                      isDetailed ? "text-base" : "text-sm"
+                      isDetailed
+                        ? "text-base"
+                        : isActive
+                        ? "text-sm"
+                        : "text-xs line-clamp-2"
                     }`}
                   >
-                    <span className="text-green-400 font-mono text-xs">
-                      [LOG]{" "}
-                    </span>
+                    {isActive ||
+                      (isDetailed && (
+                        <span className="text-green-400 font-mono text-xs">
+                          [LOG]{" "}
+                        </span>
+                      ))}
                     {point}
                   </p>
                 </motion.div>
               ))}
+
+              {/* Show more indicator for folded cards */}
+              {!isActive && !isDetailed && experience.points.length > 2 && (
+                <div className="text-center pt-2">
+                  <span className="text-cyan-400 text-xs font-mono">
+                    +{experience.points.length - 2} more...
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Click to expand hint for non-detailed view */}
-            {!isDetailed && (
+            {!isDetailed && !isActive && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isHovered ? 1 : 0 }}
-                className="mt-4 text-center"
+                className="mt-auto pt-2"
               >
-                <div className="inline-flex items-center gap-2 text-xs text-cyan-400 font-mono bg-gray-800/50 px-3 py-1 rounded-full border border-cyan-400/30">
-                  <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse"></div>
-                  Click to view details
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-1 text-[10px] text-cyan-400 font-mono bg-gray-800/50 px-2 py-1 rounded border border-cyan-400/30">
+                    <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse"></div>
+                    Click to expand
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -359,8 +432,8 @@ const Experience = () => {
           }}
         />
 
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
+        {/* Floating particles - reduced from 20 to 12 */}
+        {[...Array(12)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
@@ -465,51 +538,36 @@ const Experience = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="flex justify-center mb-8 lg:mb-12"
+                className="flex justify-center mb-6 lg:mb-8"
               >
-                <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-2 lg:p-3 shadow-2xl overflow-x-auto">
-                  <div className="flex space-x-2 min-w-max">
-                    {experiences.map((experience, index) => (
-                      <motion.button
+                <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2 shadow-2xl">
+                  <div className="flex space-x-1 text-xs font-mono text-center">
+                    <span className="text-cyan-400 px-2 py-1">Timeline:</span>
+                    {experiences.map((_, index) => (
+                      <button
                         key={index}
                         onClick={() => setActiveIndex(index)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`relative px-3 lg:px-6 py-2 lg:py-3 rounded-xl font-medium transition-all duration-300 text-sm lg:text-base font-mono whitespace-nowrap ${
+                        className={`w-8 h-8 rounded-lg border transition-all duration-300 ${
                           activeIndex === index
-                            ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg border border-cyan-400/50"
-                            : "text-gray-400 hover:text-white hover:bg-gray-800/70 border border-gray-600/30"
+                            ? "bg-cyan-400 border-cyan-400 text-gray-900"
+                            : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
                         }`}
                       >
-                        <span className="relative z-10">
-                          {experience.company_name}
-                        </span>
-                        {activeIndex === index && (
-                          <motion.div
-                            layoutId="activeTab"
-                            className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl"
-                            initial={false}
-                            transition={{
-                              type: "spring",
-                              stiffness: 500,
-                              damping: 30,
-                            }}
-                          />
-                        )}
-                      </motion.button>
+                        {index + 1}
+                      </button>
                     ))}
                   </div>
                 </div>
               </motion.div>
             )}
 
-            {/* Experience Cards Grid */}
+            {/* Experience Cards - Horizontal Layout */}
             <motion.div
               layout
-              className={`grid gap-6 lg:gap-8 ${
+              className={`folded-card-container transition-all duration-700 ${
                 detailedView !== null
-                  ? "grid-cols-1"
-                  : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+                  ? "w-full"
+                  : "flex gap-4 lg:gap-6 h-[350px] lg:h-[450px]"
               }`}
             >
               {experiences.map((experience, index) => (

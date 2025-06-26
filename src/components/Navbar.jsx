@@ -84,9 +84,19 @@ const Navbar = () => {
             >
               <a
                 href={`#${nav.id}`}
-                className={`${
+                className={`nav-link ${
                   active === nav.title ? "text-cyan-400" : "text-gray-300"
                 } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById(nav.id);
+                  if (element) {
+                    element.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }}
               >
                 <span className="text-cyan-400">
                   {String(index + 1).padStart(2, "0")}.

@@ -12,25 +12,145 @@
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  /* Enable hardware acceleration for better performance */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
-/* Enhanced scroll snap styles */
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enhanced scroll behavior */
 html {
-  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed navbar */
+  /* Optimize text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
   scroll-behavior: smooth;
 }
 
-.snap-container {
-  scroll-snap-type: y mandatory;
+/* Smooth scroll for all elements */
+.scroll-smooth {
   scroll-behavior: smooth;
-  overflow-y: scroll;
-  height: 100vh;
 }
 
-.snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100vh;
+/* Section transitions */
+section {
+  scroll-margin-top: 80px; /* Offset for fixed navbar */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #8b5cf6, #ec4899);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0891b2, #7c3aed, #db2777);
+}
+
+/* Navigation dots active state */
+.nav-dot.active {
+  background: #06b6d4 !important;
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+/* 3D Folded Card Effects */
+.rotate-y-6 {
+  transform: rotateY(6deg);
+}
+
+.rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+.-rotate-y-3 {
+  transform: rotateY(-3deg);
+}
+
+.hover\:rotate-y-6:hover {
+  transform: rotateY(6deg);
+}
+
+/* 3D Transform utilities */
+.transform-gpu {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Folded card container styles */
+.folded-card-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.folded-card {
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.folded-card:not(.active):not(.detailed) {
+  transform: rotateY(15deg) rotateX(2deg) translateZ(-20px);
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.3),
+    -5px 5px 15px rgba(34, 211, 238, 0.1);
+}
+
+.folded-card:not(.active):not(.detailed):hover {
+  transform: rotateY(8deg) rotateX(1deg) translateZ(-10px);
+  box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.4),
+    -8px 8px 20px rgba(34, 211, 238, 0.2);
+}
+
+.folded-card.active {
+  transform: rotateY(0deg) rotateX(0deg) translateZ(0px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+.folded-card.detailed {
+  transform: rotateY(0deg) rotateX(0deg) translateZ(0px) scale(1);
+}
+
+/* Section fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-animate {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Smooth transitions for all navigation elements */
+.nav-link.active {
+  color: #06b6d4 !important;
 }
 
 .hash-span {
