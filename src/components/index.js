@@ -17,5 +17,4 @@ export { default as Footer } from "./Footer";
 export { StarsCanvas, AvatarCanvas };
 
 // Utility components
-export { default as LazyImage } from "./LazyImage";
 export { default as PerformanceMonitor } from "./PerformanceMonitor";

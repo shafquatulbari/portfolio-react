@@ -9,8 +9,8 @@ const Hero = ({ navigateToSection }) => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
-  const [particleCount, setParticleCount] = useState(4); // Further reduced
-  const [glitterCount, setGlitterCount] = useState(2); // Further reduced
+  const [particleCount, setParticleCount] = useState(2); // Reduced from 4
+  const [glitterCount, setGlitterCount] = useState(1); // Reduced from 2
 
   // Add scroll tracking for Hero section
   const heroRef = useScrollTracking("hero_section");
@@ -23,11 +23,11 @@ const Hero = ({ navigateToSection }) => {
   ];
 
   useEffect(() => {
-    // Further reduced particle count based on screen size and performance
+    // Optimized particle count based on screen size and performance
     const updateParticleCount = () => {
       const width = window.innerWidth;
-      setParticleCount(width < 768 ? 2 : width < 1024 ? 3 : 4);
-      setGlitterCount(width < 768 ? 1 : width < 1024 ? 1 : 2);
+      setParticleCount(width < 768 ? 1 : width < 1024 ? 2 : 2);
+      setGlitterCount(width < 768 ? 0 : 1);
     };
 
     updateParticleCount();
@@ -63,16 +63,16 @@ const Hero = ({ navigateToSection }) => {
     }));
   }, [glitterCount]);
 
-  // Significantly reduced floating sparkles
+  // Reduced floating sparkles to minimal
   const floatingSparkles = useMemo(() => {
-    return [...Array(2)].map((_, i) => ({
-      // Further reduced from 4 to 2
+    return [...Array(1)].map((_, i) => ({
+      // Reduced from 2 to 1
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
-      animationDelay: Math.random() * 10, // Even longer delays
-      animationDuration: 8 + Math.random() * 4, // Even slower animations
-      size: Math.random() * 1.5 + 0.5, // Smaller size
+      animationDelay: Math.random() * 15, // Longer delays
+      animationDuration: 10 + Math.random() * 5, // Slower animations
+      size: Math.random() * 1 + 0.5, // Smaller size
     }));
   }, []);
 
@@ -318,7 +318,7 @@ const Hero = ({ navigateToSection }) => {
               software testing processes.
             </motion.p>
 
-            {/* Tech Stack Preview - responsive grid with enhanced effects */}
+            {/* Tech Stack Preview - simplified */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -329,11 +329,9 @@ const Hero = ({ navigateToSection }) => {
                 (tech, index) => (
                   <div
                     key={tech}
-                    className="relative px-2 sm:px-4 py-1 sm:py-2 bg-gray-900/60 backdrop-blur-sm rounded-lg border border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 group overflow-hidden"
-                    style={{ animationDelay: `${index * 0.2}s` }} // Slower stagger
+                    className="px-2 sm:px-4 py-1 sm:py-2 bg-gray-900/60 backdrop-blur-sm rounded-lg border border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300"
                   >
-                    {/* Simplified hover effect - no glitter */}
-                    <span className="relative text-cyan-400 font-mono text-xs sm:text-sm group-hover:text-white transition-colors duration-300">
+                    <span className="text-cyan-400 font-mono text-xs sm:text-sm hover:text-white transition-colors duration-300">
                       {tech}
                     </span>
                   </div>

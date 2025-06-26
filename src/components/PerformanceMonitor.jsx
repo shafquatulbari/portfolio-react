@@ -2,6 +2,11 @@ import React, { useState, useEffect, memo } from "react";
 import { createFPSMonitor, getMemoryUsage } from "../utils/performance";
 
 const PerformanceMonitor = memo(() => {
+  // Early return for production builds
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
+
   const [fps, setFps] = useState(0);
   const [memory, setMemory] = useState(null);
   const [isVisible, setIsVisible] = useState(false);

@@ -1,7 +1,8 @@
-import React, { Suspense, useEffect, useState, useMemo, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Preload, useFBX, useGLTF } from "@react-three/drei";
 import { AnimationMixer } from "three";
+import { useState } from "react";
 
 import CanvasLoader from "../Loader";
 

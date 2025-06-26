@@ -25,8 +25,8 @@ const CyberpunkBackground = () => {
   useEffect(() => {
     const generateParticles = () => {
       const newParticles = [];
-      // More particles for contact section
-      for (let i = 0; i < 40; i++) {
+      // Reduced particles for contact section - from 40 to 25
+      for (let i = 0; i < 25; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * 100,

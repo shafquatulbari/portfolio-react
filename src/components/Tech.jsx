@@ -39,15 +39,15 @@ const FlappyTechGame = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const GAME_CONFIG = {
-    gravity: 0.2, // Reduced gravity for smoother flying
-    jumpStrength: -4, // Reduced jump strength for more controlled movement
+    gravity: 0.25, // Slightly increased for better physics
+    jumpStrength: -4.5, // Slightly increased for responsive controls
     buildingWidth: 80,
-    buildingGap: 220, // Increased vertical gap between buildings
-    buildingSpeed: 2,
+    buildingGap: 240, // Further increased for easier gameplay
+    buildingSpeed: 1.8, // Slightly reduced for better performance
     vehicleSize: 35,
     techSize: 40,
-    horizontalSpacing: 300, // New property for horizontal spacing between buildings
-    maxParticles: 15, // Reduced particle count for better performance
+    horizontalSpacing: 320, // Increased spacing for better performance
+    maxParticles: 10, // Further reduced particle count
   };
 
   // Preload all tech images

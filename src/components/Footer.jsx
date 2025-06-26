@@ -21,8 +21,8 @@ const CyberpunkBackground = () => {
   useEffect(() => {
     const generateParticles = () => {
       const newParticles = [];
-      // Reduced particle count from 50 to 30
-      for (let i = 0; i < 30; i++) {
+      // Reduced particle count from 30 to 20
+      for (let i = 0; i < 20; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * 100,

@@ -20,43 +20,41 @@ import {
   initSectionObserver,
 } from "./utils/scrollProgress";
 
-// Optimized GalaxyBackground component with reduced particles
+// Optimized GalaxyBackground component with minimal particles
 const GalaxyBackground = () => {
   // Memoize background to prevent unnecessary re-renders
   const backgroundElements = useMemo(
     () => ({
       // Reduced star count for better performance
-      stars: [...Array(50)].map((_, i) => ({
+      stars: [...Array(30)].map((_, i) => ({
+        // Reduced from 50 to 30
         key: i,
         left: `${Math.random() * 100}%`,
         top: `${Math.random() * 100}%`,
         width: `${Math.random() * 2 + 1}px`,
         height: `${Math.random() * 2 + 1}px`,
-        opacity: Math.random() * 0.6 + 0.2,
-        animationDelay: `${Math.random() * 5}s`,
-        animationDuration: `${Math.random() * 3 + 2}s`,
+        opacity: Math.random() * 0.5 + 0.2, // Reduced opacity
+        animationDelay: `${Math.random() * 8}s`, // Longer delays
+        animationDuration: `${Math.random() * 4 + 3}s`, // Slower animations
       })),
       // Reduced nebula count for better performance
-      nebula: [...Array(4)].map((_, i) => ({
+      nebula: [...Array(2)].map((_, i) => ({
+        // Reduced from 4 to 2
         key: i,
         left: `${Math.random() * 120 - 10}%`,
         top: `${Math.random() * 120 - 10}%`,
-        width: `${Math.random() * 300 + 150}px`,
-        height: `${Math.random() * 300 + 150}px`,
+        width: `${Math.random() * 200 + 100}px`, // Smaller nebula
+        height: `${Math.random() * 200 + 100}px`, // Smaller nebula
         background:
           i % 2 === 0
-            ? "radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%)"
-            : "radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)",
+            ? "radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, transparent 70%)" // Reduced opacity
+            : "radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%)", // Reduced opacity
         animation: `float ${
-          Math.random() * 15 + 10
+          Math.random() * 20 + 15 // Slower animations
         }s ease-in-out infinite alternate`,
-        animationDelay: `${Math.random() * 8}s`,
+        animationDelay: `${Math.random() * 15}s`, // Longer delays
       })),
-      // Reduced shooting stars
-      shootingStars: [...Array(2)].map((_, i) => ({
-        key: i,
-        animationDelay: `${Math.random() * 10 + 5}s`,
-      })),
+      // Removed shooting stars for better performance
     }),
     []
   );
@@ -93,20 +91,6 @@ const GalaxyBackground = () => {
             background: nebula.background,
             animation: nebula.animation,
             animationDelay: nebula.animationDelay,
-          }}
-        />
-      ))}
-
-      {/* Optimized shooting stars */}
-      {backgroundElements.shootingStars.map((star) => (
-        <div
-          key={star.key}
-          className="absolute w-1 h-1 bg-white rounded-full opacity-0"
-          style={{
-            top: "20%",
-            left: "-5%",
-            animation: "shoot 4s linear infinite",
-            animationDelay: star.animationDelay,
           }}
         />
       ))}
