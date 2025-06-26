@@ -7,12 +7,6 @@ import { github } from "../../public/assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
-import {
-  trackButtonClick,
-  trackEvent,
-  trackExternalLink,
-} from "../utils/analytics";
-import { useScrollTracking } from "../utils/scrollTracking";
 
 const ProjectCard = ({
   index,
@@ -25,13 +19,10 @@ const ProjectCard = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const handleGitHubClick = () => {
-    trackExternalLink(source_code_link, `${name}_github`);
-    trackButtonClick("project_github", "works");
     window.open(source_code_link, "_blank");
   };
 
   const handleProjectClick = () => {
-    trackEvent("engagement", "project_card_click", name);
     setIsHovered(true);
   };
 
@@ -49,7 +40,6 @@ const ProjectCard = ({
         className="w-full"
         onMouseEnter={() => {
           setIsHovered(true);
-          trackEvent("engagement", "project_card_hover", name);
         }}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleProjectClick}
@@ -179,10 +169,8 @@ const ProjectCard = ({
 };
 
 const Works = () => {
-  const worksRef = useScrollTracking("works_section");
-
   return (
-    <div ref={worksRef} className="relative py-16">
+    <div className="relative py-16">
       {/* Section Header */}
       <motion.div variants={textVariant()} className="text-center mb-16">
         <p className={`${styles.sectionSubText} text-center mb-4`}>

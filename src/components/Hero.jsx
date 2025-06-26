@@ -2,16 +2,11 @@ import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { AvatarCanvas } from "./canvas";
 import { useState, useEffect } from "react";
-import { trackButtonClick, trackDownload } from "../utils/analytics";
-import { useScrollTracking } from "../utils/scrollTracking";
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [particleCount, setParticleCount] = useState(20);
-
-  // Add scroll tracking for Hero section
-  const heroRef = useScrollTracking("hero_section");
 
   const roles = [
     "Full Stack Developer",
@@ -57,10 +52,7 @@ const Hero = () => {
   }, [displayText, currentIndex, isTyping, roles]);
 
   return (
-    <section
-      ref={heroRef}
-      className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-no-repeat bg-center overflow-hidden"
-    >
+    <section className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-no-repeat bg-center overflow-hidden">
       {/* Cyberpunk overlay with original background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80"></div>
 
@@ -271,10 +263,7 @@ const Hero = () => {
         transition={{ duration: 0.8, delay: 1.2 }}
         className="absolute bottom-8 sm:bottom-10 w-full flex justify-center items-center z-40"
       >
-        <a
-          href="#about"
-          onClick={() => trackButtonClick("scroll_down", "hero")}
-        >
+        <a href="#about">
           <div className="relative group">
             {/* Glow effect */}
             <div className="absolute inset-0 bg-cyan-400/20 rounded-3xl blur-md group-hover:bg-cyan-400/40 transition-all duration-300"></div>

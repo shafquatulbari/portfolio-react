@@ -28,6 +28,7 @@ module.exports = {
         "work-pattern": "url('/src/assets/spaceship.gif')",
         "neon-pattern": "url('/src/assets/neon-city.png')",
         "rain-pattern": "url('/src/assets/cyberpunk.gif')",
+        "grid-pattern": "url('/src/assets/grid.png')",
       },
       scrollSnapType: {
         "y-mandatory": "y mandatory",

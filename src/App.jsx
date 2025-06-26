@@ -1,5 +1,4 @@
 import { BrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
 
 import {
   About,
@@ -7,13 +6,12 @@ import {
   Experience,
   Hero,
   Navbar,
+  NeuralMatrix,
+  NeuralProfile,
   Tech,
   Works,
   Footer,
 } from "./components";
-
-// Import Google Analytics utilities
-import { initGA, trackPageView } from "./utils/analytics";
 
 // Import GalaxyBackground component directly
 const GalaxyBackground = () => {
@@ -79,14 +77,6 @@ const GalaxyBackground = () => {
 };
 
 const App = () => {
-  useEffect(() => {
-    // Initialize Google Analytics when the app loads
-    initGA();
-
-    // Track initial page view
-    trackPageView(window.location.href, document.title);
-  }, []);
-
   return (
     <BrowserRouter>
       <div className="relative z-0 bg-primary scroll-snap-y-mandatory h-screen overflow-y-scroll">
@@ -99,7 +89,13 @@ const App = () => {
         <div className="bg-tech-pattern bg-cover bg-no-repeat bg-center relative scroll-snap-start scroll-snap-stop-always min-h-screen">
           <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
           <div className="relative z-20">
-            <About />
+            <NeuralProfile />
+          </div>
+        </div>
+        <div className="bg-grid-pattern bg-cover bg-no-repeat bg-center relative scroll-snap-start scroll-snap-stop-always min-h-screen">
+          <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
+          <div className="relative z-20">
+            <NeuralMatrix />
           </div>
         </div>
         <div className="bg-work-pattern bg-cover bg-no-repeat bg-center relative scroll-snap-start scroll-snap-stop-always min-h-screen">
