@@ -28,6 +28,17 @@ export const navLinks = [
     id: "experience",
     title: "Work",
   },
+];
+
+export const moreNavLinks = [
+  {
+    id: "neural-matrix",
+    title: "Neural Matrix",
+  },
+  {
+    id: "tech",
+    title: "Tech Stack",
+  },
   {
     id: "projects",
     title: "Projects",

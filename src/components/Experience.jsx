@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { styles } from "../styles";
 import { experiences } from "../constants";
 
@@ -22,24 +27,45 @@ const ExperienceCard = ({
   isActive,
   onClick,
   isDetailed,
+  position = "center", // "left", "center", "right"
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const getCardScale = () => {
+    if (isDetailed) return 1;
+    if (isActive) return 1;
+    if (position === "center") return 0.9;
+    return 0.75;
+  };
+
+  const getCardOpacity = () => {
+    if (isDetailed) return 1;
+    if (isActive) return 1;
+    if (position === "center") return 0.7;
+    return 0.4;
+  };
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, layout: { duration: 0.5 } }}
+      animate={{
+        opacity: getCardOpacity(),
+        y: 0,
+        scale: getCardScale(),
+        filter: isActive ? "brightness(1)" : "brightness(0.6)",
+      }}
+      transition={{
+        delay: index * 0.1,
+        layout: { duration: 0.5 },
+        scale: { duration: 0.3 },
+        opacity: { duration: 0.3 },
+      }}
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative cursor-pointer transition-all duration-700 ${
-        isDetailed
-          ? "w-full"
-          : isActive
-          ? "flex-grow-[3] z-20"
-          : "flex-grow-[1] hover:flex-grow-[1.2] z-10"
+      className={`relative cursor-pointer transition-all duration-700 flex-shrink-0 ${
+        isDetailed ? "w-full" : "w-80 md:w-96"
       }`}
     >
       {/* Animated background grid */}
@@ -57,7 +83,6 @@ const ExperienceCard = ({
           }}
         />
       </div>
-
       {/* Glow effect - simplified */}
       <div
         className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
@@ -67,11 +92,10 @@ const ExperienceCard = ({
             ? "bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-pink-500/15 blur-lg"
             : "bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 blur-lg"
         }`}
-      />
-
+      />{" "}
       {/* Card content */}
       <div
-        className={`folded-card relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border-2 transition-all duration-700 overflow-hidden ${
+        className={`folded-card relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border-2 transition-all duration-700 overflow-hidden h-full flex flex-col ${
           isActive || isDetailed
             ? "border-cyan-400 shadow-2xl shadow-cyan-500/25"
             : isHovered
@@ -79,10 +103,10 @@ const ExperienceCard = ({
             : "border-gray-700/50 hover:border-gray-600"
         } ${
           isDetailed
-            ? "detailed p-6 lg:p-8 h-auto"
+            ? "detailed p-6 lg:p-8"
             : isActive
             ? "active p-4 lg:p-6 h-[400px] lg:h-[450px]"
-            : "p-3 lg:p-4 h-[300px] lg:h-[350px]"
+            : "p-3 lg:p-4 h-[350px] lg:h-[400px]"
         }`}
       >
         {/* Terminal header */}
@@ -410,6 +434,17 @@ const Experience = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [detailedView, setDetailedView] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Slider refs and motion values
+  const sliderRef = useRef(null);
+  const containerRef = useRef(null);
+  const x = useMotionValue(0);
+
+  // Card dimensions
+  const cardWidth = 320; // Fixed card width
+  const cardGap = 32; // Gap between cards
+  const totalCardWidth = cardWidth + cardGap;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -418,14 +453,131 @@ const Experience = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Center the active card
+  useEffect(() => {
+    if (containerRef.current && !isDragging && detailedView === null) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const centerOffset = containerWidth / 2 - cardWidth / 2;
+      const targetX = centerOffset - activeIndex * totalCardWidth;
+      x.set(targetX);
+    }
+  }, [activeIndex, x, isDragging, detailedView, totalCardWidth, cardWidth]);
+
+  // Handle drag end to snap to nearest card
+  const handleDragEnd = (event, info) => {
+    setIsDragging(false);
+    const currentX = x.get();
+    const velocity = info.velocity.x;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const centerOffset = containerWidth / 2 - cardWidth / 2;
+
+    // Calculate which card should be in center based on current position
+    let targetIndex = Math.round((centerOffset - currentX) / totalCardWidth);
+
+    // Adjust for velocity (swipe detection)
+    if (Math.abs(velocity) > 500) {
+      if (velocity > 0 && targetIndex > 0) {
+        targetIndex -= 1;
+      } else if (velocity < 0 && targetIndex < experiences.length - 1) {
+        targetIndex += 1;
+      }
+    }
+
+    const clampedIndex = Math.max(
+      0,
+      Math.min(experiences.length - 1, targetIndex)
+    );
+    setActiveIndex(clampedIndex);
+  };
+
   const handleCardClick = (index) => {
-    if (detailedView === index) {
-      setDetailedView(null);
+    if (activeIndex === index) {
+      // If clicking the active card, toggle detailed view
+      if (detailedView === index) {
+        setDetailedView(null);
+      } else {
+        setDetailedView(index);
+      }
     } else {
-      setDetailedView(index);
+      // If clicking a different card, make it active
       setActiveIndex(index);
+      setDetailedView(null);
     }
   };
+
+  // Navigation functions
+  const goToSlide = (index) => {
+    setActiveIndex(index);
+    setDetailedView(null);
+  };
+
+  const nextSlide = () => {
+    if (activeIndex < experiences.length - 1) {
+      setActiveIndex((prev) => prev + 1);
+      setDetailedView(null);
+    }
+  };
+
+  const prevSlide = () => {
+    if (activeIndex > 0) {
+      setActiveIndex((prev) => prev - 1);
+      setDetailedView(null);
+    }
+  };
+
+  // Get card position relative to active card
+  const getCardPosition = (index) => {
+    if (index < activeIndex) return "left";
+    if (index > activeIndex) return "right";
+    return "center";
+  };
+
+  // Touch handling for mobile
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (detailedView !== null) return;
+
+      if (e.key === "ArrowLeft") {
+        prevSlide();
+      } else if (e.key === "ArrowRight") {
+        nextSlide();
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleCardClick(activeIndex);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex, detailedView]);
 
   return (
     <motion.section
@@ -435,6 +587,78 @@ const Experience = () => {
       viewport={{ once: true, amount: 0.25 }}
       className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
     >
+      <style jsx>{`
+        .experience-slider {
+          touch-action: pan-x;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+        }
+
+        .experience-slider:active {
+          cursor: grabbing !important;
+        }
+
+        @media (max-width: 768px) {
+          .experience-slider {
+            touch-action: pan-x;
+            -webkit-overflow-scrolling: touch;
+          }
+        }
+
+        .experience-card-wrapper {
+          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: transform, opacity;
+        }
+
+        .experience-card-wrapper:hover {
+          transform: translateY(-4px) scale(1.02);
+        }
+
+        .navigation-arrow {
+          backdrop-filter: blur(12px);
+          transition: all 0.3s ease;
+          will-change: transform;
+        }
+
+        .navigation-arrow:hover:not(:disabled) {
+          transform: scale(1.1);
+          box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+        }
+
+        .navigation-arrow:active:not(:disabled) {
+          transform: scale(0.95);
+        }
+
+        .timeline-dot {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: transform;
+        }
+
+        .timeline-dot:hover {
+          transform: scale(1.1);
+        }
+
+        .timeline-dot:active {
+          transform: scale(0.95);
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+          .navigation-arrow:hover {
+            transform: none;
+            box-shadow: none;
+          }
+
+          .experience-card-wrapper:hover {
+            transform: none;
+          }
+
+          .timeline-dot:hover {
+            transform: none;
+          }
+        }
+      `}</style>
       <span className="hash-span" id="work">
         &nbsp;
       </span>
@@ -555,22 +779,31 @@ const Experience = () => {
               exit={{ opacity: 0 }}
               className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10"
             >
-              {/* Timeline Navigation - only show when not in detailed view */}
+              {/* Timeline Navigation - Enhanced with navigation buttons */}
               {detailedView === null && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="flex justify-center mb-6 lg:mb-8"
+                  className="flex flex-col items-center gap-4 mb-6 lg:mb-8"
                 >
+                  {/* Timeline dots */}
                   <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl p-2 shadow-2xl">
-                    <div className="flex space-x-1 text-xs font-mono text-center">
+                    <div className="flex items-center space-x-1 text-xs font-mono text-center">
+                      <button
+                        onClick={prevSlide}
+                        disabled={activeIndex === 0}
+                        className="text-cyan-400 px-2 py-1 hover:text-cyan-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        aria-label="Previous experience"
+                      >
+                        ←
+                      </button>
                       <span className="text-cyan-400 px-2 py-1">Timeline:</span>
                       {experiences.map((_, index) => (
                         <button
                           key={index}
-                          onClick={() => setActiveIndex(index)}
-                          className={`w-8 h-8 rounded-lg border transition-all duration-300 ${
+                          onClick={() => goToSlide(index)}
+                          className={`timeline-dot w-8 h-8 rounded-lg border transition-all duration-300 ${
                             activeIndex === index
                               ? "bg-cyan-400 border-cyan-400 text-gray-900"
                               : "border-gray-600 text-gray-400 hover:border-cyan-400/50"
@@ -579,30 +812,101 @@ const Experience = () => {
                           {index + 1}
                         </button>
                       ))}
+                      <button
+                        onClick={nextSlide}
+                        disabled={activeIndex === experiences.length - 1}
+                        className="text-cyan-400 px-2 py-1 hover:text-cyan-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        aria-label="Next experience"
+                      >
+                        →
+                      </button>
                     </div>
+                  </div>
+
+                  {/* Slide indicator */}
+                  <div className="text-center">
+                    <span className="text-gray-400 text-xs font-mono">
+                      {activeIndex + 1} / {experiences.length} • Drag to
+                      navigate • Click active card for details
+                    </span>
                   </div>
                 </motion.div>
               )}
 
-              {/* Experience Cards - Horizontal Layout */}
+              {/* Experience Cards - Horizontal Slider */}
               <motion.div
                 layout
-                className={`folded-card-container transition-all duration-700 ${
+                className={`relative ${
                   detailedView !== null
                     ? "w-full"
-                    : "flex gap-4 lg:gap-6 h-[350px] lg:h-[450px]"
+                    : "h-[450px] lg:h-[500px] overflow-hidden"
                 }`}
               >
-                {experiences.map((experience, index) => (
-                  <ExperienceCard
-                    key={index}
-                    experience={experience}
-                    index={index}
-                    isActive={activeIndex === index}
-                    isDetailed={detailedView === index}
-                    onClick={() => handleCardClick(index)}
-                  />
-                ))}
+                {detailedView !== null ? (
+                  // Detailed view - show single card
+                  <div className="w-full">
+                    <ExperienceCard
+                      key={detailedView}
+                      experience={experiences[detailedView]}
+                      index={detailedView}
+                      isActive={true}
+                      isDetailed={true}
+                      onClick={() => handleCardClick(detailedView)}
+                    />
+                  </div>
+                ) : (
+                  // Slider view
+                  <div
+                    ref={containerRef}
+                    className="relative w-full h-full"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                  >
+                    <motion.div
+                      ref={sliderRef}
+                      style={{ x }}
+                      drag="x"
+                      dragConstraints={{ left: -2000, right: 2000 }}
+                      dragElastic={0.2}
+                      dragMomentum={false}
+                      onDragStart={() => setIsDragging(true)}
+                      onDragEnd={handleDragEnd}
+                      className="experience-slider flex gap-8 h-full cursor-grab active:cursor-grabbing select-none items-center"
+                      whileTap={{ cursor: "grabbing" }}
+                    >
+                      {experiences.map((experience, index) => (
+                        <div key={index} className="experience-card-wrapper">
+                          <ExperienceCard
+                            experience={experience}
+                            index={index}
+                            isActive={activeIndex === index}
+                            isDetailed={false}
+                            position={getCardPosition(index)}
+                            onClick={() => handleCardClick(index)}
+                          />
+                        </div>
+                      ))}
+                    </motion.div>
+
+                    {/* Navigation arrows */}
+                    <button
+                      onClick={prevSlide}
+                      disabled={activeIndex === 0}
+                      className="navigation-arrow absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gray-900/80 backdrop-blur-sm border border-cyan-400/30 rounded-full flex items-center justify-center text-cyan-400 hover:border-cyan-400 hover:bg-gray-800/80 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      ←
+                    </button>
+
+                    <button
+                      onClick={nextSlide}
+                      disabled={activeIndex === experiences.length - 1}
+                      className="navigation-arrow absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gray-900/80 backdrop-blur-sm border border-cyan-400/30 rounded-full flex items-center justify-center text-cyan-400 hover:border-cyan-400 hover:bg-gray-800/80 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      →
+                    </button>
+                  </div>
+                )}
               </motion.div>
 
               {/* Back to grid button for mobile */}

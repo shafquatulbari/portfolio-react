@@ -222,202 +222,190 @@ const Works = () => {
           </p>
         </motion.div>
 
-        {/* Two-Row Grid Layout with reduced spacing */}
-        <div className="flex-1 w-full px-2 sm:px-4 lg:px-6 flex flex-col items-center justify-center">
-          <div className="grid grid-rows-2 gap-4 w-full max-w-3xl justify-items-center">
-            {/* First Row */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 w-full justify-items-center">
-              {projects
-                .slice(0, Math.ceil(projects.length / 2))
-                .map((project, index) => (
-                  <motion.div
-                    key={project.name}
-                    className="relative group cursor-pointer h-full w-full max-w-xs"
-                    variants={fadeIn("up", "spring", index * 0.1, 0.75)}
-                    onMouseEnter={() => setHoveredProject(index)}
-                    onMouseLeave={() => setHoveredProject(null)}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => handleProjectClick(project, index)}
-                  >
-                    {/* Card Background with Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* First Row */}
+        <div className="w-full px-2 sm:px-4 lg:px-6 grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-3xl mx-auto justify-items-center mb-4">
+          {projects
+            .slice(0, Math.ceil(projects.length / 2))
+            .map((project, index) => (
+                <motion.div
+                  key={project.name}
+                  className="relative group cursor-pointer h-full w-full max-w-xs"
+                  variants={fadeIn("up", "spring", index * 0.1, 0.75)}
+                  onMouseEnter={() => setHoveredProject(index)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => handleProjectClick(project, index)}
+                >
+                  {/* Card Background with Glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                    <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
-                      {/* Project Image - reduced height */}
-                      <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                        <img
-                          src={project.image}
-                          alt={project.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
+                  <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
+                    {/* Project Image - reduced height */}
+                    <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
 
-                        {/* Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
 
-                        {/* Project Number - smaller */}
-                        <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
-                          <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
-                            {String(index + 1).padStart(2, "0")}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Project Info - reduced padding */}
-                      <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
-                            {project.name}
-                          </h3>
-                        </div>
-
-                        {/* Click hint - smaller */}
-                        <div className="flex items-center justify-between mt-2">
-                          <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            Click to explore
-                          </span>
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
-                            <div
-                              className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                              style={{ animationDelay: "0.2s" }}
-                            ></div>
-                            <div
-                              className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                              style={{ animationDelay: "0.4s" }}
-                            ></div>
-                          </div>
+                      {/* Project Number - smaller */}
+                      <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
+                        <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
+                          {String(index + 1).padStart(2, "0")}
                         </div>
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-            </div>
 
-            {/* Second Row */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 w-full justify-items-center">
-              {projects
-                .slice(Math.ceil(projects.length / 2))
-                .map((project, index) => (
-                  <motion.div
-                    key={project.name}
-                    className="relative group cursor-pointer h-full w-full max-w-xs"
-                    variants={fadeIn(
-                      "up",
-                      "spring",
-                      (index + Math.ceil(projects.length / 2)) * 0.1,
-                      0.75
-                    )}
-                    onMouseEnter={() =>
-                      setHoveredProject(index + Math.ceil(projects.length / 2))
-                    }
-                    onMouseLeave={() => setHoveredProject(null)}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() =>
-                      handleProjectClick(
-                        project,
-                        index + Math.ceil(projects.length / 2)
-                      )
-                    }
-                  >
-                    {/* Card Background with Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
-                      {/* Project Image - reduced height */}
-                      <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                        <img
-                          src={project.image}
-                          alt={project.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-
-                        {/* Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
-
-                        {/* Project Number - smaller */}
-                        <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
-                          <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
-                            {String(
-                              index + Math.ceil(projects.length / 2) + 1
-                            ).padStart(2, "0")}
-                          </div>
-                        </div>
+                    {/* Project Info - reduced padding */}
+                    <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
+                          {project.name}
+                        </h3>
                       </div>
 
-                      {/* Project Info - reduced padding */}
-                      <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
-                            {project.name}
-                          </h3>
-                        </div>
-
-                        {/* Click hint - smaller */}
-                        <div className="flex items-center justify-between mt-2">
-                          <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            Click to explore
-                          </span>
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
-                            <div
-                              className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                              style={{ animationDelay: "0.2s" }}
-                            ></div>
-                            <div
-                              className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
-                              style={{ animationDelay: "0.4s" }}
-                            ></div>
-                          </div>
+                      {/* Click hint - smaller */}
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Click to explore
+                        </span>
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
+                          <div
+                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                            style={{ animationDelay: "0.2s" }}
+                          ></div>
+                          <div
+                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                            style={{ animationDelay: "0.4s" }}
+                          ></div>
                         </div>
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-            </div>
-          </div>
+                  </div>
+                </motion.div>
+              ))}
+        </div>
+
+        {/* Second Row */}
+        <div className="w-full px-2 sm:px-4 lg:px-6 grid grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-3xl mx-auto justify-items-center">
+          {projects
+            .slice(Math.ceil(projects.length / 2))
+            .map((project, index) => (
+                <motion.div
+                  key={project.name}
+                  className="relative group cursor-pointer h-full w-full max-w-xs"
+                  variants={fadeIn(
+                    "up",
+                    "spring",
+                    (index + Math.ceil(projects.length / 2)) * 0.1,
+                    0.75
+                  )}
+                  onMouseEnter={() =>
+                    setHoveredProject(index + Math.ceil(projects.length / 2))
+                  }
+                  onMouseLeave={() => setHoveredProject(null)}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() =>
+                    handleProjectClick(
+                      project,
+                      index + Math.ceil(projects.length / 2)
+                    )
+                  }
+                >
+                  {/* Card Background with Glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 rounded-lg lg:rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
+                    {/* Project Image - reduced height */}
+                    <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
+                      <img
+                        src={project.image}
+                        alt={project.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+
+                      {/* Project Number - smaller */}
+                      <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
+                        <div className="bg-gray-900/80 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-xs text-purple-400 font-mono border border-purple-400/30">
+                          {String(
+                            index + Math.ceil(projects.length / 2) + 1
+                          ).padStart(2, "0")}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Project Info - reduced padding */}
+                    <div className="p-2 sm:p-3 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-white text-xs sm:text-sm lg:text-base font-bold mb-1 group-hover:text-purple-300 transition-colors duration-300 line-clamp-2">
+                          {project.name}
+                        </h3>
+                      </div>
+
+                      {/* Click hint - smaller */}
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Click to explore
+                        </span>
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
+                          <div
+                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                            style={{ animationDelay: "0.2s" }}
+                          ></div>
+                          <div
+                            className="w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"
+                            style={{ animationDelay: "0.4s" }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
         </div>
 
         {/* More Projects Button */}
-        <motion.div
+        <motion.button
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-8 sm:mt-10"
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={openGitHubProfile}
+          className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 text-white py-3 px-6 sm:px-8 rounded-xl font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center gap-3 mx-auto border border-purple-400/30 mt-8 sm:mt-10"
         >
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={openGitHubProfile}
-            className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 text-white py-3 px-6 sm:px-8 rounded-xl font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center gap-3 mx-auto border border-purple-400/30"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="text-sm sm:text-base">
-              View More Projects on GitHub
-            </span>
-          </motion.button>
-        </motion.div>
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="text-sm sm:text-base">
+            View More Projects on GitHub
+          </span>
+        </motion.button>
 
         {/* Project Detail Modal */}
         {selectedProject && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-gray-900/95 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ type: "spring", duration: 0.5 }}
+            className="fixed inset-0 bg-gray-900/95 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6"
             onClick={closeModal}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm rounded-2xl border border-purple-400/50 overflow-hidden max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            <div
+              className="relative bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-sm rounded-2xl border border-purple-400/50 overflow-hidden max-w-5xl w-full max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
@@ -439,7 +427,7 @@ const Works = () => {
 
               {/* Modal Content */}
               <div className="p-4 sm:p-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid lg:grid-cols-2 gap-6">
                   {/* Project Image */}
                   <div className="relative">
                     <img
@@ -479,7 +467,7 @@ const Works = () => {
                         <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
                         PROJECT_DESCRIPTION
                       </h3>
-                      <p className="text-gray-300 leading-relaxed">
+                      <p className="text-gray-300 leading-relaxed text-base">
                         {selectedProject.description}
                       </p>
                     </div>
@@ -553,7 +541,7 @@ const Works = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </div>

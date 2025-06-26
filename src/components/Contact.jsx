@@ -18,6 +18,220 @@ const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
   };
 };
 
+// Animated Background Component - Same as Footer but with more animations
+const CyberpunkBackground = () => {
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const generateParticles = () => {
+      const newParticles = [];
+      // More particles for contact section
+      for (let i = 0; i < 40; i++) {
+        newParticles.push({
+          id: i,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          size: Math.random() * 3 + 1,
+          opacity: Math.random() * 0.8 + 0.2,
+          animationDelay: Math.random() * 5,
+          duration: Math.random() * 4 + 2,
+          color: ["#06b6d4", "#a855f7", "#ec4899", "#10b981"][
+            Math.floor(Math.random() * 4)
+          ],
+        });
+      }
+      setParticles(newParticles);
+    };
+
+    generateParticles();
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Gradient background - same as footer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900" />
+
+      {/* Animated grid pattern */}
+      <div
+        className="absolute inset-0 opacity-15"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(56, 189, 248, 0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56, 189, 248, 0.4) 1px, transparent 1px)
+          `,
+          backgroundSize: "50px 50px",
+          animation: "grid-move 15s linear infinite",
+        }}
+      />
+
+      {/* Floating particles with colors */}
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full animate-pulse"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            backgroundColor: particle.color,
+            opacity: particle.opacity,
+            animationDelay: `${particle.animationDelay}s`,
+            animationDuration: `${particle.duration}s`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            x: [0, 10, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            delay: particle.animationDelay,
+          }}
+        />
+      ))}
+
+      {/* Animated scanning lines */}
+      <motion.div
+        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent"
+        animate={{
+          opacity: [0.3, 1, 0.3],
+          scaleY: [0.8, 1.2, 0.8],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-purple-400/40 to-transparent"
+        animate={{
+          opacity: [0.3, 1, 0.3],
+          scaleY: [1.2, 0.8, 1.2],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.5,
+        }}
+      />
+
+      {/* Floating circuit patterns */}
+      <motion.div
+        className="absolute top-10 left-10 w-20 h-20 opacity-20"
+        animate={{
+          rotate: 360,
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+          scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <circle
+            cx="50"
+            cy="50"
+            r="40"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-cyan-400"
+          />
+          <circle
+            cx="50"
+            cy="50"
+            r="20"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-purple-400"
+          />
+          <line
+            x1="10"
+            y1="50"
+            x2="90"
+            y2="50"
+            stroke="currentColor"
+            strokeWidth="1"
+            className="text-pink-400"
+          />
+          <line
+            x1="50"
+            y1="10"
+            x2="50"
+            y2="90"
+            stroke="currentColor"
+            strokeWidth="1"
+            className="text-green-400"
+          />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-10 right-10 w-16 h-16 opacity-20"
+        animate={{
+          rotate: -360,
+          scale: [1, 0.8, 1],
+        }}
+        transition={{
+          rotate: { duration: 15, repeat: Infinity, ease: "linear" },
+          scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <polygon
+            points="50,10 90,90 10,90"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-yellow-400"
+          />
+          <circle
+            cx="50"
+            cy="60"
+            r="15"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-cyan-400"
+          />
+        </svg>
+      </motion.div>
+
+      {/* Data stream effects */}
+      <motion.div
+        className="absolute top-0 left-1/2 w-1 h-4 bg-gradient-to-b from-cyan-400 to-transparent"
+        animate={{
+          y: [0, "100vh"],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute top-0 right-1/3 w-1 h-4 bg-gradient-to-b from-purple-400 to-transparent"
+        animate={{
+          y: [0, "100vh"],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+    </div>
+  );
+};
+
 // Enhanced Transmission Animation Component - Optimized
 const TransmissionEffect = ({ isActive }) => {
   if (!isActive) return null;
@@ -141,11 +355,14 @@ const Contact = ({ navigateToSection }) => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.25 }}
-      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16"
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
     >
       <span className="hash-span" id="contact">
         &nbsp;
       </span>
+
+      {/* Add cyberpunk background */}
+      <CyberpunkBackground />
 
       {/* Section Header */}
       <motion.div

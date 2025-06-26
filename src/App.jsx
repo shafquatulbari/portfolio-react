@@ -266,11 +266,10 @@ const App = () => {
 
           <section
             id="contact"
-            className={`snap-section-full bg-neon-pattern bg-cover bg-no-repeat bg-center relative overflow-hidden ${
+            className={`snap-section-full relative overflow-hidden ${
               currentSection === "contact" ? "active" : ""
             }`}
           >
-            <GalaxyBackground />
             <Contact navigateToSection={navigateToSection} />
             <Footer />
           </section>
