@@ -1246,10 +1246,10 @@ html {
 /* Grid animation for Neural Matrix */
 @keyframes gridShift {
   0% {
-    transform: translateX(0) translateY(0);
+    background-position: 0 0;
   }
   100% {
-    transform: translateX(50px) translateY(50px);
+    background-position: 50px 50px;
   }
 }
 
@@ -1355,4 +1355,106 @@ html {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Enhanced Experience Section Animations */
+@keyframes gridShift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+@keyframes scanlineMove {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes terminalGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.6);
+  }
+}
+
+@keyframes matrixRain {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.experience-card-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.experience-card-hover:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.terminal-startup {
+  animation: terminalGlow 2s ease-in-out infinite alternate;
+}
+
+/* Responsive grid layout for experience cards */
+@media (max-width: 768px) {
+  .experience-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .experience-card {
+    padding: 1rem;
+  }
+
+  .experience-detailed {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .experience-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
 }
