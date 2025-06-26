@@ -13,13 +13,6 @@ import {
   faCode,
   faCoffee,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  trackButtonClick,
-  trackEvent,
-  trackExternalLink,
-  trackDownload,
-} from "../utils/analytics";
-import { useScrollTracking } from "../utils/scrollTracking";
 
 // Animated Background Component
 const CyberpunkBackground = () => {
@@ -28,7 +21,8 @@ const CyberpunkBackground = () => {
   useEffect(() => {
     const generateParticles = () => {
       const newParticles = [];
-      for (let i = 0; i < 50; i++) {
+      // Reduced particle count from 30 to 20
+      for (let i = 0; i < 20; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * 100,
@@ -89,44 +83,8 @@ const CyberpunkBackground = () => {
   );
 };
 
-// Stats Component
-const FooterStats = () => {
-  const stats = [
-    { icon: faCode, value: "500K+", label: "Lines of Code" },
-    { icon: faRocket, value: "15+", label: "Projects Launched" },
-    { icon: faCoffee, value: "∞", label: "Cups of Coffee" },
-  ];
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-      {stats.map((stat, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.05 }}
-          className="text-center group"
-        >
-          <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20 hover:border-cyan-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20 group-hover:scale-105">
-            <FontAwesomeIcon
-              icon={stat.icon}
-              className="text-3xl text-cyan-400 mb-3 group-hover:text-purple-400 transition-colors duration-300"
-            />
-            <div className="text-2xl font-bold text-white mb-1 font-mono">
-              {stat.value}
-            </div>
-            <div className="text-gray-400 text-sm">{stat.label}</div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
 const Footer = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const footerRef = useScrollTracking("footer_section");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -135,21 +93,6 @@ const Footer = () => {
 
     return () => clearInterval(timer);
   }, []);
-
-  const handleSocialClick = (link) => {
-    if (link.isDownload) {
-      trackDownload(link.href, link.label.toLowerCase());
-      trackButtonClick("resume_download", "footer");
-      trackEvent("engagement", "resume_download", "footer");
-    } else if (link.href.startsWith("mailto:")) {
-      trackEvent("engagement", "email_click", "footer");
-      trackButtonClick("email_contact", "footer");
-    } else {
-      trackExternalLink(link.href, `${link.label.toLowerCase()}_social`);
-      trackButtonClick(`${link.label.toLowerCase()}_social`, "footer");
-      trackEvent("engagement", "social_link_click", link.label.toLowerCase());
-    }
-  };
 
   const socialLinks = [
     {
@@ -180,56 +123,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative bg-gray-950 text-white py-16 overflow-hidden"
-    >
+    <footer className="relative bg-gray-950 text-white py-16 overflow-hidden">
       <CyberpunkBackground />
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* Stats Section */}
-        <FooterStats />
-
-        {/* Terminal Info Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 mb-12"
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <div className="ml-4 text-cyan-400 font-mono text-sm">
-              system_info.sh
-            </div>
-          </div>
-
-          <div className="font-mono text-sm space-y-2">
-            <div className="text-cyan-400">
-              <span className="text-green-400">shafquat@portfolio</span>
-              <span className="text-white">:</span>
-              <span className="text-blue-400">~/footer</span>
-              <span className="text-white">$ </span>
-              <span className="text-purple-400">uptime</span>
-            </div>
-            <div className="text-gray-300 ml-4">
-              → System uptime: Always online
-            </div>
-            <div className="text-gray-300 ml-4">
-              → Current time: {currentTime.toLocaleTimeString()}
-            </div>
-            <div className="text-gray-300 ml-4">
-              → Status: Ready for new projects
-              <span className="animate-pulse ml-2 text-green-400">●</span>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Social Links */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -250,7 +147,6 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => handleSocialClick(link)}
                 className={`group relative flex flex-col items-center p-4 bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300 ${link.color}`}
               >
                 {/* Glow effect */}

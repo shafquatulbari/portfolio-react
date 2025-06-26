@@ -3,12 +3,236 @@ import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
-import { SectionWrapper } from "../hoc";
 import { slideIn, fadeIn, textVariant } from "../utils/motion";
-import { trackButtonClick, trackEvent } from "../utils/analytics";
-import { useScrollTracking } from "../utils/scrollTracking";
 
-// Enhanced Transmission Animation Component
+// Stagger container animation (decoupled from SectionWrapper)
+const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
+  return {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: staggerChildren,
+        delayChildren: delayChildren || 0,
+      },
+    },
+  };
+};
+
+// Animated Background Component - Same as Footer but with more animations
+const CyberpunkBackground = () => {
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const generateParticles = () => {
+      const newParticles = [];
+      // Reduced particles for contact section - from 40 to 25
+      for (let i = 0; i < 25; i++) {
+        newParticles.push({
+          id: i,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          size: Math.random() * 3 + 1,
+          opacity: Math.random() * 0.8 + 0.2,
+          animationDelay: Math.random() * 5,
+          duration: Math.random() * 4 + 2,
+          color: ["#06b6d4", "#a855f7", "#ec4899", "#10b981"][
+            Math.floor(Math.random() * 4)
+          ],
+        });
+      }
+      setParticles(newParticles);
+    };
+
+    generateParticles();
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Gradient background - same as footer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900" />
+
+      {/* Animated grid pattern */}
+      <div
+        className="absolute inset-0 opacity-15"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(56, 189, 248, 0.4) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56, 189, 248, 0.4) 1px, transparent 1px)
+          `,
+          backgroundSize: "50px 50px",
+          animation: "grid-move 15s linear infinite",
+        }}
+      />
+
+      {/* Floating particles with colors */}
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full animate-pulse"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            backgroundColor: particle.color,
+            opacity: particle.opacity,
+            animationDelay: `${particle.animationDelay}s`,
+            animationDuration: `${particle.duration}s`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            x: [0, 10, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            delay: particle.animationDelay,
+          }}
+        />
+      ))}
+
+      {/* Animated scanning lines */}
+      <motion.div
+        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent"
+        animate={{
+          opacity: [0.3, 1, 0.3],
+          scaleY: [0.8, 1.2, 0.8],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-purple-400/40 to-transparent"
+        animate={{
+          opacity: [0.3, 1, 0.3],
+          scaleY: [1.2, 0.8, 1.2],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.5,
+        }}
+      />
+
+      {/* Floating circuit patterns */}
+      <motion.div
+        className="absolute top-10 left-10 w-20 h-20 opacity-20"
+        animate={{
+          rotate: 360,
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+          scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <circle
+            cx="50"
+            cy="50"
+            r="40"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-cyan-400"
+          />
+          <circle
+            cx="50"
+            cy="50"
+            r="20"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-purple-400"
+          />
+          <line
+            x1="10"
+            y1="50"
+            x2="90"
+            y2="50"
+            stroke="currentColor"
+            strokeWidth="1"
+            className="text-pink-400"
+          />
+          <line
+            x1="50"
+            y1="10"
+            x2="50"
+            y2="90"
+            stroke="currentColor"
+            strokeWidth="1"
+            className="text-green-400"
+          />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-10 right-10 w-16 h-16 opacity-20"
+        animate={{
+          rotate: -360,
+          scale: [1, 0.8, 1],
+        }}
+        transition={{
+          rotate: { duration: 15, repeat: Infinity, ease: "linear" },
+          scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+        }}
+      >
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <polygon
+            points="50,10 90,90 10,90"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-yellow-400"
+          />
+          <circle
+            cx="50"
+            cy="60"
+            r="15"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            className="text-cyan-400"
+          />
+        </svg>
+      </motion.div>
+
+      {/* Data stream effects */}
+      <motion.div
+        className="absolute top-0 left-1/2 w-1 h-4 bg-gradient-to-b from-cyan-400 to-transparent"
+        animate={{
+          y: [0, "100vh"],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute top-0 right-1/3 w-1 h-4 bg-gradient-to-b from-purple-400 to-transparent"
+        animate={{
+          y: [0, "100vh"],
+          opacity: [0, 1, 0],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+    </div>
+  );
+};
+
+// Enhanced Transmission Animation Component - Optimized
 const TransmissionEffect = ({ isActive }) => {
   if (!isActive) return null;
 
@@ -17,13 +241,13 @@ const TransmissionEffect = ({ isActive }) => {
       {/* Main transmission overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent animate-pulse" />
 
-      {/* Enhanced signal bars */}
-      {[...Array(30)].map((_, i) => (
+      {/* Reduced signal bars for better performance */}
+      {[...Array(10)].map((_, i) => (
         <div
           key={i}
           className="absolute bottom-0 bg-gradient-to-t from-cyan-400 via-purple-400 to-transparent opacity-70 signal-bar"
           style={{
-            left: `${(i / 30) * 100}%`,
+            left: `${(i / 15) * 100}%`,
             width: "2px",
             height: `${Math.random() * 70 + 10}%`,
             animationDelay: `${i * 0.05}s`,
@@ -31,64 +255,25 @@ const TransmissionEffect = ({ isActive }) => {
         />
       ))}
 
-      {/* Data streams */}
-      {[...Array(8)].map((_, i) => (
+      {/* Reduced data streams */}
+      {[...Array(3)].map((_, i) => (
         <div
           key={i}
           className="absolute data-stream"
           style={{
-            left: `${(i / 8) * 100}%`,
+            left: `${(i / 5) * 100}%`,
             animationDelay: `${i * 0.2}s`,
           }}
         />
       ))}
 
-      {/* Pulse rings */}
+      {/* Simplified pulse rings */}
       <div className="absolute top-1/2 left-1/2 w-32 h-32 border-2 border-cyan-400/30 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse" />
-      <div
-        className="absolute top-1/2 left-1/2 w-64 h-64 border border-purple-400/20 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse"
-        style={{ animationDelay: "0.5s" }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 w-96 h-96 border border-pink-400/10 rounded-full transform -translate-x-1/2 -translate-y-1/2 transmission-pulse"
-        style={{ animationDelay: "1s" }}
-      />
-
-      {/* Scanning lines */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-pulse"
-          style={{ top: "20%" }}
-        />
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-purple-400/50 to-transparent animate-pulse"
-          style={{ top: "60%", animationDelay: "0.3s" }}
-        />
-        <div
-          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent animate-pulse"
-          style={{ top: "80%", animationDelay: "0.6s" }}
-        />
-      </div>
-
-      {/* Holographic interference */}
-      <div className="absolute inset-0 opacity-30">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
-            style={{
-              top: `${20 + i * 15}%`,
-              animation: `data-flow ${2 + i * 0.3}s linear infinite`,
-              animationDelay: `${i * 0.2}s`,
-            }}
-          />
-        ))}
-      </div>
     </div>
   );
 };
 
-const Contact = () => {
+const Contact = ({ navigateToSection }) => {
   const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
@@ -99,6 +284,15 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [isTransmitting, setIsTransmitting] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleChange = (e) => {
     const { target } = e;
@@ -156,7 +350,20 @@ const Contact = () => {
   };
 
   return (
-    <>
+    <motion.section
+      variants={staggerContainer()}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.25 }}
+      className="max-w-7xl mx-auto relative z-0 px-6 sm:px-16 py-10 sm:py-16 bg-black/50"
+    >
+      <span className="hash-span" id="contact">
+        &nbsp;
+      </span>
+
+      {/* Add cyberpunk background */}
+      <CyberpunkBackground />
+
       {/* Section Header */}
       <motion.div
         variants={textVariant()}
@@ -177,11 +384,11 @@ const Contact = () => {
         </p>
       </motion.div>
 
-      <div className="xl:mt-12 flex xl:flex-row flex-col gap-10 overflow-hidden relative z-10">
+      <div className="lg:mt-8 xl:mt-12 flex lg:flex-row flex-col gap-6 lg:gap-8 xl:gap-10 overflow-hidden relative z-10">
         {/* Contact Form */}
         <motion.div
           variants={slideIn("left", "tween", 0.2, 1)}
-          className="flex-[0.6] relative z-20"
+          className="flex-1 lg:flex-[0.65] xl:flex-[0.6] relative z-20"
         >
           {/* Form Container with Cyberpunk Border */}
           <div className="relative">
@@ -189,10 +396,10 @@ const Contact = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-sm opacity-30 animate-pulse" />
             <div className="absolute inset-[2px] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl" />
 
-            {/* Form Content */}
-            <div className="relative p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-sm rounded-2xl border border-cyan-400/20">
+            {/* Form Content with Enhanced Blur */}
+            <div className="relative p-6 lg:p-8 bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-md rounded-2xl border border-cyan-400/20 glassmorphism">
               {/* Terminal Header */}
-              <div className="flex items-center gap-2 mb-8 pb-4 border-b border-gray-700/50">
+              <div className="flex items-center gap-2 mb-6 lg:mb-8 pb-3 lg:pb-4 border-b border-gray-700/50">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -204,7 +411,7 @@ const Contact = () => {
               </div>
 
               {/* Terminal Output */}
-              <div className="mb-6 font-mono text-sm">
+              <div className="mb-4 lg:mb-6 font-mono text-sm">
                 <div className="text-cyan-400">
                   <span className="text-green-400">shafquat@portfolio</span>
                   <span className="text-white">:</span>
@@ -223,14 +430,14 @@ const Contact = () => {
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-4 lg:gap-6"
               >
                 {/* Name Field */}
                 <motion.label
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.1, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> IDENTITY.name
                   </span>
                   <div className="relative">
@@ -242,7 +449,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter your identification..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
                         focusedField === "name"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -261,7 +468,7 @@ const Contact = () => {
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.2, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> CONTACT.email
                   </span>
                   <div className="relative">
@@ -273,7 +480,7 @@ const Contact = () => {
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Enter communication channel..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono ${
                         focusedField === "email"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -292,19 +499,19 @@ const Contact = () => {
                   className="flex flex-col"
                   variants={fadeIn("up", "spring", 0.3, 0.75)}
                 >
-                  <span className="text-cyan-400 font-medium mb-3 font-mono text-sm flex items-center gap-2">
+                  <span className="text-cyan-400 font-medium mb-2 lg:mb-3 font-mono text-sm flex items-center gap-2">
                     <span className="text-green-400">&gt;</span> MESSAGE.content
                   </span>
                   <div className="relative">
                     <textarea
-                      rows={7}
+                      rows={6}
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       onFocus={() => setFocusedField("message")}
                       onBlur={() => setFocusedField(null)}
                       placeholder="Encode your message here..."
-                      className={`bg-gray-900/80 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono resize-none ${
+                      className={`bg-gray-900/80 py-3 lg:py-4 px-4 lg:px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-2 transition-all duration-300 font-mono resize-none ${
                         focusedField === "message"
                           ? "border-cyan-400 shadow-lg shadow-cyan-400/20"
                           : "border-gray-700 hover:border-gray-600"
@@ -325,7 +532,7 @@ const Contact = () => {
                   variants={fadeIn("up", "spring", 0.4, 0.75)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative group bg-gradient-to-r from-cyan-500 to-purple-600 py-4 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-mono overflow-hidden"
+                  className="relative group bg-gradient-to-r from-cyan-500 to-purple-600 py-3 lg:py-4 px-6 lg:px-8 rounded-xl outline-none w-fit text-white font-bold shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-mono overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                   <div className="relative flex items-center gap-3">
@@ -380,22 +587,22 @@ const Contact = () => {
         {/* Background Section */}
         <motion.div
           variants={slideIn("right", "tween", 0.2, 1)}
-          className="xl:flex-1 xl:h-auto md:h-[600px] h-[400px] relative z-20"
+          className="flex-1 lg:flex-[0.35] xl:flex-1 lg:h-auto md:h-[550px] h-[400px] relative z-20"
         >
           <div className="relative w-full h-full rounded-2xl overflow-hidden border border-purple-400/20 bg-gray-900/20 backdrop-blur-sm">
             {/* Transmission Effect Overlay */}
             <TransmissionEffect isActive={isTransmitting} />
 
             {/* Info Cards */}
-            <div className="absolute inset-0 flex flex-col justify-center items-center p-8 z-10">
+            <div className="absolute inset-0 flex flex-col justify-center items-center p-4 lg:p-6 xl:p-8 z-10">
               <motion.div
                 variants={fadeIn("up", "spring", 0.5, 0.75)}
-                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-cyan-400/20 mb-6 w-full max-w-sm"
+                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 lg:p-5 xl:p-6 border border-cyan-400/20 mb-4 lg:mb-6 w-full max-w-sm"
               >
-                <h4 className="text-cyan-400 font-bold mb-3 font-mono">
+                <h4 className="text-cyan-400 font-bold mb-2 lg:mb-3 font-mono text-sm lg:text-base">
                   DIRECT_CHANNELS
                 </h4>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                     <span className="text-gray-300">Email: Available 24/7</span>
@@ -410,17 +617,32 @@ const Contact = () => {
                     <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                     <span className="text-gray-300">Status: Online</span>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                    <span className="text-gray-300">
+                      Current time: {currentTime.toLocaleTimeString()}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-gray-300">
+                      Status: Ready for new projects
+                      <span className="animate-pulse ml-2 text-green-400">
+                        ●
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </motion.div>
 
               <motion.div
                 variants={fadeIn("up", "spring", 0.6, 0.75)}
-                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-6 border border-purple-400/20 w-full max-w-sm"
+                className="bg-gray-900/80 backdrop-blur-sm rounded-xl p-4 lg:p-5 xl:p-6 border border-purple-400/20 w-full max-w-sm"
               >
-                <h4 className="text-purple-400 font-bold mb-3 font-mono">
+                <h4 className="text-purple-400 font-bold mb-2 lg:mb-3 font-mono text-sm lg:text-base">
                   CONNECTION_STATS
                 </h4>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Encryption:</span>
                     <span className="text-green-400">AES-256</span>
@@ -439,8 +661,8 @@ const Contact = () => {
           </div>
         </motion.div>
       </div>
-    </>
+    </motion.section>
   );
 };
 
-export default SectionWrapper(Contact, "contact");
+export default Contact;

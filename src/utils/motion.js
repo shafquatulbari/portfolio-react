@@ -87,4 +87,4 @@ const staggerContainer = (staggerChildren, delayChildren) => {
   };
 };
 
-export { textVariant, fadeIn, zoomIn, slideIn, staggerContainer };
+export { textVariant, fadeIn, slideIn, staggerContainer };

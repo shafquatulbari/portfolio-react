@@ -28,6 +28,7 @@ module.exports = {
         "work-pattern": "url('/src/assets/spaceship.gif')",
         "neon-pattern": "url('/src/assets/neon-city.png')",
         "rain-pattern": "url('/src/assets/cyberpunk.gif')",
+        "grid-pattern": "url('/src/assets/grid.png')",
       },
       scrollSnapType: {
         "y-mandatory": "y mandatory",
@@ -37,6 +38,12 @@ module.exports = {
         start: "start",
         center: "center",
         end: "end",
+      },
+      animation: {
+        "spin-slow": "spin-slow 20s linear infinite",
+        "spin-reverse-slow": "spin-reverse-slow 25s linear infinite",
+        "orbital-glow": "orbital-glow 3s ease-in-out infinite",
+        "holographic-shimmer": "holographic-shimmer 2s linear infinite",
       },
     },
   },

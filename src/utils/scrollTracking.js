@@ -1,35 +1,39 @@
-import { useEffect, useRef } from "react";
-import { trackSectionView } from "../utils/analytics";
+import { useRef, useEffect } from "react";
 
-// Hook to track when sections come into view
-export const useScrollTracking = (sectionName, threshold = 0.5) => {
-  const sectionRef = useRef(null);
+// Custom hook for scroll tracking
+export const useScrollTracking = (sectionName) => {
+  const elementRef = useRef(null);
 
   useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            trackSectionView(sectionName);
+            // Track section view
+            if (typeof gtag !== "undefined") {
+              gtag("event", "section_view", {
+                section_name: sectionName,
+                engagement_time: Date.now(),
+              });
+            }
           }
         });
       },
       {
-        threshold: threshold, // Trigger when 50% of section is visible
-        rootMargin: "0px 0px -100px 0px", // Trigger a bit before the section is fully visible
+        threshold: 0.3,
+        rootMargin: "0px 0px -20% 0px",
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(element);
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      observer.unobserve(element);
     };
-  }, [sectionName, threshold]);
+  }, [sectionName]);
 
-  return sectionRef;
+  return elementRef;
 };
