@@ -1985,3 +1985,40 @@ section[id] {
     max-height: 300px !important;
   }
 }
+
+/* Mobile crash prevention - Simple fixes for rapid navigation */
+@media (max-width: 768px) {
+  * {
+    /* Reduce hardware acceleration on mobile to prevent crashes */
+    will-change: auto !important;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .animate-pulse {
+    animation-duration: 3s !important;
+  }
+
+  /* Prevent excessive repaints */
+  img,
+  canvas,
+  video {
+    will-change: auto !important;
+  }
+
+  /* Optimize scroll performance */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    contain: layout style paint;
+  }
+
+  /* Prevent touch event conflicts */
+  button,
+  a,
+  .touchable {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}

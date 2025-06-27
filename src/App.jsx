@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 
 import {
   About,
@@ -19,6 +19,14 @@ import {
   initScrollProgress,
   initSectionObserver,
 } from "./utils/scrollProgress";
+
+import {
+  safeNavigateToSection,
+  createSafeCleanup,
+  throttleTouchEvents,
+  isMobileDevice,
+  performMemoryCleanup,
+} from "./utils/mobileNavFix";
 
 // Optimized GalaxyBackground component with minimal particles
 const GalaxyBackground = () => {
@@ -101,6 +109,8 @@ const GalaxyBackground = () => {
 const App = () => {
   // State to track current section - only one section visible at a time
   const [currentSection, setCurrentSection] = useState("hero");
+  const cleanupRef = useRef(createSafeCleanup());
+  const isMobile = isMobileDevice();
 
   useEffect(() => {
     // Initialize scroll progress tracking
@@ -117,25 +127,54 @@ const App = () => {
       }
     };
 
+    // Mobile-specific touch event throttling
+    const throttledTouchMove = throttleTouchEvents(
+      preventSectionNavigation,
+      50
+    );
+
     // Add event listeners to prevent unwanted scroll navigation
     document.addEventListener("wheel", preventSectionNavigation, {
       passive: false,
     });
-    document.addEventListener("touchmove", preventSectionNavigation, {
-      passive: false,
-    });
+
+    // Use throttled touch events on mobile
+    if (isMobile) {
+      document.addEventListener("touchmove", throttledTouchMove, {
+        passive: false,
+      });
+    } else {
+      document.addEventListener("touchmove", preventSectionNavigation, {
+        passive: false,
+      });
+    }
+
+    // Memory cleanup interval for mobile
+    let memoryCleanupInterval;
+    if (isMobile) {
+      memoryCleanupInterval = setInterval(performMemoryCleanup, 30000); // Every 30 seconds
+      cleanupRef.current.addTimer(memoryCleanupInterval);
+    }
 
     return () => {
       cleanupProgress();
       cleanupObserver();
+      cleanupRef.current.cleanup();
       document.removeEventListener("wheel", preventSectionNavigation);
-      document.removeEventListener("touchmove", preventSectionNavigation);
-    };
-  }, []);
+      document.removeEventListener(
+        "touchmove",
+        isMobile ? throttledTouchMove : preventSectionNavigation
+      );
 
-  // Function to navigate to a specific section
+      if (memoryCleanupInterval) {
+        clearInterval(memoryCleanupInterval);
+      }
+    };
+  }, [isMobile]);
+
+  // Function to navigate to a specific section with mobile safety
   const navigateToSection = (sectionId) => {
-    setCurrentSection(sectionId);
+    safeNavigateToSection(setCurrentSection, sectionId, isMobile ? 500 : 300);
   };
 
   // Get the current section index for navigation
@@ -150,16 +189,24 @@ const App = () => {
   ];
   const currentIndex = sections.indexOf(currentSection);
 
-  // Navigation functions
+  // Navigation functions with mobile safety
   const navigateToPrevious = () => {
     if (currentIndex > 0) {
-      setCurrentSection(sections[currentIndex - 1]);
+      safeNavigateToSection(
+        setCurrentSection,
+        sections[currentIndex - 1],
+        isMobile ? 500 : 300
+      );
     }
   };
 
   const navigateToNext = () => {
     if (currentIndex < sections.length - 1) {
-      setCurrentSection(sections[currentIndex + 1]);
+      safeNavigateToSection(
+        setCurrentSection,
+        sections[currentIndex + 1],
+        isMobile ? 500 : 300
+      );
     }
   };
 
@@ -276,7 +323,11 @@ const App = () => {
                 ];
                 const currentIndex = sections.indexOf(currentSection);
                 if (currentIndex > 0) {
-                  setCurrentSection(sections[currentIndex - 1]);
+                  safeNavigateToSection(
+                    setCurrentSection,
+                    sections[currentIndex - 1],
+                    isMobile ? 500 : 300
+                  );
                 }
               }}
               className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-400 hover:to-cyan-400 text-white p-3 rounded-full shadow-2xl hover:shadow-purple-400/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-110 active:scale-95"
@@ -318,7 +369,11 @@ const App = () => {
                   ];
                   const currentIndex = sections.indexOf(currentSection);
                   if (currentIndex < sections.length - 1) {
-                    setCurrentSection(sections[currentIndex + 1]);
+                    safeNavigateToSection(
+                      setCurrentSection,
+                      sections[currentIndex + 1],
+                      isMobile ? 500 : 300
+                    );
                   }
                 }}
                 className="group relative overflow-hidden bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white p-3 rounded-full shadow-2xl hover:shadow-cyan-400/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-110 active:scale-95"
@@ -363,7 +418,11 @@ const App = () => {
           <div className="fixed bottom-20 sm:bottom-16 md:bottom-12 lg:bottom-8 right-4 sm:right-6 z-40">
             <button
               onClick={() => {
-                setCurrentSection("hero");
+                safeNavigateToSection(
+                  setCurrentSection,
+                  "hero",
+                  isMobile ? 500 : 300
+                );
               }}
               className="group relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white p-4 rounded-full shadow-2xl hover:shadow-pink-400/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-110 active:scale-95"
             >
