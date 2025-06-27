@@ -1,14 +1,38 @@
 import { useState, useRef, Suspense, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Preload } from "@react-three/drei";
-import * as random from "maath/random/dist/maath-random.esm";
+
+// Create a simple sphere point generator without maath dependency
+const generateSpherePoints = (count, radius = 1.2) => {
+  const points = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+
+    // Generate random spherical coordinates
+    const u = Math.random();
+    const v = Math.random();
+    const theta = 2 * Math.PI * u;
+    const phi = Math.acos(2 * v - 1);
+
+    // Convert to Cartesian coordinates
+    const r = radius * Math.cbrt(Math.random()); // Cube root for uniform distribution
+    const sinPhi = Math.sin(phi);
+
+    points[i3] = r * sinPhi * Math.cos(theta);
+    points[i3 + 1] = r * sinPhi * Math.sin(theta);
+    points[i3 + 2] = r * Math.cos(phi);
+  }
+
+  return points;
+};
 
 const Stars = (props) => {
   const ref = useRef();
 
-  // Significantly reduce star count for better performance
+  // Significantly reduce star count for better performance and use our custom generator
   const [sphere] = useState(
-    () => random.inSphere(new Float32Array(2000), { radius: 1.2 }) // Reduced from 3000 to 2000
+    () => generateSpherePoints(2000, 1.2) // Reduced from 3000 to 2000
   );
 
   useFrame((state, delta) => {

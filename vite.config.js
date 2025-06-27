@@ -5,7 +5,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   define: {
-    global: 'globalThis',
+    global: "globalThis",
+    "process.env.NODE_ENV": JSON.stringify(
+      process.env.NODE_ENV || "production"
+    ),
   },
   build: {
     target: "esnext",
@@ -16,34 +19,33 @@ export default defineConfig({
           vendor: ["react", "react-dom"],
           framer: ["framer-motion"],
           three: ["three", "@react-three/fiber", "@react-three/drei"],
-          utils: ["maath"],
         },
       },
       external: [],
     },
     chunkSizeWarningLimit: 1000,
-    // Enable source maps for better debugging
     sourcemap: false,
-    // Optimize for modern browsers
     cssCodeSplit: true,
-    // Enable asset inlining for small files
     assetsInlineLimit: 4096,
     commonjsOptions: {
       transformMixedEsModules: true,
+      include: [/three/, /node_modules/],
     },
   },
   optimizeDeps: {
     include: [
-      "react", 
-      "react-dom", 
-      "framer-motion", 
+      "react",
+      "react-dom",
+      "framer-motion",
       "three",
       "@react-three/fiber",
       "@react-three/drei",
-      "maath"
     ],
     exclude: [],
     force: true,
+    esbuildOptions: {
+      target: "esnext",
+    },
   },
   server: {
     hmr: {

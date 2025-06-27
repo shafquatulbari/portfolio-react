@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { styles } from "../styles";
 import { useState, useEffect, useMemo, lazy, Suspense } from "react";
-import { useScrollTracking } from "../utils/scrollTracking";
 
 // Lazy load Avatar component for better performance
 const AvatarCanvas = lazy(() => import("./canvas/Avatar"));
@@ -11,9 +10,6 @@ const Hero = ({ navigateToSection }) => {
   const [isTyping, setIsTyping] = useState(true);
   const [particleCount, setParticleCount] = useState(2); // Reduced from 4
   const [glitterCount, setGlitterCount] = useState(1); // Reduced from 2
-
-  // Add scroll tracking for Hero section
-  const heroRef = useScrollTracking("hero_section");
 
   const roles = [
     "Full Stack Developer",
@@ -102,7 +98,6 @@ const Hero = ({ navigateToSection }) => {
 
   return (
     <section
-      ref={heroRef}
       className="relative w-full h-screen mx-auto bg-hero-pattern bg-cover bg-no-repeat bg-center overflow-hidden"
     >
       {/* Cyberpunk overlay with original background */}
