@@ -74,23 +74,40 @@ export const createSafeStateUpdater = (setState) => {
   return { safeSetState, cleanup };
 };
 
-// Mobile device detection
+// Mobile device detection (SSR-safe)
 export const isMobileDevice = () => {
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    ) ||
-    (navigator.maxTouchPoints && navigator.maxTouchPoints > 2)
-  );
+  try {
+    if (typeof navigator === "undefined" && typeof window === "undefined") {
+      return false;
+    }
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+    const maxTouch =
+      typeof navigator !== "undefined" &&
+      typeof navigator.maxTouchPoints === "number"
+        ? navigator.maxTouchPoints
+        : 0;
+
+    return (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        ua
+      ) || maxTouch > 2
+    );
+  } catch {
+    return false;
+  }
 };
 
-// Memory cleanup for mobile
+// Memory cleanup for mobile (SSR-safe)
 export const performMemoryCleanup = () => {
-  if (isMobileDevice() && window.gc && typeof window.gc === "function") {
+  if (
+    typeof window !== "undefined" &&
+    typeof window.gc === "function" &&
+    isMobileDevice()
+  ) {
     try {
       window.gc();
-    } catch (e) {
-      // Garbage collection not available, ignore
+    } catch {
+      // ignore
     }
   }
 };
