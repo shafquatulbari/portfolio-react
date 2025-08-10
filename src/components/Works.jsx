@@ -1,11 +1,14 @@
 import React, { useState, memo } from "react";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { styles } from "../styles";
-import { github } from "../../public/assets";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
+
+// Replace github import with path string
+const github = "/assets/github.png";
 
 // Stagger container animation (decoupled from SectionWrapper)
 const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
@@ -88,10 +91,13 @@ const ProjectCard = memo(
 
               {/* Project Image */}
               <div className="relative h-48 overflow-hidden rounded-t-2xl">
-                <img
+                <Image
                   src={image}
                   alt={name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 800px"
+                  priority={false}
                 />
 
                 {/* Image overlay */}
@@ -108,10 +114,12 @@ const ProjectCard = memo(
                     onClick={handleGitHubClick}
                     className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex justify-center items-center cursor-pointer border border-purple-400/30 hover:border-purple-400 hover:shadow-lg hover:shadow-purple-400/30 transition-all duration-300"
                   >
-                    <img
+                    <Image
                       src={github}
                       alt="source code"
-                      className="w-6 h-6 object-contain filter brightness-0 invert"
+                      width={24}
+                      height={24}
+                      className="object-contain filter brightness-0 invert"
                     />
                   </motion.div>
                 </div>
@@ -242,10 +250,12 @@ const Works = () => {
                 <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
                   {/* Project Image - reduced height */}
                   <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                     />
 
                     {/* Overlay Gradient */}
@@ -322,10 +332,12 @@ const Works = () => {
                 <div className="relative h-full bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden group-hover:border-purple-400/50 transition-all duration-300">
                   {/* Project Image - reduced height */}
                   <div className="relative h-24 sm:h-28 lg:h-32 overflow-hidden">
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                     />
 
                     {/* Overlay Gradient */}
@@ -430,11 +442,13 @@ const Works = () => {
                 <div className="p-4 sm:p-6">
                   <div className="grid lg:grid-cols-2 gap-6">
                     {/* Project Image */}
-                    <div className="relative">
-                      <img
+                    <div className="relative h-64 sm:h-80">
+                      <Image
                         src={selectedProject.image}
                         alt={selectedProject.name}
-                        className="w-full h-64 sm:h-80 object-cover rounded-xl"
+                        fill
+                        className="object-cover rounded-xl"
+                        sizes="(max-width: 640px) 100vw, 800px"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent rounded-xl"></div>
 
@@ -451,10 +465,12 @@ const Works = () => {
                           }
                           className="bg-gray-900/80 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center border border-purple-400/30 hover:border-purple-400 transition-all duration-300"
                         >
-                          <img
+                          <Image
                             src={github}
                             alt="source code"
-                            className="w-6 h-6 filter brightness-0 invert"
+                            width={24}
+                            height={24}
+                            className="filter brightness-0 invert"
                           />
                         </motion.button>
                       </div>
@@ -534,10 +550,12 @@ const Works = () => {
                           }
                           className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-8 rounded-lg font-medium hover:from-purple-400 hover:to-pink-400 transition-all duration-300 flex items-center justify-center gap-2"
                         >
-                          <img
+                          <Image
                             src={github}
                             alt="github"
-                            className="w-5 h-5 filter brightness-0 invert"
+                            width={20}
+                            height={20}
+                            className="filter brightness-0 invert"
                           />
                           View Source Code
                         </motion.button>

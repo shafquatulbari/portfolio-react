@@ -1,19 +1,23 @@
-import {
-  javascript,
-  reactjs,
-  nodejs,
-  mongodb,
-  git,
-  chess,
-  touchvoid,
-  proquest,
-  focus,
-  doomsday,
-  python,
-  cplusplus,
-  sqlicon,
-  pharmasphere,
-} from "../../public/assets";
+const github = "/assets/github.png";
+const assets = {
+  logo: "/assets/logo.svg",
+  menu: "/assets/menu.svg",
+  close: "/assets/close.svg",
+  javascript: "/assets/tech/javascript.png",
+  mongodb: "/assets/tech/mongodb.png",
+  nodejs: "/assets/tech/nodejs.png",
+  reactjs: "/assets/tech/reactjs.png",
+  python: "/assets/tech/python.png",
+  cplusplus: "/assets/tech/cplusplus.png",
+  sqlicon: "/assets/tech/sql.png",
+  git: "/assets/tech/git.png",
+  chess: "/assets/works/chess.png",
+  touchvoid: "/assets/works/touchvoid.png",
+  proquest: "/assets/works/proquest.png",
+  focus: "/assets/works/focus.png",
+  doomsday: "/assets/works/doomsday.png",
+  pharmasphere: "/assets/works/pharmasphere.png",
+};
 
 export const navLinks = [
   {
@@ -52,35 +56,35 @@ export const moreNavLinks = [
 const technologies = [
   {
     name: "JavaScript",
-    icon: javascript,
+    icon: assets.javascript,
   },
   {
     name: "Python",
-    icon: python,
+    icon: assets.python,
   },
   {
     name: "React JS",
-    icon: reactjs,
+    icon: assets.reactjs,
   },
   {
     name: "Node JS",
-    icon: nodejs,
+    icon: assets.nodejs,
   },
   {
     name: "MongoDB",
-    icon: mongodb,
+    icon: assets.mongodb,
   },
   {
     name: "C++",
-    icon: cplusplus,
+    icon: assets.cplusplus,
   },
   {
     name: "SQL",
-    icon: sqlicon,
+    icon: assets.sqlicon,
   },
   {
     name: "Git",
-    icon: git,
+    icon: assets.git,
   },
 ];
 
@@ -194,6 +198,38 @@ const experiences = [
       "Reduced data processing time by 70% through pipeline optimization",
     ],
   },
+  {
+    title: "Full Stack Developer",
+    company_name: "HOTJEK LTD.",
+    iconBg: "#2B3A55",
+    date: "June 2024 - September 2024",
+    points: [
+      "Contributed to Pathsala LMS, a Laravel-based platform focused on accessible and interactive education.",
+      "Implemented RESTful routes and core LMS features using Laravel, MySQL, and Eloquent ORM.",
+      "Built responsive, interactive UI with jQuery, Bootstrap, and libraries such as OWL Carousel, SweetAlert2, and Moment.js.",
+      "Optimized frontend assets with Webpack and core-js for cross-browser performance.",
+      "Collaborated with designers and QA to ensure functional stability and intuitive UX.",
+    ],
+    technologies: [
+      "Laravel",
+      "PHP",
+      "MySQL",
+      "jQuery",
+      "Bootstrap",
+      "Webpack",
+      "core-js",
+      "OWL Carousel",
+      "SweetAlert2",
+      "Moment.js",
+      "JavaScript",
+      "REST APIs",
+    ],
+    achievements: [
+      "Delivered end-to-end features for Pathsala LMS across backend and frontend.",
+      "Improved load performance by optimizing bundling and asset delivery.",
+      "Shipped responsive UI components aligned with accessibility and UX goals.",
+    ],
+  },
 ];
 
 const projects = [
@@ -215,7 +251,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: pharmasphere,
+    image: assets.pharmasphere,
     source_code_link: "https://github.com/shafquatulbari/mern-e-commerce",
   },
   {
@@ -236,7 +272,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: chess,
+    image: assets.chess,
     source_code_link: "https://github.com/shafquatulbari/chess-game-python",
   },
   {
@@ -257,7 +293,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: touchvoid,
+    image: assets.touchvoid,
     source_code_link: "https://github.com/shafquatulbari/touch-of-the-void",
   },
   {
@@ -278,7 +314,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: proquest,
+    image: assets.proquest,
     source_code_link: "https://github.com/sajeedazam/ProQuest",
   },
   {
@@ -299,7 +335,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: focus,
+    image: assets.focus,
     source_code_link: "https://github.com/sajeedazam/MedicalDashboard",
   },
   {
@@ -320,7 +356,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: doomsday,
+    image: assets.doomsday,
     source_code_link: "https://github.com/shafquatulbari/SurvivingDoomsday",
   },
 ];

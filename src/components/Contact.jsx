@@ -313,8 +313,8 @@ const Contact = ({ navigateToSection }) => {
     setTimeout(() => {
       emailjs
         .send(
-          import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-          import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
           {
             from_name: form.name,
             to_name: "Shafquat",
@@ -322,7 +322,7 @@ const Contact = ({ navigateToSection }) => {
             to_email: "shafquat.bari11@gmail.com",
             message: form.message,
           },
-          import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
         )
         .then(
           () => {

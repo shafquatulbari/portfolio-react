@@ -1,5 +1,9 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx}"],
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+  ],
   mode: "jit",
   theme: {
     extend: {
@@ -23,12 +27,12 @@ module.exports = {
         xs: "450px",
       },
       backgroundImage: {
-        "hero-pattern": "url('/src/assets/wallpaper.jpg')",
-        "tech-pattern": "url('/src/assets/keyboard.jpg')",
-        "work-pattern": "url('/src/assets/spaceship.gif')",
-        "neon-pattern": "url('/src/assets/neon-city.png')",
-        "rain-pattern": "url('/src/assets/cyberpunk.gif')",
-        "grid-pattern": "url('/src/assets/grid.png')",
+        "hero-pattern": "url('/assets/wallpaper.jpg')",
+        "tech-pattern": "url('/assets/keyboard.jpg')",
+        "work-pattern": "url('/assets/spaceship.gif')",
+        "neon-pattern": "url('/assets/neon-city.png')",
+        "rain-pattern": "url('/assets/cyberpunk.gif')",
+        "grid-pattern": "url('/assets/grid.png')",
       },
       scrollSnapType: {
         "y-mandatory": "y mandatory",

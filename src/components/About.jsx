@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { fadeIn, textVariant } from "../utils/motion";
-import web from "../../public/assets/services/web.png";
-import backend from "../../public/assets/services/backend.png";
-import sqa from "../../public/assets/services/sqa.png";
-import automation from "../../public/assets/services/automation.png";
+
+const web = "/assets/services/web.png";
+const backend = "/assets/services/backend.png";
+const sqa = "/assets/services/sqa.png";
+const automation = "/assets/services/automation.png";
 
 // Define styles (You can move these to a CSS or Tailwind file if needed)
 const styles = {
@@ -216,10 +218,12 @@ const ServiceMatrix = ({ service, index }) => {
           <div
             className={`relative p-3 ${colorClasses.bg} rounded-lg border ${colorClasses.border} group-hover:shadow-lg transition-all duration-300`}
           >
-            <img
+            <Image
               src={service.icon}
               alt={service.title}
-              className="w-8 h-8 object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
+              width={32}
+              height={32}
+              className="object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
               style={{
                 filter: `brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(${
                   service.color === "cyan"

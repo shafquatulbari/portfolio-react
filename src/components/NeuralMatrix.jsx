@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { fadeIn, textVariant } from "../utils/motion";
 
@@ -15,16 +16,12 @@ const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
     },
   };
 };
-import web from "/assets/services/web.png";
-import backend from "/assets/services/backend.png";
-import sqa from "/assets/services/sqa.png";
-import automation from "/assets/services/automation.png";
 
 // Services array with enhanced descriptions
 const services = [
   {
     title: "Back End Developer",
-    icon: backend,
+    icon: "/assets/services/backend.png",
     description: "Scalable server architecture & API design",
     category: "CORE_SYSTEM",
     technologies: ["Node.js", "Python", "MongoDB", "APIs"],
@@ -32,7 +29,7 @@ const services = [
   },
   {
     title: "Front End Developer",
-    icon: web,
+    icon: "/assets/services/web.png",
     description: "Modern UI/UX with React & Next.js",
     category: "INTERFACE",
     technologies: ["React", "Next.js", "TypeScript", "CSS"],
@@ -40,7 +37,7 @@ const services = [
   },
   {
     title: "SQA Engineer",
-    icon: sqa,
+    icon: "/assets/services/sqa.png",
     description: "Software quality assurance",
     category: "QUALITY_MATRIX",
     technologies: ["WebdriverIO", "Appium", "Jest", "Cypress"],
@@ -48,7 +45,7 @@ const services = [
   },
   {
     title: "Test Automation Engineer",
-    icon: automation,
+    icon: "/assets/services/automation.png",
     description: "CI/CD pipelines & automated testing",
     category: "AUTOMATION",
     technologies: ["Jenkins", "Docker", "GitHub Actions", "Selenium"],
@@ -222,20 +219,14 @@ const ServiceMatrix = ({ service, index }) => {
             <div
               className={`relative p-3 ${colorClasses.bg} rounded-lg border ${colorClasses.border}`}
             >
-              <img
+              <Image
                 src={service.icon}
                 alt={service.title}
-                className="w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-300"
-                onError={(e) => {
-                  console.error(`Failed to load image: ${service.icon}`, e);
-                  e.target.style.backgroundColor =
-                    service.color === "cyan"
-                      ? "#0891b2"
-                      : service.color === "purple"
-                      ? "#a855f7"
-                      : service.color === "green"
-                      ? "#10b981"
-                      : "#f97316";
+                width={32}
+                height={32}
+                className="object-contain group-hover:scale-110 transition-transform duration-300"
+                onError={() => {
+                  // noop - Next/Image handles errors silently
                 }}
               />
             </div>

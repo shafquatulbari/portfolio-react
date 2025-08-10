@@ -1,21 +1,24 @@
-# 🚀 Shafquat Ul Bari - Interactive Portfolio
+# 🚀 Shafquat Ul Bari - Interactive Portfolio (Next.js)
 
-A cutting-edge, cyberpunk-themed portfolio showcasing expertise in Full Stack Development, QA Engineering, and AI/ML. Built with modern web technologies featuring immersive 3D graphics, interactive games, and performance-optimized animations.
+A cutting-edge, cyberpunk-themed portfolio showcasing expertise in Full Stack Development, QA Engineering, and AI/ML. Rebuilt on Next.js App Router with Tailwind CSS, featuring immersive 3D visuals, neural interfaces, and performance-optimized animations.
 
 ## 🌐 Live Demo
 
 **[Visit My Portfolio ↗️](https://shafquatulbari.netlify.app)**
 
-> 🎮 **Features an interactive FlappyTech game, 3D avatar, and neural matrix animations!**
+> ✨ Uses Next.js 14 App Router, route-level code splitting, and adaptive animations.
 
 ## 📋 Table of Contents
 
+- [🎯 About This Portfolio](#-about-this-portfolio)
 - [✨ Key Features](#-key-features)
 - [🛠️ Technologies & Architecture](#️-technologies--architecture)
 - [⚡ Performance Features](#-performance-features)
 - [🎮 Interactive Elements](#-interactive-elements)
+- [🗺️ Routing & Pages](#️-routing--pages)
 - [🏗️ Project Structure](#️-project-structure)
 - [🚀 Quick Start](#-quick-start)
+- [🧩 Development Commands](#-development-commands)
 - [📊 Performance & Optimization](#-performance--optimization)
 - [🎨 Customization Guide](#-customization-guide)
 - [🌐 Deployment](#-deployment)
@@ -23,578 +26,354 @@ A cutting-edge, cyberpunk-themed portfolio showcasing expertise in Full Stack De
 
 ## 🎯 About This Portfolio
 
-This portfolio represents a convergence of modern web development, game design, and performance engineering. It showcases my professional journey through interactive experiences while maintaining enterprise-level code quality and optimization standards.
+This portfolio represents a convergence of modern web development, interactive UI, and performance engineering. Following a migration from Vite + React to Next.js 14, the project leverages the App Router, route-based code splitting, dynamic imports, and Next Image to deliver a smooth experience across devices.
 
 ## ✨ Key Features
 
-### 🎨 **Immersive Visual Design**
+### 🎨 Immersive Visual Design
 
-- **Cyberpunk Aesthetic**: Terminal-style interfaces with neon gradients and matrix effects
-- **3D Avatar Integration**: Interactive Three.js character with Mixamo animations
-- **Particle Systems**: Optimized floating particles and cosmic backgrounds
-- **Responsive Design**: Seamless experience across desktop, tablet, and mobile
+- Cyberpunk aesthetic with neon gradients and matrix effects
+- 3D visuals powered by Three.js and React Three Fiber
+- Particle systems and animated cosmic backgrounds
+- Pixel-perfect responsive design for desktop, tablet, and mobile
 
-### 🎮 **Interactive Gaming Experience**
+### 🧠 Neural Interfaces & Sections
 
-- **FlappyTech Game**: Custom browser game where you collect technology icons
-  - Canvas-based rendering with 60fps performance
-  - Physics engine with gravity and collision detection
-  - Progressive difficulty and high score tracking
-  - Mobile-optimized touch controls
+- Neural Profile and Matrix sections with scanning/telemetry effects
+- Interactive Experience timeline and Project showcase
+- Services grid with animated tech badges
+- Contact form with EmailJS integration
 
-### 🧠 **Neural Matrix Components**
+### ⚡ Performance Engineering
 
-- **Scanning Animation Effects**: Real-time progress bars and data visualization
-- **Experience Timeline**: Interactive cards with detailed professional history
-- **Service Matrix**: Animated grid showcasing technical expertise
-- **Project Showcase**: Modal-based portfolio with detailed project breakdowns
-
-### ⚡ **Performance Engineering**
-
-- **Bundle Optimization**: Manual chunk splitting for optimal loading
-- **Lazy Loading**: Intelligent image and component loading strategies
-- **Hardware Acceleration**: GPU-optimized animations and transitions
-- **Performance Monitoring**: Real-time FPS and memory tracking (dev mode)
+- Route-level code splitting via App Router
+- Dynamic imports for heavy/3D components (client-only)
+- Optimized image delivery via next/image
+- Single global background pattern instance for lower CPU/GPU load
 
 ## 🛠️ Technologies & Architecture
 
-### **Core Framework Stack**
+### Core Framework Stack
 
-```javascript
-React 18.3.1          // Modern hooks, Suspense, concurrent features
-Vite 5.4.1            // Lightning-fast build tool with HMR
-Framer Motion 11.3.29 // Production-ready animation library
-React Router DOM 6.26.1 // Client-side routing
+```txt
+Next.js 14 (App Router)  // File-system routing, SSR/ISR, streaming
+React 18                 // Hooks, Suspense, concurrent features
+Tailwind CSS 3           // Utility-first styling with custom layers
+ESLint + eslint-config-next
 ```
 
-### **3D Graphics & Animation**
+### 3D Graphics & Animation
 
-```javascript
-Three.js 0.167.1           // WebGL-based 3D graphics
-@react-three/fiber 8.17.5  // React renderer for Three.js
-@react-three/drei 9.111.2  // Utility helpers for R3F
+```txt
+three                    // WebGL 3D engine
+@react-three/fiber       // React renderer for three.js
+@react-three/drei        // R3F helpers (camera controls, loaders)
+framer-motion            // Animation for UI transitions and elements
 ```
 
-### **Styling & UI Components**
+### UI, Integrations & Tooling
 
-```javascript
-Tailwind CSS 3.4.10           // Utility-first CSS framework with custom utilities
-React Parallax Tilt 1.7.237  // 3D tilt effects for interactive cards
-FontAwesome 6.6.0            // Comprehensive icon library
-React Vertical Timeline 3.6.0 // Professional experience timeline
-PostCSS 8.4.41               // CSS processing with autoprefixer
+```txt
+react-vertical-timeline-component  // Experience timeline
+react-parallax-tilt                // Subtle 3D tilt effects
+@emailjs/browser                   // Contact form (client-side)
 ```
 
-### **Communication & Integration**
+### Image & Asset Strategy
 
-```javascript
-EmailJS 4.4.1    // Client-side email functionality for contact form
-```
+- Static assets live in `public/` and are referenced with absolute paths (`/assets/...`).
+- next/image is used for responsive images, placeholders, and size hints.
+- Local images are served statically; remote patterns can be added when needed.
 
-### **Development & Quality Assurance**
+### Rendering Strategy
 
-```javascript
-ESLint 9.9.0     // Modern flat config format for code quality
-TypeScript       // Type definitions for enhanced developer experience
-Vite Plugins     // React optimizations and build tools
-gh-pages 6.1.1   // GitHub Pages deployment utilities
-```
-
-### **Technology Stack Icons Available**
-
-```javascript
-// Available in FlappyTech game and tech showcase
-JavaScript,
-  Python,
-  React,
-  Node.js,
-  MongoDB,
-  C++,
-  SQL,
-  Git,
-  TypeScript,
-  CSS,
-  HTML,
-  Unity;
-// Each with optimized PNG icons for crisp rendering
-```
+- Home (`/`) is client-focused and marked dynamic to avoid prerender issues with animations.
+- Section routes (`/hero`, `/experience`, `/tech`, `/projects`, `/contact`, etc.) render independently.
+- Heavy components are dynamically imported with `ssr: false` where appropriate.
 
 ## ⚡ Performance Features
 
-### **Build Optimizations**
+### Build & Bundle Optimizations (Next.js)
 
-```javascript
-// Vite Configuration Highlights
-✅ ESBuild minification for 10x faster builds
-✅ Manual chunk splitting (vendor, framer, three.js)
-✅ CSS code splitting for optimal loading
-✅ Asset inlining for files < 4KB
-✅ Tree shaking for unused code elimination
-✅ Source map generation disabled for production
+```txt
+✅ Route-level code splitting by default
+✅ Dynamic imports for heavy components
+✅ Tree-shaking and minification in production
+✅ CSS via Tailwind with purge (content scanning)
+✅ next/image for responsive sizing and optimized delivery
 ```
 
-### **Runtime Optimizations**
+### Runtime Optimizations
 
-- **React.memo**: Memoized components preventing unnecessary re-renders
-- **useMemo/useCallback**: Cached expensive calculations and functions
-- **Intersection Observer**: Efficient viewport detection for lazy loading
-- **RequestAnimationFrame**: Smooth 60fps animations for game and effects
-- **Debounced/Throttled Events**: Optimized scroll and resize handlers
+- Memoized components to prevent unnecessary re-renders
+- useMemo/useCallback for expensive calculations
+- IntersectionObserver for on-demand content
+- requestAnimationFrame where smooth animation is required
+- Debounced/throttled scroll and resize handlers
 
-### **Asset & Resource Management**
+### Asset & Resource Management
 
-- **Lazy Image Loading**: Images load only when entering viewport
-- **Preloaded Game Assets**: Technology icons cached for smooth gameplay
-- **3D Model Optimization**: Compressed GLB files with texture atlasing
-- **Hardware Acceleration**: CSS transforms optimized for GPU rendering
+- Images converted to next/image in key sections (Navbar, Works, About, NeuralMatrix)
+- Consolidated background rendering to a single instance
+- 3D models and textures loaded only when needed
 
-### **Performance Monitoring**
+### Developer Instrumentation
 
-```javascript
-// Built-in Development Tools
-FPS Monitor        // Real-time frame rate tracking
-Memory Usage       // Heap size and allocation monitoring
-Bundle Analysis    // Chunk size reporting and optimization
-Performance Timing // Component render time measurement
-```
+- Optional Performance Monitor component (dev-only)
+- Error boundaries for resilient UX around experimental/3D features
 
 ## 🎮 Interactive Elements
 
-### **FlappyTech Game Engine**
+- 3D Avatar/Canvas elements with adaptive quality
+- Neural Matrix scanning and visualization
+- Experience timeline with animated reveal
+- Project cards with hover states and detail views
+- Subtle parallax/tilt across featured items
 
-A fully custom-built browser game showcasing technical skills:
+## 🗺️ Routing & Pages
 
-```javascript
-🎯 Game Features:
-• Canvas-based rendering with smooth 60fps gameplay
-• Real-time physics system (gravity, velocity, collision detection)
-• Progressive difficulty scaling with score-based speed increases
-• Technology icon collection system (React, Node.js, Python, etc.)
-• Local storage high score persistence
-• Responsive controls (Space/Click for desktop, Touch for mobile)
-• Particle effects for enhanced visual feedback
-```
+This project uses the Next.js App Router. Sections are accessible as standalone routes and also orchestrated on the home page.
 
-### **3D Avatar System**
+- `/` → Home (client, dynamic)
+- `/hero` → Hero section
+- `/neural-profile` → Neural Profile
+- `/neural-matrix` → Neural Matrix
+- `/experience` → Experience timeline
+- `/tech` → Tech showcase
+- `/projects` → Works/Projects
+- `/contact` → Contact form
 
-- **Character Animations**: Professional Mixamo animation cycles
-- **Auto-rotation**: Subtle movement to maintain engagement
-- **Performance Scaling**: Quality adjustments based on device capabilities
-- **Mobile Optimization**: Hidden on mobile devices to preserve performance
+Fallbacks:
 
-### **Neural Matrix Interface**
-
-- **Profile Scanning**: Animated progress bars with real-time data visualization
-- **Service Cards**: Interactive matrices with hover effects and technology tags
-- **Experience Timeline**: Expandable professional history cards with detailed views
-- **Terminal Windows**: Authentic command-line interfaces with typing effects
-
-### **Project Showcase System**
-
-- **Grid Layout**: Responsive project cards with hover animations
-- **Modal Details**: Full-screen project exploration with GitHub integration
-- **Tag System**: Technology-based filtering and categorization
-- **Lazy Loading**: Images and content load only when needed
+- `app/error.jsx` and `app/not-found.jsx` handle runtime and 404 states
+- `app/loading.jsx` provides initial loading feedback
 
 ## 🏗️ Project Structure
 
 ```
 portfolio-react/
-├── 📁 public/
-│   ├── 🖼️ assets/                 # Static images and icons
-│   │   ├── services/              # Service category icons (backend, frontend, QA, automation)
-│   │   ├── tech/                  # Technology stack icons (JS, React, Python, etc.)
-│   │   └── works/                 # Project screenshots and previews
-│   ├── 🎮 avatar/                 # 3D character models (.glb files)
-│   ├── 🎬 animations/             # Character animations (.fbx files)
-│   ├── 🌍 planet/                 # 3D planet assets with textures
-│   └── 📄 _redirects              # Netlify SPA routing configuration
+├── public/
+│   ├── assets/                 # Static images/icons
+│   │   ├── services/           # Service icons (backend, web, QA, automation)
+│   │   ├── tech/               # Technology stack icons
+│   │   └── works/              # Project screenshots
+│   ├── avatar/                 # 3D character model(s)
+│   ├── animations/             # Animation files (.fbx)
+│   ├── planet/                 # 3D planet assets + textures
+│   └── _redirects              # Netlify routing config (compatible with Next)
 │
-├── 📁 src/
-│   ├── 🧩 components/             # React component library
-│   │   ├── 🎯 Hero.jsx            # Landing section with 3D integration
-│   │   ├── 🧠 NeuralMatrix.jsx    # Animated about section with scanning effects
-│   │   ├── 👤 NeuralProfile.jsx   # Professional profile with terminal interface
-│   │   ├── 💼 Experience.jsx      # Interactive timeline with expandable cards
-│   │   ├── 🎮 Tech.jsx            # FlappyTech game integration
-│   │   ├── 📂 Works.jsx           # Project showcase with modal details
-│   │   ├── 📞 Contact.jsx         # EmailJS-powered contact form
-│   │   ├── 🏗️ canvas/            # Three.js 3D components
-│   │   │   ├── Avatar.jsx         # 3D character renderer
-│   │   │   └── Stars.jsx          # Particle system background
-│   │   ├── 🛡️ ErrorBoundary.jsx  # Error handling wrapper
-│   │   └── 📊 PerformanceMonitor.jsx # Development performance tracking
-│   │
-│   ├── 🎨 assets/                 # Local images and graphics
-│   │   ├── cyberpunk.gif          # Animated cyberpunk backgrounds
-│   │   ├── grid.png               # Matrix-style grid patterns
-│   │   ├── neon-city.png          # Neon cityscape backgrounds
-│   │   ├── spaceship.gif          # Animated spaceship sequences
-│   │   ├── keyboard.jpg           # Tech-themed backgrounds
-│   │   └── logo-white.png         # Brand assets
-│   ├── 📊 constants/              # Data configuration (experiences, projects, tech stack)
-│   ├── 🎭 hoc/                    # Higher-order components (SectionWrapper)
-│   ├── 🎬 utils/                  # Utility functions
-│   │   ├── motion.js              # Framer Motion animation variants
-│   │   ├── performance.js         # Performance monitoring utilities
-│   │   └── scrollProgress.js      # Scroll-based progress tracking
-│   ├── 🎨 styles.js               # Theme constants and styling
-│   ├── 📱 App.jsx                 # Main application component
-│   └── 🚀 main.jsx                # React application entry point
+├── app/                        # Next.js App Router
+│   ├── layout.jsx              # Root layout (fonts, metadata wrappers)
+│   ├── globals.css             # Tailwind + global styles
+│   ├── (site)/page.jsx         # Home: orchestrates sections and navigation
+│   ├── hero/page.jsx           # Dedicated Hero route
+│   ├── neural-profile/page.jsx # Dedicated Neural Profile route
+│   ├── neural-matrix/page.jsx  # Dedicated Neural Matrix route
+│   ├── experience/page.jsx     # Dedicated Experience route
+│   ├── tech/page.jsx           # Dedicated Tech route
+│   ├── projects/page.jsx       # Dedicated Projects route
+│   ├── contact/page.jsx        # Dedicated Contact route
+│   ├── error.jsx               # Error boundary UI
+│   ├── not-found.jsx           # 404 page
+│   └── loading.jsx             # App-level loading feedback
 │
-├── ⚙️ Configuration Files
-├── 📦 package.json                # Dependencies and scripts
-├── ⚡ vite.config.js              # Build optimization settings
-├── 🎨 tailwind.config.cjs         # Tailwind CSS configuration
-├── 🔧 eslint.config.js            # Code quality rules
-└── 📋 README.md                   # Project documentation
+├── src/                        # Shared UI and utilities (client components)
+│   ├── components/             # Section components used by pages
+│   │   ├── Navbar.jsx, Footer.jsx, Loader.jsx, ErrorBoundary.jsx
+│   │   ├── Hero.jsx, NeuralProfile.jsx, NeuralMatrix.jsx
+│   │   ├── Experience.jsx, Tech.jsx, Works.jsx, Contact.jsx
+│   │   └── canvas/ (Avatar.jsx, Stars.jsx) + index.js
+│   ├── constants/              # Data for projects/experience/tech
+│   ├── utils/                  # motion, performance, scroll helpers
+│   └── styles.js               # Theme constants
+│
+├── next.config.mjs             # Next configuration (images, etc.)
+├── tailwind.config.cjs         # Tailwind CSS config
+├── postcss.config.js           # PostCSS config
+├── eslint.config.js            # ESLint (eslint-config-next)
+├── tsconfig.json               # TypeScript support (types only)
+├── package.json                # Scripts and dependencies
+└── README.md                   # This file
 ```
 
-### **Key Architecture Decisions**
+### Key Architecture Decisions
 
-- **Component Modularity**: Each section is self-contained with its own state management
-- **Performance-First**: Lazy loading, memoization, and optimized asset delivery
-- **Responsive Design**: Mobile-first approach with progressive enhancement
-- **Error Boundaries**: Graceful fallbacks for 3D rendering and external dependencies
-- **Build Optimization**: Manual chunk splitting for optimal caching strategies
+- App Router enables per-route code splitting and streaming
+- Home page is client-oriented and marked `dynamic` to support animations
+- Heavy/3D UI loads with dynamic imports and `ssr: false`
+- Images use next/image for sizing and responsive delivery
+- Assets live under `public/` with absolute URL paths
 
 ## 🚀 Quick Start
 
-### **Prerequisites**
+### Prerequisites
 
 ```bash
-Node.js (v18+ recommended)
-npm or yarn package manager
+Node.js 18+
+npm or yarn
 Modern browser with WebGL support
 ```
 
-### **Installation & Setup**
+### Installation & Setup
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/shafquatulbari/portfolio-react.git
-   cd portfolio-react
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Environment Configuration** _(Optional)_
-
-   ```bash
-   # Create .env file for EmailJS integration
-   VITE_EMAILJS_SERVICE_ID=your_service_id
-   VITE_EMAILJS_TEMPLATE_ID=your_template_id
-   VITE_EMAILJS_PUBLIC_KEY=your_public_key
-   ```
-
-4. **Development Server**
-
-   ```bash
-   npm run dev
-   # Portfolio will be available at http://localhost:5173
-   ```
-
-5. **Production Build**
-   ```bash
-   npm run build        # Generate optimized build
-   npm run preview      # Preview production build locally
-   ```
-
-### **Development Commands**
+1. Clone the repository
 
 ```bash
-npm run lint         # Run ESLint for code quality
-npm run clean        # Clean node_modules and build files
+git clone https://github.com/shafquatulbari/portfolio-react.git
+cd portfolio-react
 ```
 
-### **🎮 Hidden Features**
+2. Install dependencies
 
-- Press `Ctrl+P` in development mode to toggle performance monitor
-- Navigate experience cards with arrow keys ←→
-- Try the FlappyTech game in the Tech section!
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Environment (optional for EmailJS)
+
+```bash
+# .env or .env.local
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+4. Development server
+
+```bash
+npm run dev
+# http://localhost:3000
+```
+
+5. Production build
+
+```bash
+npm run build
+npm start
+# Production server on http://localhost:3000
+```
+
+## 🧩 Development Commands
+
+```bash
+npm run dev     # Start Next.js dev server
+npm run build   # Production build
+npm start       # Start production server
+npm run lint    # ESLint (Next rules)
+npm run clean   # Remove node_modules and build outputs
+```
 
 ## 📊 Performance & Optimization
 
-### **Performance Benchmarks**
+### Targets & Practices
 
-| Metric                   | Target | Achieved | Status |
-| ------------------------ | ------ | -------- | ------ |
-| First Contentful Paint   | <1.5s  | ~1.2s    | ✅     |
-| Largest Contentful Paint | <2.5s  | ~2.1s    | ✅     |
-| Cumulative Layout Shift  | <0.1   | ~0.05    | ✅     |
-| Time to Interactive      | <3.5s  | ~2.8s    | ✅     |
-| Bundle Size (gzipped)    | <500KB | ~420KB   | ✅     |
+| Metric                   | Target | Notes                              |
+| ------------------------ | ------ | ---------------------------------- |
+| First Contentful Paint   | <1.5s  | Route code splitting + Tailwind    |
+| Largest Contentful Paint | <2.5s  | next/image, optimized assets       |
+| Cumulative Layout Shift  | <0.1   | Proper image sizing + layout hints |
+| Time to Interactive      | <3.5s  | Dynamic imports for heavy UI       |
+| Bundle Size (route)      | —      | Determined by imported components  |
 
-### **Built-in Performance Tools**
+### Bundling Strategy
 
-#### **Real-time FPS Monitor**
-
-```javascript
-// Development mode features
-✅ Frame rate tracking (60fps target)
-✅ Memory usage monitoring (heap size)
-✅ Component render time measurement
-✅ Color-coded performance indicators
-✅ Toggle with Ctrl+P keyboard shortcut
+```txt
+- Route-level code splitting via App Router
+- Dynamic imports for heavy/3D sections
+- Shared chunks for React/Next runtime
+- CSS handled by Tailwind with purge
 ```
 
-#### **Bundle Analysis**
+### Optimization Techniques
 
-```javascript
-// Chunk splitting strategy
-vendor.js; // React ecosystem (152KB)
-framer.js; // Animation library (89KB)
-three.js; // 3D graphics (124KB)
-main.js; // Application code (55KB)
+#### Code Splitting & Lazy Loading
+
+```jsx
+// Example dynamic import for client-only component
+import nextDynamic from "next/dynamic";
+const Heavy3D = nextDynamic(() => import("src/components/canvas/Avatar"), {
+  ssr: false,
+});
 ```
 
-### **Optimization Techniques**
+#### Image Optimization
 
-#### **Code Splitting & Lazy Loading**
-
-```javascript
-// Intelligent loading strategies
-const Avatar = lazy(() => import("./canvas/Avatar"));
-const PerformanceMonitor = lazy(() => import("./PerformanceMonitor"));
-
-// Image optimization
-<img loading="lazy" decoding="async" src={optimizedSrc} />;
+```jsx
+// Example next/image usage
+import Image from "next/image";
+<Image
+  src="/assets/works/project.png"
+  alt="Project"
+  width={640}
+  height={360}
+  priority={false}
+/>;
 ```
 
-#### **Performance Utilities**
+#### Performance Utilities
 
-```javascript
-// Custom performance helpers
-measurePerformance("render-time", renderFunction);
-const debouncedHandler = debounce(handler, 300);
-const throttledScroll = throttle(onScroll, 100);
+```js
+// Example of throttling & rAF usage
+const throttle = (fn, wait) => {
+  /* ... */
+};
+const onScroll = throttle(
+  () =>
+    requestAnimationFrame(() => {
+      /* ... */
+    }),
+  100
+);
 ```
 
 ## 🎨 Customization Guide
 
-### **Theme Configuration**
+### Theme & Styles
 
-```javascript
-// src/styles.js - Cyberpunk color scheme
-const styles = {
-  primaryColor: "#00f5ff", // Cyan accents
-  secondaryColor: "#ff007f", // Pink highlights
-  accentColor: "#7c3aed", // Purple gradients
-  backgroundColor: "#0a0a0a", // Dark base
-  textColor: "#ffffff", // High contrast text
-};
-```
+- Tailwind is configured in `tailwind.config.cjs` with content scanning for App Router paths
+- Global utilities and gradients are defined in `app/globals.css`
+- `src/styles.js` exposes theme constants for JS-driven styles
 
-### **Adding New Projects**
+### Assets
 
-```javascript
-// src/constants/index.js
-const newProject = {
-  name: "Your Project Name",
-  description: "Detailed project description...",
-  tags: [
-    { name: "react", color: "blue-text-gradient" },
-    { name: "nodejs", color: "green-text-gradient" },
-  ],
-  image: projectImage,
-  source_code_link: "https://github.com/your-repo",
-};
+- Place images under `public/assets/...` and reference them as `/assets/...`
+- 3D models/textures live under `public/` (e.g., `/avatar`, `/planet`)
+- Avoid importing static assets via `import`; prefer absolute paths for next/image
 
-// Add to projects array
-export const projects = [...existingProjects, newProject];
-```
+### Components & Pages
 
-### **Modifying Animations**
+- Add new pages in `app/<route>/page.jsx`
+- Share UI via `src/components` and import from pages
+- Use dynamic imports for expensive components
 
-```javascript
-// src/utils/motion.js - Framer Motion variants
-export const fadeIn = (direction, type, delay, duration) => ({
-  hidden: { opacity: 0, [direction]: direction === "left" ? 100 : -100 },
-  show: { opacity: 1, [direction]: 0, transition: { type, delay, duration } },
-});
+### Images Configuration
 
-// Customize experience card animations
-export const slideIn = (direction, type, delay, duration) => ({
-  // Your custom animation logic
-});
-```
-
-### **Technology Stack Updates**
-
-```javascript
-// src/constants/index.js - Add new technologies
-const newTechnology = {
-  name: "Your Technology",
-  icon: technologyIcon, // Import from public/assets/tech/
-};
-
-export const technologies = [...existingTech, newTechnology];
-```
-
-### **Component Customization**
-
-- **Colors**: Update Tailwind classes in component files
-- **Layouts**: Modify grid systems and responsive breakpoints
-- **Effects**: Adjust particle counts and animation durations
-- **3D Settings**: Customize camera positions and model scaling
+- `next.config.mjs` can be adjusted to enable/disable image optimization
+- For purely local assets, default config works. Configure `images.remotePatterns` for remote sources
 
 ## 🌐 Deployment
 
-### **Netlify (Recommended)**
+### Vercel
 
-```bash
-# Automatic deployment setup
-1. Connect GitHub repository to Netlify
-2. Build command: `npm run build`
-3. Publish directory: `dist`
-4. Add environment variables in dashboard
-5. Enable automatic deployments
-```
+- Push to GitHub and import the repository in Vercel
+- Framework preset: Next.js (auto-detected)
+- Environment variables: add EmailJS keys if used
 
-### **Manual Deployment**
+### Netlify
 
-```bash
-# Build and deploy to any hosting provider
-npm run build                # Generate production build
-# Upload dist/ folder to your hosting service
-```
-
-### **Performance Optimization for Production**
-
-```bash
-# Netlify _redirects configuration (included)
-/*    /index.html   200     # SPA routing support
-
-# Recommended server settings:
-✅ Enable Brotli/Gzip compression
-✅ Set proper cache headers for static assets
-✅ Use CDN for global distribution
-✅ Enable HTTP/2 for multiplexing
-```
-
-### **Environment Variables**
-
-```env
-# Required for contact form functionality
-VITE_EMAILJS_SERVICE_ID=your_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_public_key
-
-# Optional analytics
-VITE_GA_TRACKING_ID=your_tracking_id
-```
-
----
+- Build command: `next build`
+- Publish directory: `.next`
+- Functions/Adapters: use the Next.js adapter if needed
+- `_redirects` in `public/` remains compatible for simple redirects
 
 ## 📄 Credits & License
 
-### **Design Resources & Assets**
-
-#### **Visual Design**
-
-- **Icons**: [FontAwesome](https://fontawesome.com) - Comprehensive icon library
-- **Background Assets**: Custom cyberpunk-themed graphics and gradients
-- **Typography**: [Google Fonts](https://fonts.google.com) - Roboto and Source Code Pro
-- **Color Palette**: Custom cyberpunk-inspired neon gradients
-
-#### **3D Assets & Animations**
-
-- **Avatar Models**: [Ready Player Me](https://readyplayer.me) - Custom 3D character creation
-- **Character Animations**: [Mixamo](https://mixamo.com) - Professional motion capture animations
-- **3D Models**: Custom optimized GLB files with texture atlasing
-- **Planet Textures**: High-resolution space environments
-
-#### **Development Tools**
-
-- **Performance Analysis**: [React Developer Tools](https://react.dev/learn/react-developer-tools)
-- **3D Debugging**: [Three.js Inspector](https://threejs.org/) for WebGL optimization
-- **Build Analysis**: [Vite Bundle Analyzer](https://vitejs.dev/) for chunk optimization
-- **Code Quality**: [ESLint](https://eslint.org/) with custom configuration
-
-### **Technical Inspiration**
-
-This portfolio draws inspiration from cyberpunk aesthetics, terminal interfaces, and modern web development best practices. Special thanks to the open-source community for providing the tools and libraries that make projects like this possible.
-
-### **License**
-
-```
-MIT License
-
-Copyright (c) 2025 Shafquat Ul Bari
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+- 3D and UI libraries: three.js, @react-three/fiber, @react-three/drei, framer-motion
+- Icons/graphics in `/public/assets` are used for demonstration
+- This portfolio is provided for personal/professional showcasing
 
 ---
 
-## 🤝 Contributing & Feedback
-
-While this is a personal portfolio, contributions for improvements are welcome:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit your changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to the branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
-
-### **Areas for Contribution**
-
-- Performance optimizations
-- Accessibility improvements
-- Mobile experience enhancements
-- Code quality improvements
-- Documentation updates
-
----
-
-## 📧 Connect With Me
-
-**Shafquat Ul Bari** - Software Engineer & Full Stack Developer
-
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://shafquatulbari.netlify.app)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/shafquatulbari)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/shafquatulbari)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:shafquatulbari@gmail.com)
-
-### **Professional Highlights**
-
-- 🎓 **Computer Science Graduate** - University of British Columbia
-- 💼 **Current Status** (June 2025): Recently completed SQA Engineer role at Brain Station 23
-- 🚀 **Expertise**: Full Stack Development, Test Automation, AI/ML Engineering, Prompt Engineering
-- 🎮 **Special Skills**: Game Development, 3D Graphics, Performance Optimization
-- 🏆 **Recent Achievements**: 21M+ user app testing, AI model enhancement, startup co-founding
-
----
-
-<div align="center">
-
-### ⭐ If you found this portfolio inspiring, please consider giving it a star!
-
-**Built with ❤️ using React, Three.js, and modern web technologies**
-
-_Designed for impact, optimized for performance, crafted with passion_
-
-</div>
+If you have questions or spot issues, feel free to open an issue or reach out.

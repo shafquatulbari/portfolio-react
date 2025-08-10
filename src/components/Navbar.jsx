@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
+import Image from "next/image";
 
 import { styles } from "../styles";
 import { navLinks, moreNavLinks } from "../constants";
-import { logo, menu, close } from "../../public/assets";
+
+const logo = "/assets/logo.svg";
+const menu = "/assets/menu.svg";
+const close = "/assets/close.svg";
 
 const Navbar = ({ currentSection, navigateToSection }) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showMoreDropdown, setShowMoreDropdown] = useState(false);
+
+  // Map section id to route path
+  const pathFor = (id) => (id === "hero" ? "/" : `/${id}`);
 
   // Update active state based on current section
   useEffect(() => {
@@ -60,20 +67,23 @@ const Navbar = ({ currentSection, navigateToSection }) => {
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         {/* Logo and Title with Cyberpunk Effects */}
         <Link
-          to="/"
+          href="/"
           className="flex items-center gap-3 group"
           onClick={() => {
             setActive("");
-            window.scrollTo(0, 0);
+            if (typeof window !== "undefined") window.scrollTo(0, 0);
           }}
         >
           {/* Logo with glow effect */}
           <div className="relative">
             <div className="absolute inset-0 bg-cyan-400/30 rounded-full blur-md group-hover:bg-cyan-400/50 transition-all duration-300"></div>
-            <img
+            <Image
               src={logo}
               alt="logo"
+              width={40}
+              height={40}
               className="w-10 h-10 object-contain relative z-10 filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+              priority
             />
           </div>
 
@@ -104,32 +114,37 @@ const Navbar = ({ currentSection, navigateToSection }) => {
               className="relative group"
               onClick={() => setActive(nav.title)}
             >
-              <a
-                href={`#${nav.id}`}
-                className={`nav-link ${
-                  active === nav.title ? "text-cyan-400" : "text-gray-300"
-                } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActive(nav.title);
-                  if (navigateToSection) {
+              {/* If on the single-page view, use in-page navigation; otherwise, route links */}
+              {navigateToSection ? (
+                <a
+                  href={`#${nav.id}`}
+                  className={`nav-link ${
+                    active === nav.title ? "text-cyan-400" : "text-gray-300"
+                  } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActive(nav.title);
                     navigateToSection(nav.id);
-                  } else {
-                    const element = document.getElementById(nav.id);
-                    if (element) {
-                      element.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                    }
-                  }
-                }}
-              >
-                <span className="text-cyan-400">
-                  {String(index + 1).padStart(2, "0")}.
-                </span>{" "}
-                {nav.title}
-              </a>
+                  }}
+                >
+                  <span className="text-cyan-400">
+                    {String(index + 1).padStart(2, "0")}.
+                  </span>{" "}
+                  {nav.title}
+                </a>
+              ) : (
+                <Link
+                  href={pathFor(nav.id)}
+                  className={`nav-link ${
+                    active === nav.title ? "text-cyan-400" : "text-gray-300"
+                  } hover:text-cyan-400 text-[16px] font-medium cursor-pointer transition-all duration-300 font-mono relative z-10`}
+                >
+                  <span className="text-cyan-400">
+                    {String(index + 1).padStart(2, "0")}.
+                  </span>{" "}
+                  {nav.title}
+                </Link>
+              )}
 
               {/* Hover effect */}
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full transition-all duration-300"></div>
@@ -200,38 +215,46 @@ const Navbar = ({ currentSection, navigateToSection }) => {
 
                 {/* Dropdown items */}
                 <div className="py-2">
-                  {moreNavLinks.map((nav, index) => (
-                    <a
-                      key={nav.id}
-                      href={`#${nav.id}`}
-                      className={`block px-4 py-3 text-sm font-mono transition-all duration-300 hover:bg-purple-500/20 hover:text-purple-300 ${
-                        active === nav.title
-                          ? "text-purple-400 bg-purple-500/10"
-                          : "text-gray-300"
-                      }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setActive(nav.title);
-                        setShowMoreDropdown(false);
-                        if (navigateToSection) {
+                  {moreNavLinks.map((nav, index) =>
+                    navigateToSection ? (
+                      <a
+                        key={nav.id}
+                        href={`#${nav.id}`}
+                        className={`block px-4 py-3 text-sm font-mono transition-all duration-300 hover:bg-purple-500/20 hover:text-purple-300 ${
+                          active === nav.title
+                            ? "text-purple-400 bg-purple-500/10"
+                            : "text-gray-300"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setActive(nav.title);
+                          setShowMoreDropdown(false);
                           navigateToSection(nav.id);
-                        } else {
-                          const element = document.getElementById(nav.id);
-                          if (element) {
-                            element.scrollIntoView({
-                              behavior: "smooth",
-                              block: "start",
-                            });
-                          }
-                        }
-                      }}
-                    >
-                      <span className="text-purple-400">
-                        {String(index + 5).padStart(2, "0")}.
-                      </span>{" "}
-                      <span className="text-cyan-400">&gt;</span> {nav.title}
-                    </a>
-                  ))}
+                        }}
+                      >
+                        <span className="text-purple-400">
+                          {String(index + 5).padStart(2, "0")}.
+                        </span>{" "}
+                        <span className="text-cyan-400">&gt;</span> {nav.title}
+                      </a>
+                    ) : (
+                      <Link
+                        key={nav.id}
+                        href={pathFor(nav.id)}
+                        onClick={() => setShowMoreDropdown(false)}
+                        className={`block px-4 py-3 text-sm font-mono transition-all duration-300 hover:bg-purple-500/20 hover:text-purple-300 ${
+                          active === nav.title
+                            ? "text-purple-400 bg-purple-500/10"
+                            : "text-gray-300"
+                        }`}
+                      >
+                        <span className="text-purple-400">
+                          {String(index + 5).padStart(2, "0")}.
+                        </span>{" "}
+                        <span className="text-cyan-400">&gt;</span> {nav.title}
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             )}
@@ -242,9 +265,11 @@ const Navbar = ({ currentSection, navigateToSection }) => {
         <div className="sm:hidden flex flex-1 justify-end items-center">
           <div className="relative">
             <div className="absolute inset-0 bg-cyan-400/20 rounded-lg blur-sm group-hover:bg-cyan-400/30 transition-all duration-300"></div>
-            <img
+            <Image
               src={toggle ? close : menu}
               alt="menu"
+              width={28}
+              height={28}
               className="w-[28px] h-[28px] object-contain relative z-10 filter drop-shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300"
               onClick={() => setToggle(!toggle)}
             />
@@ -279,34 +304,39 @@ const Navbar = ({ currentSection, navigateToSection }) => {
                     setActive(nav.title);
                   }}
                 >
-                  <a
-                    href={`#${nav.id}`}
-                    className={`${
-                      active === nav.title ? "text-cyan-400" : "text-gray-300"
-                    } font-mono text-[14px] cursor-pointer hover:text-cyan-400 transition-all duration-300 flex items-center gap-2`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setToggle(!toggle);
-                      setActive(nav.title);
-                      if (navigateToSection) {
+                  {navigateToSection ? (
+                    <a
+                      href={`#${nav.id}`}
+                      className={`${
+                        active === nav.title ? "text-cyan-400" : "text-gray-300"
+                      } font-mono text-[14px] cursor-pointer hover:text-cyan-400 transition-all duration-300 flex items-center gap-2`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle(!toggle);
+                        setActive(nav.title);
                         navigateToSection(nav.id);
-                      } else {
-                        const element = document.getElementById(nav.id);
-                        if (element) {
-                          element.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    <span className="text-cyan-400">
-                      {String(index + 1).padStart(2, "0")}.
-                    </span>
-                    <span className="text-green-400">&gt;</span>
-                    {nav.title}
-                  </a>
+                      }}
+                    >
+                      <span className="text-cyan-400">
+                        {String(index + 1).padStart(2, "0")}.
+                      </span>
+                      <span className="text-green-400">&gt;</span>
+                      {nav.title}
+                    </a>
+                  ) : (
+                    <Link
+                      href={pathFor(nav.id)}
+                      className={`${
+                        active === nav.title ? "text-cyan-400" : "text-gray-300"
+                      } font-mono text-[14px] cursor-pointer hover:text-cyan-400 transition-all duration-300 flex items-center gap-2`}
+                    >
+                      <span className="text-cyan-400">
+                        {String(index + 1).padStart(2, "0")}.
+                      </span>
+                      <span className="text-green-400">&gt;</span>
+                      {nav.title}
+                    </Link>
+                  )}
 
                   {/* Mobile hover effect */}
                   <div className="absolute left-0 top-0 w-1 h-full bg-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
@@ -323,7 +353,7 @@ const Navbar = ({ currentSection, navigateToSection }) => {
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                 </svg>
                 MORE_OPTIONS
               </div>
@@ -338,34 +368,43 @@ const Navbar = ({ currentSection, navigateToSection }) => {
                     setActive(nav.title);
                   }}
                 >
-                  <a
-                    href={`#${nav.id}`}
-                    className={`${
-                      active === nav.title ? "text-purple-400" : "text-gray-300"
-                    } font-mono text-[14px] cursor-pointer hover:text-purple-400 transition-all duration-300 flex items-center gap-2 pl-4`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setToggle(!toggle);
-                      setActive(nav.title);
-                      if (navigateToSection) {
+                  {navigateToSection ? (
+                    <a
+                      href={`#${nav.id}`}
+                      className={`${
+                        active === nav.title
+                          ? "text-purple-400"
+                          : "text-gray-300"
+                      } font-mono text-[14px] cursor-pointer hover:text-purple-400 transition-all duration-300 flex items-center gap-2 pl-4`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle(!toggle);
+                        setActive(nav.title);
                         navigateToSection(nav.id);
-                      } else {
-                        const element = document.getElementById(nav.id);
-                        if (element) {
-                          element.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    <span className="text-purple-400">
-                      {String(index + 5).padStart(2, "0")}.
-                    </span>
-                    <span className="text-pink-400">&gt;</span>
-                    {nav.title}
-                  </a>
+                      }}
+                    >
+                      <span className="text-purple-400">
+                        {String(index + 5).padStart(2, "0")}.
+                      </span>
+                      <span className="text-pink-400">&gt;</span>
+                      {nav.title}
+                    </a>
+                  ) : (
+                    <Link
+                      href={pathFor(nav.id)}
+                      className={`${
+                        active === nav.title
+                          ? "text-purple-400"
+                          : "text-gray-300"
+                      } font-mono text-[14px] cursor-pointer hover:text-purple-400 transition-all duration-300 flex items-center gap-2 pl-4`}
+                    >
+                      <span className="text-purple-400">
+                        {String(index + 5).padStart(2, "0")}.
+                      </span>
+                      <span className="text-pink-400">&gt;</span>
+                      {nav.title}
+                    </Link>
+                  )}
 
                   {/* Mobile hover effect */}
                   <div className="absolute left-0 top-0 w-1 h-full bg-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>

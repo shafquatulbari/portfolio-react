@@ -60,7 +60,7 @@ const AnimatedAvatar = ({ avatar, fbx, isMobile }) => {
 };
 
 const Avatar = ({ isMobile }) => {
-  const avatar = useGLTF("./avatar/avatar.glb");
+  const avatar = useGLTF("/avatar/avatar.glb");
   const fbx = useFBX("/animations/JumpingJacks.fbx");
 
   // Early return if resources aren't loaded
@@ -86,7 +86,7 @@ const Avatar = ({ isMobile }) => {
 
 const AvatarCanvas = () => {
   const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return window.matchMedia("(max-width: 768px)").matches;
     }
     return false;
@@ -94,7 +94,7 @@ const AvatarCanvas = () => {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
-    
+
     const handleMediaQueryChange = (event) => {
       setIsMobile(event.matches);
     };
