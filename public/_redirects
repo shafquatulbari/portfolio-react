@@ -1,1 +1,3 @@
-/*    /index.html   200
+# Managed by @netlify/plugin-nextjs
+# Do not add SPA-style redirects (e.g., /* /index.html 200) when using Next.js on Netlify.
+# The Next.js runtime will generate the necessary redirects and routes.
