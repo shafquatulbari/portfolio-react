@@ -19,7 +19,7 @@ const staggerContainer = (staggerChildren = 0.1, delayChildren = 0) => {
 const NeuralProfile = () => {
   const [typingText, setTypingText] = useState("");
   const fullText =
-    "I'm a Software Engineer with expertise in Full Stack Development, Test Automation, and AI Training. I worked as an SQA Engineer at Brain Station 23 on Grameenphone's MyGP app serving 21M+ users, and as an AI Trainer & Prompt Engineer at Outlier, where I gained experience in cutting-edge AI technologies.";
+    "I'm a Software Engineer with expertise in Full Stack Development, Test Automation, and Quality Assurance. Currently a Software QA Associate at HeyOrca, ensuring reliability for a leading social media management platform. Previously an SQA Engineer at Brain Station 23 on Grameenphone's MyGP app serving 21M+ users, with additional experience in AI Training at Outlier.";
 
   useEffect(() => {
     let index = 0;
@@ -171,10 +171,10 @@ const NeuralProfile = () => {
                   - React, Node.js, Python
                   <br />
                   <span className="text-yellow-400">• Test Automation</span> -
-                  WebdriverIO, Appium, CI/CD
+                  Playwright, WebdriverIO, Appium, CI/CD
                   <br />
                   <span className="text-yellow-400">• Quality Assurance</span> -
-                  Backend API validation
+                  Visual Testing, AI Test Automation, API Validation
                   <br />
                   <span className="text-yellow-400">
                     • System Architecture
@@ -198,13 +198,13 @@ const NeuralProfile = () => {
 
                 <div className="text-gray-300 leading-relaxed mt-3 sm:mt-4">
                   <span className="text-cyan-400">&gt;</span>{" "}
-                  <span className="text-purple-400">PREVIOUS_DEPLOYMENT:</span>
+                  <span className="text-purple-400">CURRENT_DEPLOYMENT:</span>
                   <br />
-                  <span className="text-pink-400">Brain Station 23 Ltd.</span> -
-                  SQA Engineer I
+                  <span className="text-pink-400">HeyOrca</span> -
+                  Software QA Associate
                   <br />
                   <span className="text-gray-400">
-                    └─ MyGP App Test Automation (21M+ monthly users)
+                    └─ Social Media Management Platform QA & Automation
                   </span>
                 </div>
 

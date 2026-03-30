@@ -44,7 +44,7 @@ const services = [
     color: "purple",
   },
   {
-    title: "SQA Engineer / SDET",
+    title: "QA Test Automation Engineer",
     icon: sqa,
     description: "Test automation & quality assurance",
     category: "QUALITY_MATRIX",

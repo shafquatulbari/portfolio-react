@@ -14,7 +14,7 @@ const Hero = ({ navigateToSection }) => {
   const roles = [
     "Full Stack Developer",
     "Software Engineer",
-    "SDET Specialist",
+    "QA Test Automation Engineer",
     "Problem Solver",
   ];
 
@@ -308,7 +308,7 @@ const Hero = ({ navigateToSection }) => {
               <span className="text-cyan-400 font-semibold">
                 Full Stack Development
               </span>{" "}
-              and <span className="text-purple-400 font-semibold">SDET</span>,
+              and <span className="text-purple-400 font-semibold">QA Test Automation</span>,
               specializing in building scalable applications and optimizing
               software testing processes.
             </motion.p>

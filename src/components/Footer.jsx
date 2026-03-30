@@ -179,7 +179,7 @@ const Footer = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="font-mono text-sm text-gray-400">
-              <span className="text-cyan-400">©</span> 2025 Shafquat Ul Bari
+              <span className="text-cyan-400">©</span> 2026 Shafquat Ul Bari
               <span className="text-purple-400 mx-2">|</span>
               All rights reserved
             </div>

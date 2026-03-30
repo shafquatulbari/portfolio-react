@@ -96,7 +96,7 @@ const Navbar = ({ currentSection, navigateToSection }) => {
                 <span className="text-purple-400">[</span>
                 <span className="text-cyan-400">SWE</span>
                 <span className="text-gray-400"> | </span>
-                <span className="text-pink-400">SDET</span>
+                <span className="text-pink-400">QA Engineer</span>
                 <span className="text-purple-400">]</span>
               </span>
             </p>

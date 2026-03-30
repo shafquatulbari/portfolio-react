@@ -90,6 +90,34 @@ const technologies = [
 
 const experiences = [
   {
+    title: "Software QA Associate",
+    company_name: "HeyOrca",
+    iconBg: "#1E3A5F",
+    date: "November 2025 - Present",
+    points: [
+      "Contributing to the quality and reliability of HeyOrca, a leading collaborative social media management platform trusted by marketing agencies and brands worldwide.",
+      "Supporting QA processes that uphold HeyOrca's reputation for dependable scheduling, collaboration, and publishing — directly contributing to platform growth among agency teams and marketers.",
+      "Validating new feature rollouts and enhancements to ensure alignment with brand goals, usability standards, and business requirements.",
+      "Collaborating cross-functionally with product, design, and engineering teams to ensure every release meets high standards of functionality, stability, and visual integrity.",
+      "Actively contributing feedback and insights to refine workflows, strengthen testing practices, and enhance the overall product experience for HeyOrca's growing global user base.",
+    ],
+    technologies: [
+      "Visual Testing",
+      "AI Test Automation",
+      "Playwright",
+      "Manual Testing",
+      "Regression Testing",
+      "Cross-Functional Collaboration",
+      "Feature QA",
+    ],
+    achievements: [
+      "Ensured platform reliability for a globally trusted social media management tool",
+      "Gained hands-on exposure to Visual Testing and AI-driven test automation tools",
+      "Contributed to Playwright-based automation testing for end-to-end coverage",
+      "Strengthened QA practices through continuous improvement and cross-team collaboration",
+    ],
+  },
+  {
     title: "SQA Engineer I",
     company_name: "Brain Station 23",
     iconBg: "#233E56",

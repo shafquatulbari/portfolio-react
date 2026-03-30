@@ -35,7 +35,9 @@ const AnimatedAvatar = ({ avatar, fbx, isMobile }) => {
     return () => {
       if (mixerRef.current) {
         mixerRef.current.stopAllAction();
-        mixerRef.current.dispose();
+        if (typeof mixerRef.current.dispose === "function") {
+          mixerRef.current.dispose();
+        }
         mixerRef.current = null;
       }
       initializationRef.current = false;
